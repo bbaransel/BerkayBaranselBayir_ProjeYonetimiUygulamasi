@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yonetimsell.Entity\Yonetimsell.Entity.csproj" />
+    <ProjectReference Include="..\Yonetimsell.Shared\Yonetimsell.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

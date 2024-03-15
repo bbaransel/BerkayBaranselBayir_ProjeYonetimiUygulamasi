@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yonetimsell.UI", "Yonetimsell.Mvc\Yonetimsell.UI.csproj", "{BF5E7666-C24D-46F8-8E2F-931BB58E364F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yonetimsell.Business", "Yonetimsell.Business\Yonetimsell.Business.csproj", "{F207897C-9621-48B0-BC1C-64FE3D9D4971}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yonetimsell.Data", "Yonetimsell.Data\Yonetimsell.Data.csproj", "{C6A29A80-DC72-41DC-A774-F5AEA1DA2C10}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yonetimsell.Entity", "Yonet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yonetimsell.Shared", "Yonetimsell.Shared\Yonetimsell.Shared.csproj", "{4616B158-1DA4-4381-95C0-5BAC3878E88C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yonetimsell.UI", "Yonetimsell.UI\Yonetimsell.UI.csproj", "{5D123202-50F2-4F37-A66D-42A01F25FECE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BF5E7666-C24D-46F8-8E2F-931BB58E364F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF5E7666-C24D-46F8-8E2F-931BB58E364F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF5E7666-C24D-46F8-8E2F-931BB58E364F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF5E7666-C24D-46F8-8E2F-931BB58E364F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F207897C-9621-48B0-BC1C-64FE3D9D4971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F207897C-9621-48B0-BC1C-64FE3D9D4971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F207897C-9621-48B0-BC1C-64FE3D9D4971}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{4616B158-1DA4-4381-95C0-5BAC3878E88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4616B158-1DA4-4381-95C0-5BAC3878E88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4616B158-1DA4-4381-95C0-5BAC3878E88C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D123202-50F2-4F37-A66D-42A01F25FECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D123202-50F2-4F37-A66D-42A01F25FECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D123202-50F2-4F37-A66D-42A01F25FECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D123202-50F2-4F37-A66D-42A01F25FECE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

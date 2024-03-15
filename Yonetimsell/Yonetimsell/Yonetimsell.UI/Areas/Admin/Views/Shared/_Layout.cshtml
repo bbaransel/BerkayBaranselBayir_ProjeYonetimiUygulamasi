@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Panel</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    @await Html.PartialAsync("_Styles")
+    @await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("TopScripts", required: false)
+</head>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        @await Component.InvokeAsync("Spinner")
+        @await Component.InvokeAsync("SideBar")
+        <div class="content">
+        @await Component.InvokeAsync("Navbar")
+            @RenderBody()
+        @await Component.InvokeAsync("Footer")
+        </div>
+    </div>
+    @await Html.PartialAsync("_Scripts")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
