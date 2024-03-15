@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Yonetimsell.Shared\Yonetimsell.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
