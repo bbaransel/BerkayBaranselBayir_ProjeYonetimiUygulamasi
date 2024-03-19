@@ -15,7 +15,7 @@ namespace Yonetimsell.Shared.ComplexTypes
         [Display(Name = "Tamamlandı")]
         Done = 1,
 
-        [Display(Name = "Sorun var")]
+        [Display(Name = "Hatalı")]
         Stuck = 2,
 
         [Display(Name = "Beklemede")]
