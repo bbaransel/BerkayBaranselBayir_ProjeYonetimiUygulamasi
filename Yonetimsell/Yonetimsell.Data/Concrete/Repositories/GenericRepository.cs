@@ -54,6 +54,20 @@ namespace Yonetimsell.Data.Concrete.Repositories
             return await query.SingleOrDefaultAsync();
         }
 
+        public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>> options = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
+        {
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (options != null)
+            {
+                query = query.Where(options);
+            }
+            return await query.CountAsync();
+        }
+
         public async Task HardDeleteAsync(TEntity entity)
         {
             _dbContext.Set<TEntity>().Remove(entity);

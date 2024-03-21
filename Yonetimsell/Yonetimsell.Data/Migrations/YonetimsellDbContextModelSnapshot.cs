@@ -102,28 +102,28 @@ namespace Yonetimsell.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ac994a8b-9a8b-46ca-9cf3-7c7ea6670308",
-                            RoleId = "464be86c-caf0-4569-89d3-b815a688da64"
+                            UserId = "62e454ac-06cf-44dc-afbe-a56e45e03b26",
+                            RoleId = "6d8e0b8e-01ef-43e7-a48f-4770bf17b366"
                         },
                         new
                         {
-                            UserId = "c09cc720-a319-43cb-917e-82ce67000470",
-                            RoleId = "464be86c-caf0-4569-89d3-b815a688da64"
+                            UserId = "066b2c53-4574-442f-bd74-9836cb753e71",
+                            RoleId = "6d8e0b8e-01ef-43e7-a48f-4770bf17b366"
                         },
                         new
                         {
-                            UserId = "b1fd2711-d00a-4166-a471-84011bfc8108",
-                            RoleId = "e6f4a311-31a1-47ca-960b-dbe3aeb1b877"
+                            UserId = "6a6f0e90-c1c2-4b96-be79-d443bd1857e6",
+                            RoleId = "825d5f84-4751-4ac9-917d-8b379f21b655"
                         },
                         new
                         {
-                            UserId = "d9a0c271-5797-4fa8-8c48-db9cc761ed6c",
-                            RoleId = "e6f4a311-31a1-47ca-960b-dbe3aeb1b877"
+                            UserId = "1e2c25e2-e227-4e8d-a0af-09b6195ab6a7",
+                            RoleId = "825d5f84-4751-4ac9-917d-8b379f21b655"
                         },
                         new
                         {
-                            UserId = "75f3e5e5-0c5d-4a51-9e51-6dbe3d31d06a",
-                            RoleId = "30fb8bba-7515-4148-b070-9b129a0b32de"
+                            UserId = "f6bd7a32-f6ba-4c6a-8945-6f8969f92ff7",
+                            RoleId = "de53ad8f-3509-4777-8ea6-42cbbf8af922"
                         });
                 });
 
@@ -177,21 +177,21 @@ namespace Yonetimsell.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "464be86c-caf0-4569-89d3-b815a688da64",
+                            Id = "6d8e0b8e-01ef-43e7-a48f-4770bf17b366",
                             Description = "Süper Yönetici haklarını taşıyan rol",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "e6f4a311-31a1-47ca-960b-dbe3aeb1b877",
+                            Id = "825d5f84-4751-4ac9-917d-8b379f21b655",
                             Description = "Yönetici haklarını taşıyan rol",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "30fb8bba-7515-4148-b070-9b129a0b32de",
+                            Id = "de53ad8f-3509-4777-8ea6-42cbbf8af922",
                             Description = "Kullanıcı haklarını taşıyan rol",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
@@ -258,9 +258,6 @@ namespace Yonetimsell.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProjectRole")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
@@ -285,11 +282,11 @@ namespace Yonetimsell.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac994a8b-9a8b-46ca-9cf3-7c7ea6670308",
+                            Id = "62e454ac-06cf-44dc-afbe-a56e45e03b26",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "3606d180-fab9-4d6a-bd6c-b99586587447",
+                            ConcurrencyStamp = "be977c15-e5d3-46d2-89e9-9d93112ae034",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "baransel@gmail.com",
                             EmailConfirmed = true,
@@ -299,20 +296,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BARANSEL@GMAIL.COM",
                             NormalizedUserName = "BARANSEL",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHEYCZvuwM4JaS93HiDp3Nv3swI0LSoJMtr+4QmVSVfbK+5eJfzn80lvrds+n9s31g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEwhDD0Auc/2t6s7xXNSNSxHfT2DtISK/ONNpspzGEONH5fDesudoiqpaH6qVyLn2w==",
                             PhoneNumber = "05387654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5adf45e5-bfef-413b-80ad-1c4f39c02a31",
+                            SecurityStamp = "b9fbdac9-db8a-4d2e-89ce-bd39d6024a7c",
                             TwoFactorEnabled = false,
                             UserName = "baransel"
                         },
                         new
                         {
-                            Id = "c09cc720-a319-43cb-917e-82ce67000470",
+                            Id = "066b2c53-4574-442f-bd74-9836cb753e71",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "b0464f6b-c6d7-4d44-9cc2-ba36f841a364",
+                            ConcurrencyStamp = "fa55b932-66d6-4aa3-b23d-ee741818ac39",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "engin@gmail.com",
                             EmailConfirmed = true,
@@ -322,20 +319,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ENGIN@GMAIL.COM",
                             NormalizedUserName = "ENGINNIYAZI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBYc6brdQfsPe/+bHkNVEEiSOhufXW+v7m19XEGP+rFesYl6geoqc4MHUcOKcUefoQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK5MQNFpPHHZ0bGuPw8QG/NSB4i5fIOpRhYooKuvJpM+bqebKqX+x257bEGdDfbkVA==",
                             PhoneNumber = "05987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bec69063-5650-454d-ab07-d0b9299c8580",
+                            SecurityStamp = "6cff32d3-d82c-4aeb-b114-612f20f0550b",
                             TwoFactorEnabled = false,
                             UserName = "enginniyazi"
                         },
                         new
                         {
-                            Id = "b1fd2711-d00a-4166-a471-84011bfc8108",
+                            Id = "6a6f0e90-c1c2-4b96-be79-d443bd1857e6",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "ae7f1b71-74a0-48f1-95a5-02ca528eaa74",
+                            ConcurrencyStamp = "26f8864e-47bb-45f2-a4e1-c0e86b5d3a2c",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "lebron@gmail.com",
                             EmailConfirmed = true,
@@ -345,20 +342,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LEBRON@GMAIL.COM",
                             NormalizedUserName = "LEBRON",
-                            PasswordHash = "AQAAAAIAAYagAAAAENLTjn3KQ9M2B88Cy/yXfPU/Yzj/lwK/NzefQpx1RQguLCLk5j6g+bnaNjnwY00zbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC9yfWfG2APgPdxrVWCa9Zk27W90Y0Fy92DXbzGgHneHLpxLgjxPZ/21H6gJqBocDQ==",
                             PhoneNumber = "05487654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7a2cf5aa-2f77-4ed5-b3c9-da69c9a3c3f7",
+                            SecurityStamp = "44a4ad5b-03ea-40b7-a57c-e64ebace92a4",
                             TwoFactorEnabled = false,
                             UserName = "lebron"
                         },
                         new
                         {
-                            Id = "d9a0c271-5797-4fa8-8c48-db9cc761ed6c",
+                            Id = "1e2c25e2-e227-4e8d-a0af-09b6195ab6a7",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "2c467f98-3d94-4fcd-95e5-88e117d8a271",
+                            ConcurrencyStamp = "ae2aa3f4-7efd-499b-b608-596c23c5a812",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -368,20 +365,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAWMNRz44dYku1QoC5QuKFUTHy3PGrvlXXN3181rekhyN+vHC3yRvB2Iai1PGM2ZPQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGgjqW8hBNYuAcU7D13jPP6cRz71rhTheb5LRQkZUroLO8ExhXmMFqDVx1Mk7catrw==",
                             PhoneNumber = "05587654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e0710800-1ca8-4965-a7d1-4f2fa0698786",
+                            SecurityStamp = "d21e2839-a74f-4c43-835d-d638d9adeea1",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "75f3e5e5-0c5d-4a51-9e51-6dbe3d31d06a",
+                            Id = "f6bd7a32-f6ba-4c6a-8945-6f8969f92ff7",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "cfc24de2-0dc9-4dde-a68d-5e39e86d611f",
+                            ConcurrencyStamp = "5724283f-a33d-45a2-b0e9-c615245d40a8",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "customer@gmail.com",
                             EmailConfirmed = true,
@@ -391,9 +388,10 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER@GMAIL.COM",
                             NormalizedUserName = "CUSTOMER",
+                            PasswordHash = "AQAAAAIAAYagAAAAECeza0SxQD7I+4MxbQg0TSPneR2BykR24cUzFaK9UjXK7guoihzeZiS/tKk/qjNlSg==",
                             PhoneNumber = "05687654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "932eb62c-43a5-48c1-995f-0ebb24bb142e",
+                            SecurityStamp = "2cb2fdf6-c9b5-4a19-99e1-d6f4603b2a03",
                             TwoFactorEnabled = false,
                             UserName = "customer"
                         });
@@ -475,9 +473,32 @@ namespace Yonetimsell.Data.Migrations
                     b.Property<DateTime>("Timeline")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("Yonetimsell.Entity.Concrete.ProjectRole", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Roles")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -534,7 +555,7 @@ namespace Yonetimsell.Data.Migrations
             modelBuilder.Entity("Yonetimsell.Entity.Concrete.PTask", b =>
                 {
                     b.HasOne("Yonetimsell.Entity.Concrete.Project", "Project")
-                        .WithMany("Tasks")
+                        .WithMany("PTasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -544,7 +565,42 @@ namespace Yonetimsell.Data.Migrations
 
             modelBuilder.Entity("Yonetimsell.Entity.Concrete.Project", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.HasOne("Yonetimsell.Entity.Concrete.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Yonetimsell.Entity.Concrete.ProjectRole", b =>
+                {
+                    b.HasOne("Yonetimsell.Entity.Concrete.Project", "Project")
+                        .WithMany("ProjectRoles")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Yonetimsell.Entity.Concrete.Identity.User", "User")
+                        .WithMany("ProjectRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Yonetimsell.Entity.Concrete.Identity.User", b =>
+                {
+                    b.Navigation("ProjectRoles");
+                });
+
+            modelBuilder.Entity("Yonetimsell.Entity.Concrete.Project", b =>
+                {
+                    b.Navigation("PTasks");
+
+                    b.Navigation("ProjectRoles");
                 });
 #pragma warning restore 612, 618
         }

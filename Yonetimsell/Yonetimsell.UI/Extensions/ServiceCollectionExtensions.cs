@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete.Identity;
+using Yonetimsell.UI.EmailServices.Abstract;
+using Yonetimsell.UI.EmailServices.Concrete;
 
 namespace Yonetimsell.UI.Extensions
 {
@@ -43,7 +46,7 @@ namespace Yonetimsell.UI.Extensions
                 options.SlidingExpiration = true;
                 options.Cookie = new CookieBuilder
                 {
-                    Name = "MiniShop.Security",
+                    Name = "Yonetimsell.Security",
                     //Güvenlik önlemleri(default olarak none)
                     HttpOnly = true,
                     SameSite = SameSiteMode.Strict
@@ -57,6 +60,14 @@ namespace Yonetimsell.UI.Extensions
         }
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)
         {
+            services.AddScoped<IEmailSender, SmtpEmailSender>(options => new SmtpEmailSender(
+            services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Host"],
+            services.BuildServiceProvider().GetRequiredService<IConfiguration>().GetValue<int>("EmailSender:Port"),
+            services.BuildServiceProvider().GetRequiredService<IConfiguration>().GetValue<bool>("EmailSender:EnableSSL"),
+            services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:UserName"],
+            services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Password"]
+            ));
+            services.AddScoped<GeneralMapper>();
             return services;
         }
     }

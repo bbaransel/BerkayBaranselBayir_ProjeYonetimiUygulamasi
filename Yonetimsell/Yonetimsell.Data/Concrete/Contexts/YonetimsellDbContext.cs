@@ -16,7 +16,8 @@ namespace Yonetimsell.Data.Concrete.Contexts
     {
         public YonetimsellDbContext(DbContextOptions options): base(options) { }
         public DbSet<Project> Projects{ get; set; }
-        public DbSet<PTask> Tasks{ get; set; }
+        public DbSet<PTask> PTasks{ get; set; }
+        public DbSet<ProjectRole> ProjectRole { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.SeedData();

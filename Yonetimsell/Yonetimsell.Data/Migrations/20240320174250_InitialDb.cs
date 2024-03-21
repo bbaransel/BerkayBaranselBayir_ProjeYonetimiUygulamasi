@@ -39,7 +39,6 @@ namespace Yonetimsell.Data.Migrations
                     City = table.Column<string>(type: "TEXT", nullable: true),
                     Gender = table.Column<int>(type: "INTEGER", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ProjectRole = table.Column<int>(type: "INTEGER", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -58,27 +57,6 @@ namespace Yonetimsell.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Projects",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "date('now')"),
-                    CompletionDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Timeline = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Priority = table.Column<int>(type: "INTEGER", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    Budget = table.Column<decimal>(type: "real", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 70, nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "date('now')")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,6 +166,58 @@ namespace Yonetimsell.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "date('now')"),
+                    CompletionDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Timeline = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Priority = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    Budget = table.Column<decimal>(type: "real", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 70, nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "date('now')")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projects_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Roles = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectRoles", x => new { x.UserId, x.ProjectId });
+                    table.ForeignKey(
+                        name: "FK_ProjectRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectRoles_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PTasks",
                 columns: table => new
                 {
@@ -216,21 +246,21 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "30fb8bba-7515-4148-b070-9b129a0b32de", null, "Kullanıcı haklarını taşıyan rol", "Customer", "CUSTOMER" },
-                    { "464be86c-caf0-4569-89d3-b815a688da64", null, "Süper Yönetici haklarını taşıyan rol", "SuperAdmin", "SUPERADMIN" },
-                    { "e6f4a311-31a1-47ca-960b-dbe3aeb1b877", null, "Yönetici haklarını taşıyan rol", "Admin", "ADMIN" }
+                    { "6d8e0b8e-01ef-43e7-a48f-4770bf17b366", null, "Süper Yönetici haklarını taşıyan rol", "SuperAdmin", "SUPERADMIN" },
+                    { "825d5f84-4751-4ac9-917d-8b379f21b655", null, "Yönetici haklarını taşıyan rol", "Admin", "ADMIN" },
+                    { "de53ad8f-3509-4777-8ea6-42cbbf8af922", null, "Kullanıcı haklarını taşıyan rol", "Customer", "CUSTOMER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProjectRole", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "75f3e5e5-0c5d-4a51-9e51-6dbe3d31d06a", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "cfc24de2-0dc9-4dde-a68d-5e39e86d611f", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "customer@gmail.com", true, "customer", 0, "customer", false, null, "CUSTOMER@GMAIL.COM", "CUSTOMER", null, "05687654321", false, null, "932eb62c-43a5-48c1-995f-0ebb24bb142e", false, "customer" },
-                    { "ac994a8b-9a8b-46ca-9cf3-7c7ea6670308", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "3606d180-fab9-4d6a-bd6c-b99586587447", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "baransel@gmail.com", true, "Baransel", 1, "Bayir", false, null, "BARANSEL@GMAIL.COM", "BARANSEL", "AQAAAAIAAYagAAAAEHEYCZvuwM4JaS93HiDp3Nv3swI0LSoJMtr+4QmVSVfbK+5eJfzn80lvrds+n9s31g==", "05387654321", false, null, "5adf45e5-bfef-413b-80ad-1c4f39c02a31", false, "baransel" },
-                    { "b1fd2711-d00a-4166-a471-84011bfc8108", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "ae7f1b71-74a0-48f1-95a5-02ca528eaa74", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "lebron@gmail.com", true, "LeBron", 1, "James", false, null, "LEBRON@GMAIL.COM", "LEBRON", "AQAAAAIAAYagAAAAENLTjn3KQ9M2B88Cy/yXfPU/Yzj/lwK/NzefQpx1RQguLCLk5j6g+bnaNjnwY00zbA==", "05487654321", false, null, "7a2cf5aa-2f77-4ed5-b3c9-da69c9a3c3f7", false, "lebron" },
-                    { "c09cc720-a319-43cb-917e-82ce67000470", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "b0464f6b-c6d7-4d44-9cc2-ba36f841a364", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "engin@gmail.com", true, "Engin Niyazi", 1, "Ergül", false, null, "ENGIN@GMAIL.COM", "ENGINNIYAZI", "AQAAAAIAAYagAAAAEBYc6brdQfsPe/+bHkNVEEiSOhufXW+v7m19XEGP+rFesYl6geoqc4MHUcOKcUefoQ==", "05987654321", false, null, "bec69063-5650-454d-ab07-d0b9299c8580", false, "enginniyazi" },
-                    { "d9a0c271-5797-4fa8-8c48-db9cc761ed6c", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "2c467f98-3d94-4fcd-95e5-88e117d8a271", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "admin", 0, "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEAWMNRz44dYku1QoC5QuKFUTHy3PGrvlXXN3181rekhyN+vHC3yRvB2Iai1PGM2ZPQ==", "05587654321", false, null, "e0710800-1ca8-4965-a7d1-4f2fa0698786", false, "admin" }
+                    { "066b2c53-4574-442f-bd74-9836cb753e71", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "fa55b932-66d6-4aa3-b23d-ee741818ac39", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "engin@gmail.com", true, "Engin Niyazi", 1, "Ergül", false, null, "ENGIN@GMAIL.COM", "ENGINNIYAZI", "AQAAAAIAAYagAAAAEK5MQNFpPHHZ0bGuPw8QG/NSB4i5fIOpRhYooKuvJpM+bqebKqX+x257bEGdDfbkVA==", "05987654321", false, "6cff32d3-d82c-4aeb-b114-612f20f0550b", false, "enginniyazi" },
+                    { "1e2c25e2-e227-4e8d-a0af-09b6195ab6a7", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "ae2aa3f4-7efd-499b-b608-596c23c5a812", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "admin", 0, "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEGgjqW8hBNYuAcU7D13jPP6cRz71rhTheb5LRQkZUroLO8ExhXmMFqDVx1Mk7catrw==", "05587654321", false, "d21e2839-a74f-4c43-835d-d638d9adeea1", false, "admin" },
+                    { "62e454ac-06cf-44dc-afbe-a56e45e03b26", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "be977c15-e5d3-46d2-89e9-9d93112ae034", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "baransel@gmail.com", true, "Baransel", 1, "Bayir", false, null, "BARANSEL@GMAIL.COM", "BARANSEL", "AQAAAAIAAYagAAAAEEwhDD0Auc/2t6s7xXNSNSxHfT2DtISK/ONNpspzGEONH5fDesudoiqpaH6qVyLn2w==", "05387654321", false, "b9fbdac9-db8a-4d2e-89ce-bd39d6024a7c", false, "baransel" },
+                    { "6a6f0e90-c1c2-4b96-be79-d443bd1857e6", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "26f8864e-47bb-45f2-a4e1-c0e86b5d3a2c", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "lebron@gmail.com", true, "LeBron", 1, "James", false, null, "LEBRON@GMAIL.COM", "LEBRON", "AQAAAAIAAYagAAAAEC9yfWfG2APgPdxrVWCa9Zk27W90Y0Fy92DXbzGgHneHLpxLgjxPZ/21H6gJqBocDQ==", "05487654321", false, "44a4ad5b-03ea-40b7-a57c-e64ebace92a4", false, "lebron" },
+                    { "f6bd7a32-f6ba-4c6a-8945-6f8969f92ff7", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "5724283f-a33d-45a2-b0e9-c615245d40a8", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "customer@gmail.com", true, "customer", 0, "customer", false, null, "CUSTOMER@GMAIL.COM", "CUSTOMER", "AQAAAAIAAYagAAAAECeza0SxQD7I+4MxbQg0TSPneR2BykR24cUzFaK9UjXK7guoihzeZiS/tKk/qjNlSg==", "05687654321", false, "2cb2fdf6-c9b5-4a19-99e1-d6f4603b2a03", false, "customer" }
                 });
 
             migrationBuilder.InsertData(
@@ -238,11 +268,11 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "30fb8bba-7515-4148-b070-9b129a0b32de", "75f3e5e5-0c5d-4a51-9e51-6dbe3d31d06a" },
-                    { "464be86c-caf0-4569-89d3-b815a688da64", "ac994a8b-9a8b-46ca-9cf3-7c7ea6670308" },
-                    { "e6f4a311-31a1-47ca-960b-dbe3aeb1b877", "b1fd2711-d00a-4166-a471-84011bfc8108" },
-                    { "464be86c-caf0-4569-89d3-b815a688da64", "c09cc720-a319-43cb-917e-82ce67000470" },
-                    { "e6f4a311-31a1-47ca-960b-dbe3aeb1b877", "d9a0c271-5797-4fa8-8c48-db9cc761ed6c" }
+                    { "6d8e0b8e-01ef-43e7-a48f-4770bf17b366", "066b2c53-4574-442f-bd74-9836cb753e71" },
+                    { "825d5f84-4751-4ac9-917d-8b379f21b655", "1e2c25e2-e227-4e8d-a0af-09b6195ab6a7" },
+                    { "6d8e0b8e-01ef-43e7-a48f-4770bf17b366", "62e454ac-06cf-44dc-afbe-a56e45e03b26" },
+                    { "825d5f84-4751-4ac9-917d-8b379f21b655", "6a6f0e90-c1c2-4b96-be79-d443bd1857e6" },
+                    { "de53ad8f-3509-4777-8ea6-42cbbf8af922", "f6bd7a32-f6ba-4c6a-8945-6f8969f92ff7" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -283,6 +313,16 @@ namespace Yonetimsell.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectRoles_ProjectId",
+                table: "ProjectRoles",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_UserId",
+                table: "Projects",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PTasks_ProjectId",
                 table: "PTasks",
                 column: "ProjectId");
@@ -307,16 +347,19 @@ namespace Yonetimsell.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ProjectRoles");
+
+            migrationBuilder.DropTable(
                 name: "PTasks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "AspNetUsers");
         }
     }
 }

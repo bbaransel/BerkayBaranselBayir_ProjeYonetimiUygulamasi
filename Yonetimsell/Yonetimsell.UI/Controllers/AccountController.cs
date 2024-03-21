@@ -93,7 +93,7 @@ namespace Yonetimsell.UI.Controllers
         {
             await _signInManager.SignOutAsync();
             TempData["ReturnUrl"] = null;
-            return RedirectToAction("/");
+            return Redirect("/");
         }
         public IActionResult AccessDenied()
         {

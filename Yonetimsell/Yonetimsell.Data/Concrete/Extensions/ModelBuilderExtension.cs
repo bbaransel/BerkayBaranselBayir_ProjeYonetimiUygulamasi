@@ -111,6 +111,7 @@ namespace Yonetimsell.Data.Concrete.Extensions
             users[1].PasswordHash = passwordHasher.HashPassword(users[1], "Qwe123.");
             users[2].PasswordHash = passwordHasher.HashPassword(users[2], "Qwe123.");
             users[3].PasswordHash = passwordHasher.HashPassword(users[3], "Qwe123.");
+            users[4].PasswordHash = passwordHasher.HashPassword(users[4], "Qwe123.");
             #endregion
             #region Role Assignment
             List<IdentityUserRole<string>> userRoles = new List<IdentityUserRole<string>>
