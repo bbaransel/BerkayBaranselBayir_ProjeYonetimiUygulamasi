@@ -1,0 +1,22 @@
+﻿@model Role
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <h1>Rol Ekle</h1>
+            <div class="bg-secondary rounded h-100 p-4">
+                <form asp-area="admin" asp-controller="Role" asp-action="AddRole" method="post">
+                    <div asp-validation-summary="All"></div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" asp-for="Name" />
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" asp-for="Description" style="height: 150px;" ></textarea>
+                        <label asp-for="Description"></label>
+                    </div>
+                    <button class="btn btn-success w-100">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

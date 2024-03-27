@@ -1,77 +1,81 @@
 ﻿@model UserRolesViewModel
-<div class="container-fluid h-100">
-    <div class="bg-secondary rounded p-4 mt-3">
-        <h6 class="mb-4">Kullanıcıyı Düzenle</h6>
-        <form asp-area="Admin" asp-controller="User" asp-action="EditUser" method="post">
-            <div asp-validation-summary="All"></div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="FirstName">
-                        <label asp-for="FirstName"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="LastName">
-                        <label asp-for="LastName"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="UserName">
-                        <label asp-for="UserName"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="PhoneNumber">
-                        <label asp-for="PhoneNumber"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select form-select-lg mt-1" asp-for="Gender">
-                        <option value="0">Woman</option>
-                        <option value="1">Man</option>
-                        <option value="2">Other</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-floating" mb-4">
-                        <input type="date" min="1960-01-01" max="@DateTime.UtcNow" class="form-control" asp-for="DateOfBirth">
-                        <label asp-for="DateOfBirth"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="Email">
-                        <label asp-for="Email"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="City">
-                        <label asp-for="City"></label>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="form-floating mb-4">
-                        <textarea style="height: 120px;" class="form-control" asp-for="Address"></textarea>
-                        <label asp-for="Address"></label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    @for (int i = 0; i < Model.Roles.Count; i++)
-                    {
-                        <div class="input-group">
-                            <input class="form-check-input me-2" asp-for="@Model.Roles[i].IsAssigned" />
-                            <label class="form-check-label" asp-for="@Model.Roles[i].IsAssigned">@Model.Roles[i].RoleName</label>
-                            <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
-                            <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="bg-secondary rounded p-4 mt-3">
+                <h6 class="mb-4 display-6">Kullanıcıyı Düzenle</h6>
+                <form asp-area="Admin" asp-controller="User" asp-action="EditUser" method="post">
+                    <div asp-validation-summary="All"></div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-floating mb-4">
+                                <input class="form-control" asp-for="FirstName">
+                                <label asp-for="FirstName"></label>
+                            </div>
                         </div>
-                    }
-                </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-4">
+                                <input class="form-control" asp-for="LastName">
+                                <label asp-for="LastName"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-4">
+                                <input class="form-control" asp-for="UserName">
+                                <label asp-for="UserName"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-4">
+                                <input class="form-control" asp-for="PhoneNumber">
+                                <label asp-for="PhoneNumber"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-select-lg mt-1" asp-for="Gender">
+                                <option value="0">Woman</option>
+                                <option value="1">Man</option>
+                                <option value="2">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating" mb-4">
+                                <input type="date" min="1960-01-01" max="@DateTime.UtcNow" class="form-control" asp-for="DateOfBirth">
+                                <label asp-for="DateOfBirth"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-4">
+                                <input class="form-control" asp-for="Email">
+                                <label asp-for="Email"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-4">
+                                <input class="form-control" asp-for="City">
+                                <label asp-for="City"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-floating mb-4">
+                                <textarea style="height: 120px;" class="form-control" asp-for="Address"></textarea>
+                                <label asp-for="Address"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            @for (int i = 0; i < Model.Roles.Count; i++)
+                            {
+                                <div class="input-group">
+                                    <input class="form-check-input me-2" asp-for="@Model.Roles[i].IsAssigned" />
+                                    <label class="form-check-label" asp-for="@Model.Roles[i].IsAssigned">@Model.Roles[i].RoleName</label>
+                                    <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
+                                    <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>

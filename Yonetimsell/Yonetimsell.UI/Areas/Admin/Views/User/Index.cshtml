@@ -1,37 +1,39 @@
 ﻿@model List<User>
-<div class="row g-4">
-    <div class="col-12">
-        <div class="bg-secondary h-100 p-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h6 class="">Kullanıcı Listesi</h6>
-                <a asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-outline-success">Yeni Kullanıcı <i class="fas fa-user-plus"></i></a>
-            </div>
-            <div class="table-responsive">
-                <table class="table text-start">
-                    <thead>
-                        <tr>
-                            <th scope="col">Adı Soyadı</th>
-                            <th scope="col">Kullanıcı adı</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var user in Model)
-                        {
-                        <tr>
-                            <td>@($"{user.FirstName} {user.LastName}")</td>
-                            <td>@user.UserName</td>
-                            <td>@user.Email</td>
-                            <td>
-                                <a asp-area="Admin" asp-controller="User" asp-action="EditUser" asp-route-userId="@user.Id" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-                                <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" asp-route-userId="@user.Id" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        }
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="display-6">Kullanıcı Listesi</h1>
+                    <a asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-outline-success">Yeni Kullanıcı <i class="fas fa-user-plus"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start">
+                        <thead>
+                            <tr>
+                                <th scope="col">Adı Soyadı</th>
+                                <th scope="col">Kullanıcı adı</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var user in Model)
+                            {
+                            <tr>
+                                <td>@($"{user.FirstName} {user.LastName}")</td>
+                                <td>@user.UserName</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    <a asp-area="Admin" asp-controller="User" asp-action="EditUser" asp-route-userId="@user.Id" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                    <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" asp-route-userId="@user.Id" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -1,37 +1,38 @@
 ﻿@model List<Role>
-<div class="row g-4">
-    <div class="col-12">
-        <div class="bg-secondary h-100 p-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h6 class="">Rol Listesi</h6>
-                <a asp-area="Admin" asp-controller="Role" asp-action="AddRole" class="btn btn-outline-success">Yeni Rol Ekle <i class="fas fa-plus"></i></a>
-            </div>
-            <div class="table-responsive">
-                <table class="table text-start">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Ad</th>
-                            <th scope="col">Açıklama</th>
-                            <th scope="col">#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var role in Model)
-                        {
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="bg-secondary rounded p-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="display-6">Rol Listesi</h1>
+                    <a asp-area="Admin" asp-controller="Role" asp-action="AddRole" class="btn btn-outline-success">Yeni Rol Ekle <i class="fas fa-plus"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start">
+                        <thead>
                             <tr>
-                                <td>@role.Id</td>
-                                <td>@role.Name</td>
-                                <td>@role.Description</td>
-                                <td>
-                                    <a asp-area="Admin" asp-controller="Role" asp-action="EditRole" asp-route-roleId="@role.Id" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-                                    <a asp-area="Admin" asp-controller="Role" asp-action="DeleteRole" asp-route-roleId="@role.Id" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
-                                </td>
+                                <th scope="col">Id</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Açıklama</th>
+                                <th scope="col">#</th>
                             </tr>
-                        }
-
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var role in Model)
+                            {
+                                <tr>
+                                    <td>@role.Id</td>
+                                    <td>@role.Name</td>
+                                    <td>@role.Description</td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Role" asp-action="EditRole" asp-route-roleId="@role.Id" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                        <a asp-area="Admin" asp-controller="Role" asp-action="DeleteRole" asp-route-roleId="@role.Id" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
