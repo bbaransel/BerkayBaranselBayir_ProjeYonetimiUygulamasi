@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace Yonetimsell.Shared.ComplexTypes
 {
-    public enum ProjectRoles
+    public enum SubscriptionPlan
     {
-        [Display(Name = "Proje Yöneticisi")]
-        Manager = 0,
-
-        [Display(Name = "Görevli")]
-        Employee = 1
+        Basic = 0,
+        Standard = 1,
+        Premium= 2,
     }
 }

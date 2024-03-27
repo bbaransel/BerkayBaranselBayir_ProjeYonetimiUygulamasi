@@ -7,14 +7,14 @@ namespace Yonetimsell.UI.Extensions
     {
         public static IHost UpdateDatabase(this IHost host)
         {
-            using(var scope = host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
-                using(var yonetimsellDbContext = scope.ServiceProvider.GetRequiredService<YonetimsellDbContext>())
+                using (var yonetimsellDbContext = scope.ServiceProvider.GetRequiredService<YonetimsellDbContext>())
                 {
                     try
                     {
                         var pendingMigrationsCount = yonetimsellDbContext.Database.GetPendingMigrations().Count();
-                        if(pendingMigrationsCount > 0) yonetimsellDbContext.Database.Migrate();
+                        if (pendingMigrationsCount > 0) yonetimsellDbContext.Database.Migrate();
                     }
                     catch (Exception e)
                     {

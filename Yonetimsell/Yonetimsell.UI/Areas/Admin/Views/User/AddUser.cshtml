@@ -1,8 +1,8 @@
-﻿@model UserRolesViewModel
+﻿@model AdminAddUserViewModel
 <div class="container-fluid h-100">
     <div class="bg-secondary rounded p-4 mt-3">
         <h6 class="mb-4">Kullanıcıyı Düzenle</h6>
-        <form asp-area="Admin" asp-controller="User" asp-action="EditUser" method="post">
+        <form asp-area="Admin" asp-controller="User" asp-action="AddUser" method="post">
             <div asp-validation-summary="All"></div>
             <div class="row">
                 <div class="col-md-3">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-floating mb-4">
-                        <input class="form-control" asp-for="UserName">
+                        <input autocomplete="off" class="form-control" asp-for="UserName">
                         <label asp-for="UserName"></label>
                     </div>
                 </div>
@@ -71,7 +71,14 @@
                         </div>
                     }
                 </div>
+                <div class="col-md-3">
+                    <div class="form-floating mb-4">
+                        <input autocomplete="off" class="form-control" asp-for="Password">
+                        <label asp-for="Password"></label>
+                    </div>
+                </div>
             </div>
+            <button class="btn btn-success w-100 m-2">Kullanıcıyı Ekle</button>
         </form>
     </div>
 </div>

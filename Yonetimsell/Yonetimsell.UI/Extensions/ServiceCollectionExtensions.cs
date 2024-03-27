@@ -12,7 +12,7 @@ namespace Yonetimsell.UI.Extensions
     {
         public static IServiceCollection LoadMyDbContextServices(this IServiceCollection services)
         {
-            services.AddDbContext<YonetimsellDbContext>(options => 
+            services.AddDbContext<YonetimsellDbContext>(options =>
             options.UseSqlite(services.BuildServiceProvider()
             .GetRequiredService<IConfiguration>()
             .GetConnectionString("SqliteConnection")));

@@ -1,16 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Data.Abstract;
 
 namespace Yonetimsell.Data.Concrete.Repositories
 {
-    public class GenericRepository<TEntity>:IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext _dbContext;
 
@@ -28,12 +23,12 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> options = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
         {
-            IQueryable<TEntity> query =  _dbContext.Set<TEntity>();
-            if(include != null)
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+            if (include != null)
             {
-                query= include(query);
+                query = include(query);
             }
-            if(options != null)
+            if (options != null)
             {
                 query = query.Where(options);
             }
@@ -78,7 +73,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
         {
             _dbContext.Set<TEntity>().Update(entity);
             await _dbContext.SaveChangesAsync();
-            
+
         }
     }
 }

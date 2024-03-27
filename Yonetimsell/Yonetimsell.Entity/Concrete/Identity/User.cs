@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 
 namespace Yonetimsell.Entity.Concrete.Identity
 {
-    public class User: IdentityUser
+    public class User : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -16,6 +11,8 @@ namespace Yonetimsell.Entity.Concrete.Identity
         public string City { get; set; }
         public Gender Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public List<ProjectRole> ProjectRoles { get; set; }
+        public List<PTask> AssignedTasks { get; set; }
+        public List<TeamMember> TeamMemberships { get; set; }
+        public List<Subscription> Subscriptions { get; set; }
     }
 }

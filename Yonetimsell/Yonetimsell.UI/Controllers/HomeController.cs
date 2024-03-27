@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Yonetimsell.UI.Models;
 
 namespace Yonetimsell.UI.Controllers
 {

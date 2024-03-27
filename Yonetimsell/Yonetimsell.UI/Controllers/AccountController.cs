@@ -30,7 +30,7 @@ namespace Yonetimsell.UI.Controllers
         //    return View();
         //}
         [HttpGet]
-        public IActionResult Login(string returnUrl = null) 
+        public IActionResult Login(string returnUrl = null)
         {
             if (returnUrl != null)
             {
@@ -67,11 +67,13 @@ namespace Yonetimsell.UI.Controllers
                             return Redirect(returnUrl);
                         }
                         return RedirectToAction("Index", "Home");
-                    }else if (result.IsLockedOut)
+                    }
+                    else if (result.IsLockedOut)
                     {
                         var timeLeft = (lockoutEndDate.Value - DateTime.Now).Seconds;
                         return View(loginViewModel);
-                    }else
+                    }
+                    else
                     {
                         if (failedAttempCount < attempCount && !result.IsLockedOut)
                         {
@@ -101,7 +103,7 @@ namespace Yonetimsell.UI.Controllers
         }
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            if(userId == null && token==null) 
+            if (userId == null && token == null)
             {
                 Console.WriteLine("userıd yada token null");
                 return View();
@@ -128,7 +130,7 @@ namespace Yonetimsell.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
-            if(email == null)
+            if (email == null)
             {
                 ModelState.AddModelError("", "Eposta adresi boş bırakılamaz.");
                 return View();
@@ -162,7 +164,7 @@ namespace Yonetimsell.UI.Controllers
                 return View();
             }
             var user = await _userManager.FindByIdAsync(userId);
-            if(user == null)
+            if (user == null)
             {
                 ModelState.AddModelError("", "Kullanıcı bulunamadı");
                 return View();
@@ -217,7 +219,7 @@ namespace Yonetimsell.UI.Controllers
                         var updateSecurityStampResult = await _userManager.UpdateSecurityStampAsync(user);
                         await _signInManager.SignOutAsync();
                         await _signInManager.PasswordSignInAsync(user, changePasswordViewModel.NewPassword, false, false);
-                        ModelState.AddModelError("","Şifreniz başarı ile değiştirilmiştir.");
+                        ModelState.AddModelError("", "Şifreniz başarı ile değiştirilmiştir.");
                         return RedirectToAction("Profile");
                     }
                     foreach (var error in result.Errors)
@@ -226,7 +228,7 @@ namespace Yonetimsell.UI.Controllers
                     }
                     return View(changePasswordViewModel);
                 }
-                ModelState.AddModelError("","Geçerli şifreiz hatalıdır.");
+                ModelState.AddModelError("", "Geçerli şifreiz hatalıdır.");
             }
             return View();
         }
