@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Yonetimsell.Business.Abstract;
+using Yonetimsell.Business.Concrete;
 using Yonetimsell.Business.Mappings;
+using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
+using Yonetimsell.Data.Concrete.Repositories;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.UI.EmailServices.Abstract;
 using Yonetimsell.UI.EmailServices.Concrete;
@@ -56,6 +60,9 @@ namespace Yonetimsell.UI.Extensions
         }
         public static IServiceCollection LoadMyRepositoryServices(this IServiceCollection services)
         {
+            services.AddScoped<IProjectService, ProjectManager>();
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             return services;
         }
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)

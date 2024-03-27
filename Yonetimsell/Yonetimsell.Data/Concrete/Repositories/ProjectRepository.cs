@@ -9,7 +9,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 {
     public class ProjectRepository : GenericRepository<Project>, IProjectRepository
     {
-        public ProjectRepository(DbContext _context) : base(_context)
+        public ProjectRepository(YonetimsellDbContext _context) : base(_context)
         {
         }
         private YonetimsellDbContext YonetimsellDbContext
@@ -17,7 +17,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task ChangeProjectIsCompleted(int projectId)
+        public async Task ChangeProjectIsCompletedAsync(int projectId)
         {
             var project = await YonetimsellDbContext.Projects.Where(p=>p.Id == projectId).FirstOrDefaultAsync();
             project.IsCompleted = !project.IsCompleted;
@@ -25,7 +25,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeProjectPriority(int projectId, Priority priority)
+        public async Task ChangeProjectPriorityAsync(int projectId, Priority priority)
         {
             var project = await YonetimsellDbContext.Projects.Where(p => p.Id == projectId).FirstOrDefaultAsync();
             project.Priority = priority;
@@ -33,7 +33,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeProjectStatus(int projectId, Status status)
+        public async Task ChangeProjectStatusAsync(int projectId, Status status)
         {
             var project = await YonetimsellDbContext.Projects.Where(p=>p.Id == projectId).FirstOrDefaultAsync();
             project.Status = status;

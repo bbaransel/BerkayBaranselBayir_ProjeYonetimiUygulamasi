@@ -17,7 +17,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task ChangeTaskIsCompleted(int taskId)
+        public async Task ChangeTaskIsCompletedAsync(int taskId)
         {
             var task = await YonetimsellDbContext.PTasks.Where(pt=>pt.Id == taskId).FirstOrDefaultAsync();
             task.IsCompleted = !task.IsCompleted;
@@ -25,7 +25,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeTaskPriority(int taskId, Priority priority)
+        public async Task ChangeTaskPriorityAsync(int taskId, Priority priority)
         {
             var task = await YonetimsellDbContext.PTasks.Where(pt => pt.Id == taskId).FirstOrDefaultAsync();
             task.Priority = priority;
@@ -33,7 +33,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeTaskStatus(int taskId, Status status)
+        public async Task ChangeTaskStatusAsync(int taskId, Status status)
         {
             var task = await YonetimsellDbContext.PTasks.Where(pt => pt.Id == taskId).FirstOrDefaultAsync();
             task.Status = status;
