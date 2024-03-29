@@ -1,6 +1,6 @@
 ﻿using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ResponseViewModels;
-using Yonetimsell.Shared.ViewModels;
+using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
 namespace Yonetimsell.Business.Abstract
 {

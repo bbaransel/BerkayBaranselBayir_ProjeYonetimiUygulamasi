@@ -8,6 +8,8 @@ using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
+using Yonetimsell.Shared.ViewModels.ProjectViewModels;
+using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 
 namespace Yonetimsell.Business.Mappings
 {

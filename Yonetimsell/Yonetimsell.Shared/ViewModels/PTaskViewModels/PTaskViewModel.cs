@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
+using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
-namespace Yonetimsell.Shared.ViewModels
+namespace Yonetimsell.Shared.ViewModels.PTaskViewModels
 {
-    public class ProjectViewModel
+    public class PTaskViewModel
     {
         public int Id { get; set; }
+        public string Description { get; set; }
         public string UserId { get; set; }
         public UserViewModel User { get; set; }
-        public string Description { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? EndDate { get; set; }
-        public decimal Budget { get; set; }
+        public int ProjectId { get; set; }
+        public ProjectViewModel Project { get; set; }
+        public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; } = false;
         public Priority Priority { get; set; }
         public Status Status { get; set; }
-        public List<PTaskViewModel> PTasks { get; set; }
-        public List<TeamMemberViewModel> TeamMembers { get; set; }
-        public List<SubscriptionViewModel> Subscriptions { get; set; }
     }
 }

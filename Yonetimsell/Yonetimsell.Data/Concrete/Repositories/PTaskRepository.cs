@@ -17,33 +17,36 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task ChangeTaskIsCompletedAsync(int taskId)
+        public async Task ChangeTaskIsCompletedAsync(PTask pTask)
         {
-            var task = await YonetimsellDbContext.PTasks.Where(pt=>pt.Id == taskId).FirstOrDefaultAsync();
-            task.IsCompleted = !task.IsCompleted;
-            YonetimsellDbContext.Update(task);
+            pTask.IsCompleted = !pTask.IsCompleted;
+            YonetimsellDbContext.Update(pTask);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeTaskPriorityAsync(int taskId, Priority priority)
+        public async Task ChangeTaskPriorityAsync(PTask pTask, Priority priority)
         {
-            var task = await YonetimsellDbContext.PTasks.Where(pt => pt.Id == taskId).FirstOrDefaultAsync();
-            task.Priority = priority;
-            YonetimsellDbContext.Update(task);
+            pTask.Priority = priority;
+            YonetimsellDbContext.Update(pTask);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeTaskStatusAsync(int taskId, Status status)
+        public async Task ChangeTaskStatusAsync(PTask pTask, Status status)
         {
-            var task = await YonetimsellDbContext.PTasks.Where(pt => pt.Id == taskId).FirstOrDefaultAsync();
-            task.Status = status;
-            YonetimsellDbContext.Update(task);
+            pTask.Status = status;
+            YonetimsellDbContext.Update(pTask);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
         public async Task<List<PTask>> GetTasksByPriorityAsync(string userId, Priority priority)
         {
             var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.UserId == userId && pt.Priority == priority).ToListAsync();
+            return tasks;
+        }
+
+        public async Task<List<PTask>> GetTasksByProjectIdAsync(int projectId)
+        {
+            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.ProjectId==projectId).ToListAsync(); 
             return tasks;
         }
 
