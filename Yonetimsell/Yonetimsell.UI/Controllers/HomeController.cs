@@ -21,6 +21,8 @@ namespace Yonetimsell.UI.Controllers
         {
             return View();
         }
+
+        //Create actions will transfer to another Controller, it stays here for test purposes
         public IActionResult CreateProject()
         {
             return View( new AddProjectViewModel());
@@ -29,9 +31,6 @@ namespace Yonetimsell.UI.Controllers
         public async Task<IActionResult> CreateProject(AddProjectViewModel addProjectViewModel)
         {
             addProjectViewModel.UserId = _userManager.GetUserId(User);
-            //addProjectViewModel.PTasks = new List<PTaskViewModel>();
-            //addProjectViewModel.TeamMembers = new List<TeamMemberViewModel>();
-            //addProjectViewModel.Subscriptions = new List<SubscriptionViewModel>();
             addProjectViewModel.EndDate = DateTime.Now;
             var result = await _projectManager.CreateAsync(addProjectViewModel);
             if (result.IsSucceeded)

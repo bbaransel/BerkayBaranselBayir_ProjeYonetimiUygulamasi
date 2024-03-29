@@ -15,6 +15,8 @@ namespace Yonetimsell.Business.Mappings
         public partial Project AddProjectViewModelToProject(AddProjectViewModel addProjectViewModel);
         public partial AddProjectViewModel ProjectToAddProjectViewModel(Project project);
         public partial ProjectViewModel ProjectToProjectViewModel(Project project);
+        public partial List<ProjectViewModel> ListProjectToListProjectViewModel(List<Project> projects);
         public partial Project ProjectViewModelToProject(ProjectViewModel projectViewModel);
+        public partial List<Project> ListProjectViewModelToListProject(List<ProjectViewModel> projectViewModels);
     }
 }

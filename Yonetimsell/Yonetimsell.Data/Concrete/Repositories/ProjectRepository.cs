@@ -17,25 +17,22 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task ChangeProjectIsCompletedAsync(int projectId)
+        public async Task ChangeProjectIsCompletedAsync(Project project)
         {
-            var project = await YonetimsellDbContext.Projects.Where(p=>p.Id == projectId).FirstOrDefaultAsync();
             project.IsCompleted = !project.IsCompleted;
             YonetimsellDbContext.Update(project);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeProjectPriorityAsync(int projectId, Priority priority)
+        public async Task ChangeProjectPriorityAsync(Project project, Priority priority)
         {
-            var project = await YonetimsellDbContext.Projects.Where(p => p.Id == projectId).FirstOrDefaultAsync();
             project.Priority = priority;
             YonetimsellDbContext.Update(project);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
-        public async Task ChangeProjectStatusAsync(int projectId, Status status)
+        public async Task ChangeProjectStatusAsync(Project project, Status status)
         {
-            var project = await YonetimsellDbContext.Projects.Where(p=>p.Id == projectId).FirstOrDefaultAsync();
             project.Status = status;
             YonetimsellDbContext.Update(project);
             await YonetimsellDbContext.SaveChangesAsync();

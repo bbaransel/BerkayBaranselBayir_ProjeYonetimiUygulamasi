@@ -17,33 +17,43 @@ namespace Yonetimsell.Business.Concrete
     public class ProjectManager : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IMapper _mapper;
         private readonly MapperlyConfiguration _mapperly;
-        public ProjectManager(IProjectRepository projectRepository, IMapper mapper, MapperlyConfiguration mapperly)
+        public ProjectManager(IProjectRepository projectRepository, MapperlyConfiguration mapperly)
         {
             _projectRepository = projectRepository;
-            _mapper = mapper;
             _mapperly = mapperly;
         }
 
-        public Task<Response<NoContent>> ChangeIsCompletedAsync(int projectId)
+        public async Task<Response<NoContent>> ChangeIsCompletedAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var project = await _projectRepository.GetAsync(x=>x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            await _projectRepository.ChangeProjectIsCompletedAsync(project);
+            return Response<NoContent>.Success();
         }
 
-        public Task<Response<NoContent>> ChangeProjectPriorityAsync(int projectId, Priority priority)
+        public async Task<Response<NoContent>> ChangeProjectPriorityAsync(int projectId, Priority priority)
         {
-            throw new NotImplementedException();
+            var project = await _projectRepository.GetAsync(x => x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            await _projectRepository.ChangeProjectPriorityAsync(project, priority);
+            return Response<NoContent>.Success();
         }
 
-        public Task<Response<NoContent>> ChangeProjectStatusAsync(int projectId, Status status)
+        public async Task<Response<NoContent>> ChangeProjectStatusAsync(int projectId, Status status)
         {
-            throw new NotImplementedException();
+            var project = await _projectRepository.GetAsync(x => x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            await _projectRepository.ChangeProjectStatusAsync(project, status);
+            return Response<NoContent>.Success();
         }
 
-        public Task<Response<NoContent>> ClearAllTasksAsync(int projectId)
+        public async Task<Response<NoContent>> ClearAllTasksAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var project = await _projectRepository.GetAsync(x => x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("ilgili proje bulunamadı");
+            await _projectRepository.ClearAllTasksFromProjectAsync(projectId);
+            return Response<NoContent>.Success();
         }
 
         public async Task<Response<ProjectViewModel>> CreateAsync(AddProjectViewModel addProjectViewModel)
@@ -52,49 +62,65 @@ namespace Yonetimsell.Business.Concrete
             var project = _mapperly.AddProjectViewModelToProject(addProjectViewModel);
             
             var createdProject = await _projectRepository.CreateAsync(project);
-            if (createdProject == null)
-            {
-              return Response<ProjectViewModel>.Fail("Proje oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
-            }
+            if (createdProject == null) Response<ProjectViewModel>.Fail("Proje oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
             var result = _mapperly.ProjectToProjectViewModel(project);
             return Response<ProjectViewModel>.Success(result);
         }
 
-        public Task<Response<List<ProjectViewModel>>> GetAllAsync()
+        public async Task<Response<List<ProjectViewModel>>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var projects = await _projectRepository.GetAllAsync();
+            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı");
+            var result = _mapperly.ListProjectToListProjectViewModel(projects);
+            return Response<List<ProjectViewModel>>.Success(result);
         }
 
         public async Task<Response<ProjectViewModel>> GetByIdAsync(int projectId)
         {
             var project = await _projectRepository.GetAsync(p => p.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
             var projectViewModel = _mapperly.ProjectToProjectViewModel(project);
             return Response<ProjectViewModel>.Success(projectViewModel);
         }
 
-        public Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority)
+        public async Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
-            throw new NotImplementedException();
+            var projects = await _projectRepository.GetProjectsByPriorityAsync(userId,priority);
+            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı");
+            var result = _mapperly.ListProjectToListProjectViewModel(projects);
+            return Response<List<ProjectViewModel>>.Success(result);
         }
 
-        public Task<Response<List<ProjectViewModel>>> GetProjectsByStatusAsync(string userId, Status status)
+        public async Task<Response<List<ProjectViewModel>>> GetProjectsByStatusAsync(string userId, Status status)
         {
-            throw new NotImplementedException();
+            var projects = await _projectRepository.GetProjectsByStatusAsync(userId, status);
+            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı");
+            var result = _mapperly.ListProjectToListProjectViewModel(projects);
+            return Response<List<ProjectViewModel>>.Success(result);
         }
 
-        public Task<Response<NoContent>> HardDeleteAsync(int projectId)
+        public async Task<Response<NoContent>> HardDeleteAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var project = await _projectRepository.GetAsync(x=>x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            await _projectRepository.HardDeleteAsync(project);
+            return Response<NoContent>.Success();
         }
 
         public Task<Response<NoContent>> SoftDeleteAsync(int projectId)
         {
+            // Will add later on.
             throw new NotImplementedException();
         }
 
-        public Task<Response<ProjectViewModel>> UpdateAsync(ProjectViewModel projectViewModel)
+        public async Task<Response<ProjectViewModel>> UpdateAsync(ProjectViewModel projectViewModel)
         {
-            throw new NotImplementedException();
+            var project = _mapperly.ProjectViewModelToProject(projectViewModel);
+            if (project == null) Response<ProjectViewModel>.Fail("İlgili proje bulunamadı");
+            project.ModifiedDate = DateTime.Now;
+            await _projectRepository.UpdateAsync(project);
+            var result = _mapperly.ProjectToProjectViewModel(project);
+            return Response<ProjectViewModel>.Success(result);
         }
     }
 }
