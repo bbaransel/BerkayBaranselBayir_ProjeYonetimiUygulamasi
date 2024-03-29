@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
+using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels;
@@ -15,12 +17,13 @@ namespace Yonetimsell.Business.Concrete
     public class ProjectManager : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly GeneralMapper _mapper;
-
-        public ProjectManager(IProjectRepository projectRepository, GeneralMapper mapper)
+        private readonly IMapper _mapper;
+        private readonly MapperlyConfiguration _mapperly;
+        public ProjectManager(IProjectRepository projectRepository, IMapper mapper, MapperlyConfiguration mapperly)
         {
             _projectRepository = projectRepository;
             _mapper = mapper;
+            _mapperly = mapperly;
         }
 
         public Task<Response<NoContent>> ChangeIsCompletedAsync(int projectId)
@@ -45,17 +48,15 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<ProjectViewModel>> CreateAsync(AddProjectViewModel addProjectViewModel)
         {
-            var mapper = new GeneralMapper();
-            var projectViewModel = mapper.AddProjectViewModelToProjectViewModel(addProjectViewModel);
-            var project = mapper.ProjectViewModelToProject(projectViewModel);
-            project.ModifiedDate = DateTime.Now;
+            //var project = _mapper.Map<Project>(addProjectViewModel);
+            var project = _mapperly.AddProjectViewModelToProject(addProjectViewModel);
+            
             var createdProject = await _projectRepository.CreateAsync(project);
             if (createdProject == null)
             {
               return Response<ProjectViewModel>.Fail("Proje oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
             }
-            var mapper2 = new Mapper2();
-            var result = mapper2.ProjectToProjectViewModel(createdProject);
+            var result = _mapperly.ProjectToProjectViewModel(project);
             return Response<ProjectViewModel>.Success(result);
         }
 
@@ -67,8 +68,7 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<ProjectViewModel>> GetByIdAsync(int projectId)
         {
             var project = await _projectRepository.GetAsync(p => p.Id == projectId);
-            var mapper2 = new Mapper2();
-            var projectViewModel = mapper2.ProjectToProjectViewModel(project);
+            var projectViewModel = _mapperly.ProjectToProjectViewModel(project);
             return Response<ProjectViewModel>.Success(projectViewModel);
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Mapster;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Concrete;
@@ -74,7 +75,8 @@ namespace Yonetimsell.UI.Extensions
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:UserName"],
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Password"]
             ));
-            services.AddScoped<GeneralMapper>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<MapperlyConfiguration>();
             return services;
         }
     }

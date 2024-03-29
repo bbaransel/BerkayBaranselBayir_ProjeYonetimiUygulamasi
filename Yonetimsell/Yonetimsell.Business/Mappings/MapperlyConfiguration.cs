@@ -9,12 +9,12 @@ using Yonetimsell.Shared.ViewModels;
 
 namespace Yonetimsell.Business.Mappings
 {
-    [Mapper(UseReferenceHandling = true)]
-    public partial class Mapper2
+    [Mapper]
+    public partial class MapperlyConfiguration
     {
-        [MapProperty(nameof(Project.TeamMembers), nameof(ProjectViewModel.TeamMembers))]
-        [MapProperty(nameof(Project.Subscriptions), nameof(ProjectViewModel.Subscriptions))]
-        [MapProperty(nameof(Project.PTasks), nameof(ProjectViewModel.PTasks))]
+        public partial Project AddProjectViewModelToProject(AddProjectViewModel addProjectViewModel);
+        public partial AddProjectViewModel ProjectToAddProjectViewModel(Project project);
         public partial ProjectViewModel ProjectToProjectViewModel(Project project);
+        public partial Project ProjectViewModelToProject(ProjectViewModel projectViewModel);
     }
 }

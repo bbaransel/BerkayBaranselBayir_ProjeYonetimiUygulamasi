@@ -14,5 +14,6 @@ namespace Yonetimsell.Shared.ViewModels
         public Status Status { get; set; }
         public List<PTaskViewModel> PTasks { get; set; }
         public List<TeamMemberViewModel> TeamMembers { get; set; }
+        public List<SubscriptionViewModel> Subscriptions { get; set; }
     }
 }

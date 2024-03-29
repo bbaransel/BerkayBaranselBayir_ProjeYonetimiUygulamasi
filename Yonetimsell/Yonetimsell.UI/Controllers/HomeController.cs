@@ -11,9 +11,10 @@ namespace Yonetimsell.UI.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IProjectService _projectManager;
 
-        public HomeController(UserManager<User> userManager)
+        public HomeController(UserManager<User> userManager, IProjectService projectManager)
         {
             _userManager = userManager;
+            _projectManager = projectManager;
         }
 
         public IActionResult Index()
@@ -28,6 +29,10 @@ namespace Yonetimsell.UI.Controllers
         public async Task<IActionResult> CreateProject(AddProjectViewModel addProjectViewModel)
         {
             addProjectViewModel.UserId = _userManager.GetUserId(User);
+            //addProjectViewModel.PTasks = new List<PTaskViewModel>();
+            //addProjectViewModel.TeamMembers = new List<TeamMemberViewModel>();
+            //addProjectViewModel.Subscriptions = new List<SubscriptionViewModel>();
+            addProjectViewModel.EndDate = DateTime.Now;
             var result = await _projectManager.CreateAsync(addProjectViewModel);
             if (result.IsSucceeded)
             {
