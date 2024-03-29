@@ -81,10 +81,26 @@ namespace Yonetimsell.Business.Concrete
             return Response<List<PTaskViewModel>>.Success(result);
         }
 
+        public async Task<Response<List<PTaskViewModel>>> GetTasksByProjectIdAsync(int projectId)
+        {
+            var pTasks = await _repository.GetTasksByProjectIdAsync(projectId);
+            if (pTasks == null) Response<NoContent>.Fail("İlgili projeye ait task bulunamadı");
+            var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
+            return Response<List<PTaskViewModel>>.Success(result);
+        }
+
         public async Task<Response<List<PTaskViewModel>>> GetTasksByStatusAsync(string userId, Status status)
         {
             var pTasks = await _repository.GetTasksByStatusAsync(userId, status);
             if (pTasks == null) Response<NoContent>.Fail($"{status} durumunda task bulunamadı");
+            var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
+            return Response<List<PTaskViewModel>>.Success(result);
+        }
+
+        public async Task<Response<List<PTaskViewModel>>> GetTasksByUserIdAsync(string userId)
+        {
+            var pTasks = await _repository.GetTasksByUserIdAsync(userId);
+            if (pTasks == null) Response<NoContent>.Fail("İlgili kullanıcıya ait task bulunamadı");
             var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
             return Response<List<PTaskViewModel>>.Success(result);
         }

@@ -25,7 +25,7 @@ namespace Yonetimsell.Business.Mappings
         public partial PTask PTaskViewModelToPTask(PTaskViewModel pTaskViewModel);
         public partial List<PTask> ListPTaskViewModelToListPTask(List<PTaskViewModel> pTaskViewModels);
         public partial PTaskViewModel PTaskToPTaskViewModel(PTask pTask);
-        public partial List<PTaskViewModel> ListPTaskToListPTaskViewModel(List<PTask> pTask);
+        public partial List<PTaskViewModel> ListPTaskToListPTaskViewModel(List<PTask> pTasks);
         #endregion
     }
 }

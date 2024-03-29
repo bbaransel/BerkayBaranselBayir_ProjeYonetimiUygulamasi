@@ -46,7 +46,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<List<PTask>> GetTasksByProjectIdAsync(int projectId)
         {
-            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.ProjectId==projectId).ToListAsync(); 
+            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.ProjectId == projectId).ToListAsync(); 
             return tasks;
         }
 
