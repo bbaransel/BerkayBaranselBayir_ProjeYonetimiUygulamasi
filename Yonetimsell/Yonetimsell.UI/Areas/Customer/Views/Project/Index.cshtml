@@ -1,0 +1,75 @@
+﻿@model List<ProjectViewModel>
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 display-6">Projelerim</h6>
+            <a asp-area="Customer" asp-controller="Project" asp-action="Create" class=" btn btn-lg btn-success">Yeni <i class="fas fa-plus"></i></a>
+        </div>
+        <div class="table-responsive">
+            @if (Model.Count != 0)
+            {
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">Proje Adı</th>
+                        <th scope="col">Açıklaması</th>
+                        <th scope="col">TeamMembers</th>
+                        <th scope="col">Priority</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Süre</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var p in Model)
+                    {                        
+                        <tr>
+                            <td>@p.Name</td>
+                                @{
+                                    int lenght = p.Description.Length >= 30 ? 30 : p.Description.Length;
+                                }
+                            <td width="270px">@p.Description.Substring(0,lenght)@(p.Description.Length>30?"...":"" )</td>
+                            <td>
+                                <select class="form-select form-select-sm">
+                                    <option>Yapılacak</option>
+                                    <option>Yapılacak</option>
+                                    <option>Yapılacak</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select form-select-sm" asp-for="@p.Priority">
+                                    <option value="0">Düşük</option>
+                                    <option value="1">Orta</option>
+                                    <option value="2">Yüksek</option>
+                                    <option value="3">Acil/Kritik</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select form-select-sm" asp-for="@p.Status">
+                                    <option value="0">Devam ediyor</option>
+                                    <option value="1">Tamamlandı</option>
+                                    <option value="2">Hatalı</option>
+                                    <option value="3">Beklemede</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="pg-bar mb-3">
+                                    <div class="progress">
+                                        @{
+                                            var result = p.ProgressTime();
+                                        }
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@result.ProgressedDaysPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->

@@ -102,28 +102,28 @@ namespace Yonetimsell.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d51c7632-e132-4e93-997c-ad22a13599ea",
-                            RoleId = "452e6212-fa6d-4dda-a3d8-0cc97009b317"
+                            UserId = "8b296f76-3329-4694-a944-b13377cdb12d",
+                            RoleId = "14cc00b0-6db3-4edc-b7d0-bea4e391882f"
                         },
                         new
                         {
-                            UserId = "2e0d0535-9777-41c6-8b24-62d64d827e6e",
-                            RoleId = "452e6212-fa6d-4dda-a3d8-0cc97009b317"
+                            UserId = "8d7f1695-d166-4010-8770-064c9408ff04",
+                            RoleId = "14cc00b0-6db3-4edc-b7d0-bea4e391882f"
                         },
                         new
                         {
-                            UserId = "ecff1a2e-7d8e-492d-9e07-3517365df584",
-                            RoleId = "3b03e5f4-5584-4858-8a3c-48045fc61db1"
+                            UserId = "af9b6870-9dcb-4330-84cb-12da3103648e",
+                            RoleId = "f862d818-a6fa-4977-abe2-482f21ee1c35"
                         },
                         new
                         {
-                            UserId = "597b599f-16a7-4eb5-b29f-7ef4aff35fcb",
-                            RoleId = "3b03e5f4-5584-4858-8a3c-48045fc61db1"
+                            UserId = "f798095e-a812-4d77-8080-bc6494910c16",
+                            RoleId = "f862d818-a6fa-4977-abe2-482f21ee1c35"
                         },
                         new
                         {
-                            UserId = "0b46666e-08cb-4b51-9ed9-110c018c45ed",
-                            RoleId = "f077844f-d49b-41a9-b6d3-a2b0741b7c2b"
+                            UserId = "cac2b1b7-55a6-4f94-a901-b5381dc3fb48",
+                            RoleId = "513a4769-af3a-4a4b-95cf-b8e04c655879"
                         });
                 });
 
@@ -177,21 +177,21 @@ namespace Yonetimsell.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "452e6212-fa6d-4dda-a3d8-0cc97009b317",
+                            Id = "14cc00b0-6db3-4edc-b7d0-bea4e391882f",
                             Description = "Süper Yönetici haklarını taşıyan rol",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "3b03e5f4-5584-4858-8a3c-48045fc61db1",
+                            Id = "f862d818-a6fa-4977-abe2-482f21ee1c35",
                             Description = "Yönetici haklarını taşıyan rol",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f077844f-d49b-41a9-b6d3-a2b0741b7c2b",
+                            Id = "513a4769-af3a-4a4b-95cf-b8e04c655879",
                             Description = "Kullanıcı haklarını taşıyan rol",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
@@ -282,11 +282,11 @@ namespace Yonetimsell.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d51c7632-e132-4e93-997c-ad22a13599ea",
+                            Id = "8b296f76-3329-4694-a944-b13377cdb12d",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "5a77389c-3389-4700-ac3e-aae41a03b1d0",
+                            ConcurrencyStamp = "f7ad303c-2262-41e9-b9d5-7f483efee8d0",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "baransel@gmail.com",
                             EmailConfirmed = true,
@@ -296,20 +296,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BARANSEL@GMAIL.COM",
                             NormalizedUserName = "BARANSEL",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFLE+YhtSMNEKrt3HG4RTc2Qpk1MxROIqEgMT4QVHNtctZ9VSkt/o6hQSKlINTVrXA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAi4n6zE+lC+RCRXmX+/DTCOOqpDY6cP9Sv7mFG49wDDU1CbH7BJjOwvKc5sBY8P6Q==",
                             PhoneNumber = "05387654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "efd92f8f-cf26-4317-adea-3099a101ceda",
+                            SecurityStamp = "98495251-b352-4943-884f-5b098ff94d3a",
                             TwoFactorEnabled = false,
                             UserName = "baransel"
                         },
                         new
                         {
-                            Id = "2e0d0535-9777-41c6-8b24-62d64d827e6e",
+                            Id = "8d7f1695-d166-4010-8770-064c9408ff04",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "1a922548-8f79-4052-a0a4-1ede0c196bb9",
+                            ConcurrencyStamp = "cfc7981c-16ea-49eb-9c89-8f1f186ed9e7",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "engin@gmail.com",
                             EmailConfirmed = true,
@@ -319,20 +319,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ENGIN@GMAIL.COM",
                             NormalizedUserName = "ENGINNIYAZI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBzx4/75x94w3HaN16KJFrQ1TS4q77cY0OnkCrJtbgK7jp4bkGBmoHUAvqr/L/7MAA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFzIXh0f0q2s+3F7agivuGUhnwGFanGD6OZTkLXrjxBRjid6+BIRFq3qJDwaQkxybg==",
                             PhoneNumber = "05987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "41f5bd97-16c1-40a7-bfed-a373e218eceb",
+                            SecurityStamp = "a8d4f5f9-3628-4ce4-a49b-660495f87007",
                             TwoFactorEnabled = false,
                             UserName = "enginniyazi"
                         },
                         new
                         {
-                            Id = "ecff1a2e-7d8e-492d-9e07-3517365df584",
+                            Id = "af9b6870-9dcb-4330-84cb-12da3103648e",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "84193221-d370-4b68-a1f4-01e39e97f005",
+                            ConcurrencyStamp = "dbe21ee9-05f9-40e8-8136-a3bffce3bade",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "lebron@gmail.com",
                             EmailConfirmed = true,
@@ -342,20 +342,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LEBRON@GMAIL.COM",
                             NormalizedUserName = "LEBRON",
-                            PasswordHash = "AQAAAAIAAYagAAAAEElZC1hX6uGHvJjupiBtWeQ+wqYAXVaFqM97hwVmwlVSiEW0tKe8gAkONqPoMEWKpw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPxjpYvPBYdjnfKDcswTC6jqqZlxw2Pqn6OXSBbJlvQxdpMLx77esyciAayU9vK84Q==",
                             PhoneNumber = "05487654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f90ef4f0-7b0a-45f3-baab-fc9586c904d8",
+                            SecurityStamp = "15fa85e3-db38-4258-85a6-65ed289c44fa",
                             TwoFactorEnabled = false,
                             UserName = "lebron"
                         },
                         new
                         {
-                            Id = "597b599f-16a7-4eb5-b29f-7ef4aff35fcb",
+                            Id = "f798095e-a812-4d77-8080-bc6494910c16",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "fe1229b5-4347-4060-ae63-ffee78703080",
+                            ConcurrencyStamp = "add2f354-a457-4786-afbf-5caaa5b797b4",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -365,20 +365,20 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKEhFNf/7DS158dnhhZIp2zCe5RNgOAoO6wn/xMxg0s3pGGzbdUgsyxYk9MgRYyXYw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELQO3c9Aqos2g9fOUdpRV68W6FA58TpVQbjbclKmaXh2eRo6rFHgWs2siE5Uaj4OQw==",
                             PhoneNumber = "05587654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b3d1e412-91cb-4428-a9a4-975f331c18ec",
+                            SecurityStamp = "5e5a72d3-236e-41b6-b00c-7230e18eb1bd",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "0b46666e-08cb-4b51-9ed9-110c018c45ed",
+                            Id = "cac2b1b7-55a6-4f94-a901-b5381dc3fb48",
                             AccessFailedCount = 0,
                             Address = "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2",
                             City = "İstanbul",
-                            ConcurrencyStamp = "71e6d1a4-1fe0-49d8-86be-86e4d27e8865",
+                            ConcurrencyStamp = "27502315-7401-4ad5-b620-5f12c65f2c1f",
                             DateOfBirth = new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "customer@gmail.com",
                             EmailConfirmed = true,
@@ -388,10 +388,10 @@ namespace Yonetimsell.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER@GMAIL.COM",
                             NormalizedUserName = "CUSTOMER",
-                            PasswordHash = "AQAAAAIAAYagAAAAENypvkbkgq0a/iHQFZXTo+d61eXU8PbWNhfmP/Rs9e40uD6K3p3TJ8ad5X/thKhZ4w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFTDCkAKpfbSESktssmFMr2HLwZGl5l33hHf1xn907z5rNVi+FeD8N613FHFUo3a9A==",
                             PhoneNumber = "05687654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4950c852-57ad-44de-ab24-e1db171dcfbe",
+                            SecurityStamp = "c52def71-8843-4593-994a-947e98cb1da0",
                             TwoFactorEnabled = false,
                             UserName = "customer"
                         });
@@ -462,10 +462,13 @@ namespace Yonetimsell.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ModifiedDate")

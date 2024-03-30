@@ -9,6 +9,7 @@ using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ComplexTypes;
+using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
@@ -87,6 +88,14 @@ namespace Yonetimsell.Business.Concrete
             return Response<ProjectViewModel>.Success(projectViewModel);
         }
 
+        public async Task<Response<List<ProjectViewModel>>> GetDeletedProjectsByUserIdAsync(string userId)
+        {
+            var projects = await _repository.GetDeletedProjectsByUserIdAsync(userId);
+            if (projects == null) Response<NoContent>.Fail("Silinmiş proje bulunamadı");
+            var result = _mapperly.ListProjectToListProjectViewModel(projects);
+            return Response<List<ProjectViewModel>>.Success(result);
+        }
+
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
             var projects = await _repository.GetProjectsByPriorityAsync(userId,priority);
@@ -103,6 +112,14 @@ namespace Yonetimsell.Business.Concrete
             return Response<List<ProjectViewModel>>.Success(result);
         }
 
+        public async Task<Response<List<ProjectViewModel>>> GetProjectsByUserIdAsync(string userId)
+        {
+            var projects = await _repository.GetProjectsByUserIdAsync(userId);
+            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı.");
+            var result = _mapperly.ListProjectToListProjectViewModel(projects);
+            return Response<List<ProjectViewModel>>.Success(result);
+        }
+
         public async Task<Response<NoContent>> HardDeleteAsync(int projectId)
         {
             var project = await _repository.GetAsync(x=>x.Id == projectId);
@@ -111,10 +128,14 @@ namespace Yonetimsell.Business.Concrete
             return Response<NoContent>.Success();
         }
 
-        public Task<Response<NoContent>> SoftDeleteAsync(int projectId)
+        public async Task<Response<NoContent>> SoftDeleteAsync(int projectId)
         {
-            // Will add later on.
-            throw new NotImplementedException();
+            var project = await _repository.GetAsync(x=> x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            project.IsDeleted = !project.IsDeleted;
+            project.ModifiedDate = DateTime.Now;
+            await _repository.UpdateAsync(project);
+            return Response<NoContent>.Success();
         }
 
         public async Task<Response<ProjectViewModel>> UpdateAsync(ProjectViewModel projectViewModel)

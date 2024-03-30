@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>User Area</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    @await Html.PartialAsync("_UStyles")
+    @await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("TopScripts", required: false)
+</head>
+<body>
+    <div class="container-fluid position-relative bg-white d-flex p-0">
+        @await Html.PartialAsync("_CustomerSpinnerPartial")
+        @await Html.PartialAsync("_CustomerSidebarPartial")
+        <div class="content">
+            @await Html.PartialAsync("_CustomerNavbarPartial")
+            @RenderBody()
+            @await Html.PartialAsync("_CustomerFooterPartial")
+        </div>
+    </div>
+    @await Html.PartialAsync("_UScripts")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

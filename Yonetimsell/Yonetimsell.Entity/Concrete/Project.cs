@@ -11,9 +11,10 @@ namespace Yonetimsell.Entity.Concrete
         public User User { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         public decimal Budget { get; set; }
         public bool IsCompleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
         public Priority Priority { get; set; }
         public Status Status { get; set; }
         public List<PTask> PTasks { get; set; }

@@ -13,11 +13,12 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
     public class ProjectViewModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string UserId { get; set; }
         public UserViewModel User { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         public decimal Budget { get; set; }
         public bool IsCompleted { get; set; } = false;
         public Priority Priority { get; set; }
@@ -25,5 +26,20 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
         public List<PTaskViewModel> PTasks { get; set; }
         public List<TeamMemberViewModel> TeamMembers { get; set; }
         public List<SubscriptionViewModel> Subscriptions { get; set; }
+        public ProgressTime ProgressTime()
+        {
+            var designatedDays = (EndDate - CreatedDate).TotalDays;
+            var passingDays = (DateTime.Now - CreatedDate).TotalDays;
+            var remainingDays = (EndDate - DateTime.Now).TotalDays;
+            var progressedDaysPercentage = (passingDays - designatedDays) * 100;
+            var result = new ProgressTime
+            {
+                DesignatedDays = designatedDays,
+                PassingDays = passingDays,
+                RemainingDays = remainingDays,
+                ProgressedDaysPercentage = progressedDaysPercentage
+            };
+            return result;
+        }
     }
 }

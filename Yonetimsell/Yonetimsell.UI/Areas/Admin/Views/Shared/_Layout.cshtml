@@ -13,12 +13,12 @@
 </head>
 <body>
     <div class="container-fluid position-relative d-flex p-0">
-        @await Component.InvokeAsync("Spinner")
-        @await Component.InvokeAsync("SideBar")
+        @await Html.PartialAsync("_AdminSpinnerPartial")
+        @await Html.PartialAsync("_AdminSidebarPartial")
         <div class="content">
-        @await Component.InvokeAsync("Navbar")
+            @await Html.PartialAsync("_AdminNavbarPartial")
             @RenderBody()
-        @await Component.InvokeAsync("Footer")
+            @await Html.PartialAsync("_AdminFooterPartial")
         </div>
     </div>
     @await Html.PartialAsync("_Scripts")

@@ -12,6 +12,8 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<NoContent>> SoftDeleteAsync(int projectId);
         Task<Response<List<ProjectViewModel>>> GetAllAsync();
         Task<Response<ProjectViewModel>> GetByIdAsync(int projectId);
+        Task<Response<List<ProjectViewModel>>> GetProjectsByUserIdAsync(string userId);
+        Task<Response<List<ProjectViewModel>>> GetDeletedProjectsByUserIdAsync(string userId);
         Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority);
         Task<Response<List<ProjectViewModel>>> GetProjectsByStatusAsync(string userId, Status status);
         Task<Response<NoContent>> ClearAllTasksAsync(int projectId);
