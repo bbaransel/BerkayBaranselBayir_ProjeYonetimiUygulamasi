@@ -34,6 +34,12 @@ namespace Yonetimsell.Business.Mappings
         public partial TeamMemberViewModel TeamMemberToTeamMemberViewModel(TeamMember teamMember);
         public partial List<TeamMemberViewModel> ListTeamMemberToListTeamMemberViewModel(List<TeamMember> teamMembers);
         #endregion
+        #region Subscription
+        public partial Subscription SubscriptionViewModelToSubscription(SubscriptionViewModel subscriptionViewModel);
+        public partial List<Subscription> ListSubscriptionViewModelToListSubscription(List<SubscriptionViewModel> subscriptionViewModels);
+        public partial SubscriptionViewModel SubscriptionToSubscriptionViewModel(Subscription subscription);
+        public partial List<SubscriptionViewModel> ListSubscriptionToListSubscriptionViewModel(List<Subscription> subscriptions);
+        #endregion
         #region Friendship
         public partial Friendship FriendshipViewModelToFriendship(FriendshipViewModel friendshipViewModel);
         public partial FriendshipViewModel FriendshipToFriendshipViewModel(Friendship friendship);
