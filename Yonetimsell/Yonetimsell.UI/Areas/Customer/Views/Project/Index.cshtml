@@ -1,4 +1,5 @@
-﻿@model List<ProjectViewModel>
+﻿@using System.Globalization
+@model List<ProjectViewModel>
 <!-- Recent Sales Start -->
 <div class="container-fluid pt-4 px-4 h-100">
     <div class="bg-light text-center rounded p-4">
@@ -9,14 +10,15 @@
         <div class="table-responsive">
             @if (Model.Count != 0)
             {
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                     <tr class="text-dark">
                         <th scope="col">Proje Adı</th>
                         <th scope="col">Açıklaması</th>
                         <th scope="col">TeamMembers</th>
-                        <th scope="col">Priority</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Öncelik</th>
+                        <th scope="col">Durum</th>
+                        <th scope="col">Bitiş Tarihi</th>
                         <th scope="col">Süre</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -53,13 +55,11 @@
                                     <option value="3">Beklemede</option>
                                 </select>
                             </td>
-                            <td>
+                                <td>@p.EndDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(p.EndDate.DayOfWeek)</td>
+                            <td width="270px">
                                 <div class="pg-bar mb-3">
                                     <div class="progress">
-                                        @{
-                                            var result = p.ProgressTime();
-                                        }
-                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@result.ProgressedDaysPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@p.ProgressTime.ProgressedDaysPercentage" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </td>
@@ -73,3 +73,9 @@
     </div>
 </div>
 <!-- Recent Sales End -->
+@section Styles{
+    @await Html.PartialAsync("_DataTablesStylesPartial")
+}
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+}

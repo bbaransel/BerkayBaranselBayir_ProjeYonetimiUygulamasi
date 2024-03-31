@@ -26,20 +26,21 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
         public List<PTaskViewModel> PTasks { get; set; }
         public List<TeamMemberViewModel> TeamMembers { get; set; }
         public List<SubscriptionViewModel> Subscriptions { get; set; }
-        public ProgressTime ProgressTime()
-        {
-            var designatedDays = (EndDate - CreatedDate).TotalDays;
-            var passingDays = (DateTime.Now - CreatedDate).TotalDays;
-            var remainingDays = (EndDate - DateTime.Now).TotalDays;
-            var progressedDaysPercentage = (passingDays - designatedDays) * 100;
-            var result = new ProgressTime
-            {
-                DesignatedDays = designatedDays,
-                PassingDays = passingDays,
-                RemainingDays = remainingDays,
-                ProgressedDaysPercentage = progressedDaysPercentage
-            };
-            return result;
-        }
+        public ProgressTime ProgressTime { get; set; }
+        //public ProgressTime ProgressTime()
+        //{
+        //    var designatedDays = (int)Math.Ceiling((EndDate - CreatedDate ).TotalDays);
+        //    var passingDays = (int)Math.Ceiling((DateTime.Now - CreatedDate).TotalDays);
+        //    var remainingDays = (int)Math.Ceiling((EndDate - DateTime.Now).TotalDays);
+        //    var progressedDaysPercentage = (passingDays / designatedDays) * 100;
+        //    var result = new ProgressTime
+        //    {
+        //        DesignatedDays = designatedDays,
+        //        PassingDays = passingDays,
+        //        RemainingDays = remainingDays,
+        //        ProgressedDaysPercentage = progressedDaysPercentage
+        //    };
+        //    return result;
+        //}
     }
 }

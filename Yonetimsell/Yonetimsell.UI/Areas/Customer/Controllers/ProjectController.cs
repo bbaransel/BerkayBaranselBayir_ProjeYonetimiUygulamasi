@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.Extensions;
+using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
@@ -28,6 +29,26 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             if (!projects.IsSucceeded)
             {
                 return View();
+            }
+            foreach (var p in projects.Data)
+            {
+                var designatedDays = (int)Math.Round((p.EndDate - p.CreatedDate).TotalMinutes);
+                designatedDays = Math.Max(designatedDays, 1);
+                var passingDays = (int)Math.Round((DateTime.Now - p.CreatedDate).TotalMinutes);
+                var remainingDays = (int)Math.Round((p.EndDate - DateTime.Now).TotalMinutes);
+                double progressedDaysPercentage = 0; // İlerleme yüzdesi başlangıçta sıfır olarak ayarlanır
+                if (designatedDays != 0)
+                {
+                    progressedDaysPercentage = (passingDays / designatedDays) * 100;
+                }
+                var result = new ProgressTime
+                {
+                    DesignatedDays = designatedDays,
+                    PassingDays = passingDays,
+                    RemainingDays = remainingDays,
+                    ProgressedDaysPercentage = progressedDaysPercentage
+                };
+                p.ProgressTime = result;
             }
             return View(projects.Data);
         }

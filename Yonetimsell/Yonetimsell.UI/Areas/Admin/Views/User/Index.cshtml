@@ -8,7 +8,7 @@
                     <a asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-outline-success">Yeni Kullanıcı <i class="fas fa-user-plus"></i></a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-start">
+                    <table id="myDataTable" class="table text-start">
                         <thead>
                             <tr>
                                 <th scope="col">Adı Soyadı</th>
@@ -38,3 +38,9 @@
         </div>
     </div>
 </div>
+@section Styles {
+    @await Html.PartialAsync("_DataTablesStylesPartial")
+}
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+}
