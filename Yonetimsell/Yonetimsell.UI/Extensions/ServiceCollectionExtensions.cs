@@ -62,8 +62,16 @@ namespace Yonetimsell.UI.Extensions
         public static IServiceCollection LoadMyRepositoryServices(this IServiceCollection services)
         {
             services.AddScoped<IProjectService, ProjectManager>();
+            services.AddScoped<IPTaskService, PTaskManager>();
+            services.AddScoped<ISubscriptionService, SubscriptionManager>();
+            services.AddScoped<ITeamMemberService, TeamMemberManager>();
+            services.AddScoped<IFriendshipService, FriendshipManager>();
 
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IPTaskRepository, PTaskRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
+            services.AddScoped<IFriendshipRepository, FriendshipRepository>();
             return services;
         }
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)

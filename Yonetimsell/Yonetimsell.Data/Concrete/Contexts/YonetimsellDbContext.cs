@@ -14,6 +14,7 @@ namespace Yonetimsell.Data.Concrete.Contexts
         public DbSet<PTask> PTasks { get; set; }
         public DbSet<Subscription> Subscriptions{ get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<Friendship> Friendship { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.SeedData();
