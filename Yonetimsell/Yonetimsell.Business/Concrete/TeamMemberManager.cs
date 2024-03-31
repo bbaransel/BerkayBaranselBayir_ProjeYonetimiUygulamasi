@@ -50,9 +50,12 @@ namespace Yonetimsell.Business.Concrete
             return Response<List<TeamMemberViewModel>>.Success(result);
         }
 
-        public Task<Response<NoContent>> RemoveUserFromProject(TeamMemberViewModel teamMemberViewModel)
+        public async Task<Response<NoContent>> RemoveUserFromProject(TeamMemberViewModel teamMemberViewModel)
         {
-            throw new NotImplementedException();
+            var teamMember = _mapperly.TeamMemberViewModelToTeamMember(teamMemberViewModel);
+            if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
+            await _repository.HardDeleteAsync(teamMember);
+            return Response<NoContent>.Success();
         }
     }
 }

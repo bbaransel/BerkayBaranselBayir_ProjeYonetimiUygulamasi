@@ -16,5 +16,6 @@ namespace Yonetimsell.Entity.Concrete
         public DateTime SubscriptionDate { get; set; }
         public DateTime ExpiryDate { get; set; }
         public SubscriptionPlan SubscriptionPlan { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

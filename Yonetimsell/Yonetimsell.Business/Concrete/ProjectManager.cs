@@ -103,18 +103,18 @@ namespace Yonetimsell.Business.Concrete
         }
         public async Task<Response<int>> GetActiveProjectCountAsync()
         {
-            var count = await _repository.GetCountAsync(x=>x.IsCompleted==false);
+            var count = await _repository.GetCountAsync(x=>x.IsCompleted==false && x.IsDeleted==false);
             return Response<int>.Success(count);
         }
         public async Task<Response<int>> GetCompletedProjectCountAsync()
         {
-            var count = await _repository.GetCountAsync(x => x.IsCompleted == true);
+            var count = await _repository.GetCountAsync(x => x.IsCompleted == true && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetActiveProjectCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x=>x.UserId == userId && x.IsCompleted==false);
+            var count = await _repository.GetCountAsync(x=>x.UserId == userId && x.IsCompleted==false && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
 
@@ -168,6 +168,12 @@ namespace Yonetimsell.Business.Concrete
             await _repository.UpdateAsync(project);
             var result = _mapperly.ProjectToProjectViewModel(project);
             return Response<ProjectViewModel>.Success(result);
+        }
+
+        public async Task<Response<int>> GetCompletedProjectCountByUserIdAsync(string userId)
+        {
+            var count = await _repository.GetCountAsync(x=>x.UserId==userId && x.IsCompleted==true && x.IsDeleted==false);
+            return Response<int>.Success(count);
         }
     }
 }
