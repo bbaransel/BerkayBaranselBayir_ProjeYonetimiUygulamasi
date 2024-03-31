@@ -12,7 +12,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 {
     public class TeamMemberRepository : GenericRepository<TeamMember>, ITeamMemberRepository
     {
-        public TeamMemberRepository(DbContext dbContext) : base(dbContext)
+        public TeamMemberRepository(YonetimsellDbContext _context) : base(_context)
         {
         }
         private YonetimsellDbContext YonetimsellDbContext

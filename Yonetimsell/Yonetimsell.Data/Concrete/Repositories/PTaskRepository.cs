@@ -9,7 +9,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 {
     public class PTaskRepository : GenericRepository<PTask>, IPTaskRepository
     {
-        public PTaskRepository(DbContext dbContext) : base(dbContext)
+        public PTaskRepository(YonetimsellDbContext _context) : base(_context)
         {
         }
         public YonetimsellDbContext YonetimsellDbContext

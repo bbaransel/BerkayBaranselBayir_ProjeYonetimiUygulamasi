@@ -12,7 +12,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 {
     public class SubscriptionRepository : GenericRepository<Subscription>, ISubscriptionRepository
     {
-        public SubscriptionRepository(DbContext dbContext) : base(dbContext)
+        public SubscriptionRepository(YonetimsellDbContext _context) : base(_context)
         {
         }
         private YonetimsellDbContext YonetimsellDbContext
