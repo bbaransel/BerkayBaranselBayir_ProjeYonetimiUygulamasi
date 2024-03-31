@@ -14,7 +14,5 @@ namespace Yonetimsell.Data.Abstract
         Task<List<Project>> GetProjectsByPriorityAsync(string userId, Priority priority);
         Task<List<Project>> GetProjectsByStatusAsync(string userId, Status status);
         Task<List<Project>> GetDeletedProjectsByUserIdAsync(string userId);
-
-
     }
 }

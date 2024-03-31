@@ -96,6 +96,28 @@ namespace Yonetimsell.Business.Concrete
             return Response<List<ProjectViewModel>>.Success(result);
         }
 
+        public async Task<Response<int>> GetAllProjectCountAsync()
+        {
+            var count = await _repository.GetCountAsync();
+            return Response<int>.Success(count);
+        }
+        public async Task<Response<int>> GetActiveProjectCountAsync()
+        {
+            var count = await _repository.GetCountAsync(x=>x.IsCompleted==false);
+            return Response<int>.Success(count);
+        }
+        public async Task<Response<int>> GetCompletedProjectCountAsync()
+        {
+            var count = await _repository.GetCountAsync(x => x.IsCompleted == true);
+            return Response<int>.Success(count);
+        }
+
+        public async Task<Response<int>> GetActiveProjectCountByUserIdAsync(string userId)
+        {
+            var count = await _repository.GetCountAsync(x=>x.UserId == userId && x.IsCompleted==false);
+            return Response<int>.Success(count);
+        }
+
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
             var projects = await _repository.GetProjectsByPriorityAsync(userId,priority);

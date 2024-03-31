@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yonetimsell.Entity.Concrete;
+using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 
@@ -26,6 +27,12 @@ namespace Yonetimsell.Business.Mappings
         public partial List<PTask> ListPTaskViewModelToListPTask(List<PTaskViewModel> pTaskViewModels);
         public partial PTaskViewModel PTaskToPTaskViewModel(PTask pTask);
         public partial List<PTaskViewModel> ListPTaskToListPTaskViewModel(List<PTask> pTasks);
+        #endregion
+        #region TeamMember
+        public partial TeamMember TeamMemberViewModelToTeamMember(TeamMemberViewModel teamMemberViewModel);
+        public partial List<TeamMember> ListTeamMemberViewModelToListTeamMember(List<TeamMemberViewModel> teamMemberViewModels);
+        public partial TeamMemberViewModel TeamMemberToTeamMemberViewModel(TeamMember teamMember);
+        public partial List<TeamMemberViewModel> ListTeamMemberToListTeamMemberViewModel(List<TeamMember> teamMembers);
         #endregion
     }
 }

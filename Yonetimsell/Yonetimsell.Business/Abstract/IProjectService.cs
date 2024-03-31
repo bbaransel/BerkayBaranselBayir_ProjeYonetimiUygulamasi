@@ -20,7 +20,12 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<NoContent>> ChangeIsCompletedAsync(int projectId);
         Task<Response<NoContent>> ChangeProjectStatusAsync(int projectId, Status status);
         Task<Response<NoContent>> ChangeProjectPriorityAsync(int projectId, Priority priority);
-    
+        Task<Response<int>> GetAllProjectCountAsync();
+        Task<Response<int>> GetActiveProjectCountAsync();
+        Task<Response<int>> GetCompletedProjectCountAsync();
+        Task<Response<int>> GetActiveProjectCountByUserIdAsync(string userId);
+        Task<Response<int>> GetCompletedProjectCountByUserIdAsync(string userId);
+
 
 
     }
