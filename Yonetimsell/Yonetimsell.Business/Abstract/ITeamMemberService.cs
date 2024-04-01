@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ResponseViewModels;
-using Yonetimsell.Shared.ViewModels;
+using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
 namespace Yonetimsell.Business.Abstract
 {

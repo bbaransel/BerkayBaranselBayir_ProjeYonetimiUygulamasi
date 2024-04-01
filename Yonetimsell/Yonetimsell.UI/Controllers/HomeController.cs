@@ -9,12 +9,10 @@ namespace Yonetimsell.UI.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly IProjectService _projectManager;
 
-        public HomeController(UserManager<User> userManager, IProjectService projectManager)
+        public HomeController(UserManager<User> userManager)
         {
             _userManager = userManager;
-            _projectManager = projectManager;
         }
 
         public IActionResult Index()

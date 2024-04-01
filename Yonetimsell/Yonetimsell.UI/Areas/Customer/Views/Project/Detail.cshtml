@@ -1,0 +1,172 @@
+﻿@using System.Globalization
+@model EditProjectViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <form asp-area="Customer" asp-controller="Project" asp-action="Edit" method="post">
+        <div class="row g-4">
+            <!-- Project base info-->
+            <div class="col-sm-8 col-lg-8 bg-light">
+                <div class=" p-4">
+                 <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h6 class="">Projeni Düzenle</h6>
+                    <a asp-area="Customer" asp-controller="PTask" asp-action="AddTask" asp-route-projecrId="@Model.Id" class="btn btn-warning btn-sm">Yeni Görev Ata</a>
+                 </div>
+                <div class="row g-2">
+                    <div class=" col-sm-6">
+                        <div class="form-floating mb-3">
+                            <input placeholder="Name" type="text" class="form-control" asp-for="Name">
+                            <label class="form-label" asp-for="Name" ></label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" asp-for="Description"
+                                        placeholder="Açıklama" style="height:215px"></textarea>
+                            <label asp-for="Description"></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-floating mb-3">
+                            <input type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" asp-for="EndDate">
+                            <label class="form-label" asp-for="EndDate"></label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" asp-for="Budget">
+                            <label class="form-label" asp-for="Budget"></label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select form-select-sm mb-4" asp-for="Status">
+                                <option value="0">Devam Ediyor</option>
+                                <option value="1">Tamamlandı</option>
+                                <option value="2">Hatalı</option>
+                                <option value="3">Beklemede</option>
+                            </select>
+                            <label for="Status">Durum</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" asp-for="Priority">
+                                <option value="0">Düşük</option>
+                                <option value="1">Orta</option>
+                                <option value="2">Yüksek</option>
+                                <option value="3">Kritik</option>
+                            </select>
+                            <label for="Priority">Önceliği</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- TeamMembers-->
+            <div class="col-sm-4 col-lg-4 bg-light">
+            <div class=" p-4">
+                    @if(Model.TeamMembers!=null && Model.TeamMembers.Count > 0)
+                    {
+                        foreach(var m in Model.TeamMembers)
+                        {
+                            <div class="h-100 bg-light rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h6 class="mb-0">Takım Arkadaşları</h6>
+                                    <a asp-area="Customer" asp-controller="TeamMember" asp-action="AddTeamMember" asp-route-projectId="@Model.Id">Takım arkadaşı ekle</a>
+                                </div>
+                                <div class="d-flex align-items-center border-bottom py-3">
+                                    <img class="rounded-circle flex-shrink-0" src="~/customer/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-0">Jhon Doe</h6>
+                                            <small>15 minutes ago</small>
+                                        </div>
+                                        <span>Short message goes here...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="h-100 bg-light rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="mb-0">Takım Arkadaşları</h6>
+                                <a asp-area="Customer" asp-controller="TeamMember" asp-action="AddTeamMember" asp-route-projectId="@Model.Id">Takım arkadaşı ekle</a>
+                            </div>
+                            <div>Takım arkaşı bulunamadı</div>
+                        </div>
+                    }
+                </div>
+        </div>
+            <div class="col-sm-12 bg-light mt-0">
+                <button class="btn btn-success w-100" type="submit">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </form>
+    <div class="row g-4">
+            <!--Tasks-->
+            @if (Model.PTasks != null && Model.PTasks.Count > 0)
+            {  
+                <div class="col-sm-12">
+                    <div class="bg-light p-4">
+                        <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col">Görev Adı</th>
+                                    <th scope="col">Açıklaması</th>
+                                    <th scope="col">Kimin Görevi</th>
+                                    <th scope="col">Öncelik</th>
+                                    <th scope="col">Durum</th>
+                                    <th scope="col">Bitiş Tarihi</th>
+                                    <th scope="col">Süre</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var p in Model.PTasks)
+                                {
+                                    <tr data-project-id="@p.Id">
+                                        <td>@p.Name</td>
+                                        @{
+                                            int lenght = p.Description.Length >= 30 ? 30 : p.Description.Length;
+                                        }
+                                        <td>@p.Description.Substring(0, lenght)@(p.Description.Length > 30 ? "..." : "")</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option>Yapılacak</option>
+                                                <option>Yapılacak</option>
+                                                <option>Yapılacak</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-select form-select-sm" asp-for="@p.Priority">
+                                                <option value="0">Düşük</option>
+                                                <option value="1">Orta</option>
+                                                <option value="2">Yüksek</option>
+                                                <option value="3">Acil/Kritik</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-select form-select-sm" asp-for="@p.Status">
+                                                <option value="0">Devam ediyor</option>
+                                                <option value="1">Tamamlandı</option>
+                                                <option value="2">Hatalı</option>
+                                                <option value="3">Beklemede</option>
+                                            </select>
+                                        </td>
+                                        <td>@p.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(p.DueDate.DayOfWeek)</td>
+                                        <td>
+                                            <div class="pg-bar mb-3">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width:35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
+                                                <a asp-area="Customer" asp-controller="Project" asp-action="Edit" asp-route-projectId="@p.Id" class="btn btn-warning btn-md"><i class="far fa-edit"></i></a>
+                                                <a href="#" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            <a asp-area="Customer" asp-controller="PTask" asp-action="AddTask" asp-route-projectId="@Model.Id" class="btn btn-warning w-100">Yeni Görev Ata</a>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+    </div>
+</div>

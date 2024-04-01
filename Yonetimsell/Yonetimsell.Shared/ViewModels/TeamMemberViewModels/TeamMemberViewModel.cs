@@ -7,7 +7,7 @@ using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
-namespace Yonetimsell.Shared.ViewModels
+namespace Yonetimsell.Shared.ViewModels.TeamMemberViewModels
 {
     public class TeamMemberViewModel
     {

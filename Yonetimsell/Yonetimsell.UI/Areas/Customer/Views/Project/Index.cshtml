@@ -20,18 +20,19 @@
                         <th scope="col">Durum</th>
                         <th scope="col">Bitiş Tarihi</th>
                         <th scope="col">Süre</th>
+                        <th scope="col">İlerleme</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach(var p in Model)
-                    {                        
-                        <tr>
+                    {
+                        <tr data-project-id="@p.Id">
                             <td>@p.Name</td>
                                 @{
                                     int lenght = p.Description.Length >= 30 ? 30 : p.Description.Length;
                                 }
-                            <td width="270px">@p.Description.Substring(0,lenght)@(p.Description.Length>30?"...":"" )</td>
+                            <td>@p.Description.Substring(0,lenght)@(p.Description.Length>30?"...":"" )</td>
                             <td>
                                 <select class="form-select form-select-sm">
                                     <option>Yapılacak</option>
@@ -56,14 +57,46 @@
                                 </select>
                             </td>
                                 <td>@p.EndDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(p.EndDate.DayOfWeek)</td>
-                            <td width="270px">
+                            <td>
                                 <div class="pg-bar mb-3">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@p.ProgressTime.ProgressedDaysPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                            @{
+                                                string barColor="";
+                                                if (p.ProgressPercentage <= 25)
+                                                {
+                                                    barColor = "bg-success";
+                                                }else if (p.ProgressPercentage <= 50)
+                                                {
+                                                    barColor = "bg-info";
+                                                }else if (p.ProgressPercentage <= 75)
+                                                {
+                                                    barColor = "";
+                                                }else if (p.ProgressPercentage < 100)
+                                                {
+                                                    barColor = "bg-warning";
+                                                }
+                                                else
+                                                {
+                                                    barColor = "bg-danger";
+                                                }
+                                            }
+                                        <div class="progress-bar progress-bar-striped @barColor" role="progressbar" style="width:@(p.ProgressPercentage)%" aria-valuenow="@p.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                            <td>
+                                <div class="pg-bar mb-3">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width:35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
+                                    <a asp-area="Customer" asp-controller="Project" asp-action="Detail" asp-route-projectId="@p.Id" class="btn btn-warning btn-md"><i class="far fa-edit"></i></a>
+                                    <a href="#" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -78,4 +111,24 @@
 }
 @section Scripts {
     @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script>
+        document.querySelectorAll('#myDataTable tbody tr').forEach(function (row) {
+            // Satır içerisindeki select ve button elementlerini dışarıda tut
+            var interactiveElements = row.querySelectorAll('td:not(.exclude-from-click) select, td:not(.exclude-from-click) a');
+            interactiveElements.forEach(function (element) {
+                element.addEventListener('dblclick', function (event) {
+                    event.stopPropagation(); // Satırın tıklanma işlemini durdur
+                });
+            });
+            // Satıra çift tıklanınca proje detay sayfasına yönlendirme işlemi
+            row.addEventListener('dblclick', function (event) {
+                var projectId = this.dataset.projectId; // Satırın veri özniteliğinden proje ID'sini al
+                if (projectId) {
+                    // Proje detay sayfasına yönlendirme işlemi
+                    window.location.href = '/Customer/Project/Detail?projectId=' + projectId;
+                }
+            });
+        });
+    </script>
+
 }

@@ -8,6 +8,7 @@ using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
+using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
 namespace Yonetimsell.Business.Mappings
 {
@@ -20,6 +21,8 @@ namespace Yonetimsell.Business.Mappings
         public partial List<ProjectViewModel> ListProjectToListProjectViewModel(List<Project> projects);
         public partial Project ProjectViewModelToProject(ProjectViewModel projectViewModel);
         public partial List<Project> ListProjectViewModelToListProject(List<ProjectViewModel> projectViewModels);
+        public partial ProjectViewModel EditProjectViewModelToProjectViewModel(EditProjectViewModel editProjectViewModel);
+        public partial EditProjectViewModel ProjectViewModelToEditProjectViewModel(ProjectViewModel projectViewModels);
         #endregion
         #region PTask
         public partial PTask AddPTaskViewModelToPTask(AddPTaskViewModel addPTaskViewModel);
