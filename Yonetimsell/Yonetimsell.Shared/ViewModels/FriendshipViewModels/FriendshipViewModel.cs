@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 
-namespace Yonetimsell.Shared.ViewModels
+namespace Yonetimsell.Shared.ViewModels.FriendshipViewModels
 {
     public class FriendshipViewModel
     {

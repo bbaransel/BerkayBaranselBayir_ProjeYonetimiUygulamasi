@@ -1,0 +1,29 @@
+﻿@model List<AddFriendUserViewModel>
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 display-6">Kullanıcı Listesi</h6>
+        </div>
+        <div class="table-responsive">
+            <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">İsim</th>
+                        <th scope="col">Kullanıcı Adı</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var u in Model)
+                    {
+                        <tr>
+                            <td>@($"{u.FirstName} {u.LastName}")</td>
+                            <td>@u.UserName</td>
+                            <td><a asp-area="Customer" asp-controller="Friendship" asp-action="SendFriendRequest" asp-route-rUserId="@u.UserId" class="btn btn-success">Ekle</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

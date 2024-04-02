@@ -166,6 +166,31 @@ namespace Yonetimsell.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Friendship",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SenderUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    ReceiverUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friendship", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Friendship_AspNetUsers_ReceiverUserId",
+                        column: x => x.ReceiverUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Friendship_AspNetUsers_SenderUserId",
+                        column: x => x.SenderUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -284,9 +309,9 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "27b14d8d-5759-46d8-99f3-c64526bbd7df", null, "Kullanıcı haklarını taşıyan rol", "Customer", "CUSTOMER" },
-                    { "5db41b7b-8725-43af-9466-d80b4bdb6389", null, "Yönetici haklarını taşıyan rol", "Admin", "ADMIN" },
-                    { "bc675182-88fc-4b87-b49c-e45d38201538", null, "Süper Yönetici haklarını taşıyan rol", "SuperAdmin", "SUPERADMIN" }
+                    { "7c7d29de-8d22-4f92-915d-7ef6c472e430", null, "Süper Yönetici haklarını taşıyan rol", "SuperAdmin", "SUPERADMIN" },
+                    { "b1b46821-c08f-4a4b-b2b3-ce1ae8c46567", null, "Kullanıcı haklarını taşıyan rol", "Customer", "CUSTOMER" },
+                    { "dd9c2a92-6336-4628-b8ba-2e0160b82c1d", null, "Yönetici haklarını taşıyan rol", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -294,11 +319,11 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "018ae35c-9264-4b3b-b2be-10d926828538", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "76b4561b-09e7-4470-8854-2cd7ea0e9745", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "admin", 0, "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEOfEwItTu64NrD0rxBsRn1O2iiVq/wKw3Rw65GnUQ4XFIsLjo6NIkt4gAYwdijZfQg==", "05587654321", false, "d64ca9d4-9525-4153-bd25-668baab03b8e", false, "admin" },
-                    { "9b2b08dc-dab6-4f87-98c8-3b476b762d83", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "0d71df86-9071-44fd-bbb8-d83b5983c6c4", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "baransel@gmail.com", true, "Baransel", 1, "Bayir", false, null, "BARANSEL@GMAIL.COM", "BARANSEL", "AQAAAAIAAYagAAAAEICtOzAm1ggOdGNjbtCowwSwLqvoqwx6m5gu3aRFdPyw3LBLip5Jl6rJWy1rQjTH+g==", "05387654321", false, "5d7e7a4b-5713-4079-8be3-c85fbb731f43", false, "baransel" },
-                    { "b25278ce-ec4f-44c2-a182-6e6739418927", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "3f8b542c-b75b-4815-84c3-ee81f416747d", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "engin@gmail.com", true, "Engin Niyazi", 1, "Ergül", false, null, "ENGIN@GMAIL.COM", "ENGINNIYAZI", "AQAAAAIAAYagAAAAEM9+J6ZmaGdZKD15owGNnZQIO8/Zpy4heEsMs0fy613bvWjm/CwTgqdNA2DZJjzxcQ==", "05987654321", false, "54b45774-05db-48f3-a1c8-622eb40637d1", false, "enginniyazi" },
-                    { "c0278b15-0424-4b80-b1d3-cb0eb87f2b57", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "58561dbd-523a-4ad2-9b5b-ce9add5893ad", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "lebron@gmail.com", true, "LeBron", 1, "James", false, null, "LEBRON@GMAIL.COM", "LEBRON", "AQAAAAIAAYagAAAAEJlZH9+3bP9FAz31R5ZErBgn90JdSA+NHPdHDPeEZQKCrGZ2zUG/FqcyfeEsYCJQTg==", "05487654321", false, "b44d570b-7637-4cbe-bf30-53a14297884a", false, "lebron" },
-                    { "e65d4c66-0666-47aa-a35b-60384576d5d1", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "57d41ca5-e11d-49c2-a645-6b2da8513dd7", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "customer@gmail.com", true, "customer", 0, "customer", false, null, "CUSTOMER@GMAIL.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEA1QdN6328pkTUfBDXSUCzd4qToZWmY8lcElOPnNb94Ae+09RGiVpNtF+SMbARsVJg==", "05687654321", false, "f03ea4ef-6bb6-4b2f-9767-ea66e6fca1f7", false, "customer" }
+                    { "2518d805-c210-438e-aa65-153042b511e8", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "04955b7a-6a69-4900-8829-3455791c8516", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "lebron@gmail.com", true, "LeBron", 1, "James", false, null, "LEBRON@GMAIL.COM", "LEBRON", "AQAAAAIAAYagAAAAEBNDeEQnqmgTpkcfbp+xcYb3TquZ0u3DO2rwuX0lCmJLwJEGb4lBqLTuKHWnW9itQw==", "05487654321", false, "c679ac49-ad12-4ff2-a110-dac83199188b", false, "lebron" },
+                    { "4d52d55b-371d-4ec3-b2fb-9f895d95e4a2", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "db8dadbe-56d4-4b71-a78b-0312412c3830", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "engin@gmail.com", true, "Engin Niyazi", 1, "Ergül", false, null, "ENGIN@GMAIL.COM", "ENGINNIYAZI", "AQAAAAIAAYagAAAAECf100JtRN5bKSMxLYqvTuemjbnKZeUfCn6y2p6XIyHooIv8CbDOdaVT+qsUjEOh5g==", "05987654321", false, "afcd1c4b-87a0-42df-b24e-4b7468fcb43c", false, "enginniyazi" },
+                    { "8390fc3e-9dbc-4119-9e81-cbebe6741fd7", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "d2ee905c-22e6-4514-afcd-ef09a6cd5518", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "customer@gmail.com", true, "customer", 0, "customer", false, null, "CUSTOMER@GMAIL.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEBzRjZO7ZxnBAIJcKquf69pFTTVCesudmiP7Ie75LEWelkiAF/LCzY0AZrG9YhBEzQ==", "05687654321", false, "9f392518-7af7-43db-b8d6-2dc371462f58", false, "customer" },
+                    { "90f06179-8af2-4ba9-8b84-3df5d5766357", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "84847b39-30f4-4c4b-844b-7c67343ef980", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "baransel@gmail.com", true, "Baransel", 1, "Bayir", false, null, "BARANSEL@GMAIL.COM", "BARANSEL", "AQAAAAIAAYagAAAAEItkFkQgh0bok5XFBjNzopLjpUCUbpSvsNvapeV/aQNqghvNbypDWFdm6gJTJR5fYA==", "05387654321", false, "6edfefc2-22a8-4376-84b7-32d002b4c742", false, "baransel" },
+                    { "96b52b4e-eb5b-4098-ac65-33512cd50864", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "d191d490-2721-4ec9-9447-0224bad093ac", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "admin", 0, "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEALA5eP3hk1IWjlX2Ya3NC8lBKQfcJChTBzC6ZK4L7YNNOJbsP+kcb6ZewuQPBxJcQ==", "05587654321", false, "61e4aad3-fecc-4577-bae0-4e6be556f073", false, "admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -306,11 +331,11 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "5db41b7b-8725-43af-9466-d80b4bdb6389", "018ae35c-9264-4b3b-b2be-10d926828538" },
-                    { "bc675182-88fc-4b87-b49c-e45d38201538", "9b2b08dc-dab6-4f87-98c8-3b476b762d83" },
-                    { "bc675182-88fc-4b87-b49c-e45d38201538", "b25278ce-ec4f-44c2-a182-6e6739418927" },
-                    { "5db41b7b-8725-43af-9466-d80b4bdb6389", "c0278b15-0424-4b80-b1d3-cb0eb87f2b57" },
-                    { "27b14d8d-5759-46d8-99f3-c64526bbd7df", "e65d4c66-0666-47aa-a35b-60384576d5d1" }
+                    { "dd9c2a92-6336-4628-b8ba-2e0160b82c1d", "2518d805-c210-438e-aa65-153042b511e8" },
+                    { "7c7d29de-8d22-4f92-915d-7ef6c472e430", "4d52d55b-371d-4ec3-b2fb-9f895d95e4a2" },
+                    { "b1b46821-c08f-4a4b-b2b3-ce1ae8c46567", "8390fc3e-9dbc-4119-9e81-cbebe6741fd7" },
+                    { "7c7d29de-8d22-4f92-915d-7ef6c472e430", "90f06179-8af2-4ba9-8b84-3df5d5766357" },
+                    { "dd9c2a92-6336-4628-b8ba-2e0160b82c1d", "96b52b4e-eb5b-4098-ac65-33512cd50864" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -349,6 +374,16 @@ namespace Yonetimsell.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friendship_ReceiverUserId",
+                table: "Friendship",
+                column: "ReceiverUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friendship_SenderUserId",
+                table: "Friendship",
+                column: "SenderUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_UserId",
@@ -403,6 +438,9 @@ namespace Yonetimsell.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Friendship");
 
             migrationBuilder.DropTable(
                 name: "PTasks");

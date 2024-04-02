@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using Yonetimsell.Entity.Concrete;
+using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels;
+using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
@@ -48,6 +51,8 @@ namespace Yonetimsell.Business.Mappings
         public partial FriendshipViewModel FriendshipToFriendshipViewModel(Friendship friendship);
         public partial List<Friendship> ListFriendshipViewModelToListFriendship(List<FriendshipViewModel> friendshipViewModels);
         public partial List<FriendshipViewModel> ListFriendshipToListFriendshipViewModel(List<Friendship> friendships);
+        [MapProperty(nameof(User.Id), nameof(AddFriendUserViewModel.UserId))]
+        public partial AddFriendUserViewModel UserToAddFriendUserViewModel(User user);
         #endregion
     }
 }

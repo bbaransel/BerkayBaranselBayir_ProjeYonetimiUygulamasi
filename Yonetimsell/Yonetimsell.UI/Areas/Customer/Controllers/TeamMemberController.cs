@@ -7,9 +7,12 @@ using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 using Yonetimsell.Shared.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Yonetimsell.Business.Mappings;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
+    [Area("Customer")]
+    [Authorize]
     public class TeamMemberController : Controller
     {
         private readonly ITeamMemberService _teamMemberManager;
