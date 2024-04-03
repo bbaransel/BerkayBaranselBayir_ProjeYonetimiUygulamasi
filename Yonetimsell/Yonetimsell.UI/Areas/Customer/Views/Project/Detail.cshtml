@@ -70,9 +70,14 @@
                                     <div class="w-100 ms-3">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h6 class="mb-0">@m.FullName</h6>
-                                            <small><strong>Rol:</strong> @m.ProjectRole</small>
+                                            <form asp-area="Customer" asp-controller="TeamMember" asp-action="RemoveTeamMember" method="post">
+                                                <input type="hidden" name="id" value="@m.Id" />
+                                                <input type="hidden" name="projectId" value="@m.ProjectId" />
+                                            <small><button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button></small>
+                                            </form>
                                         </div>
-                                        <span>@m.UserName</span>
+                                        <div>@m.UserName</div>
+                                        <div><strong>Rol:</strong> @m.ProjectRole</div>
                                     </div>
                                 </div>
                             }

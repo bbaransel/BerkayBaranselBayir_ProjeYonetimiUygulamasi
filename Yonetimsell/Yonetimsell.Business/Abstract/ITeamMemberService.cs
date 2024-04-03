@@ -12,10 +12,10 @@ namespace Yonetimsell.Business.Abstract
 {
     public interface ITeamMemberService
     {
-        Task<Response<TeamMemberViewModel>> AddUserToProject(TeamMemberViewModel teamMemberViewModel);
-        Task<Response<NoContent>> RemoveUserFromProject(TeamMemberViewModel teamMemberViewModel);
-        Task<Response<NoContent>> ChangeUsersProjectRole(TeamMemberViewModel teamMemberViewModel);
-
+        Task<Response<TeamMemberViewModel>> AddUserToProjectAsync(TeamMemberViewModel teamMemberViewModel);
+        Task<Response<NoContent>> RemoveUserFromProjectAsync(int id);
+        Task<Response<NoContent>> ChangeUsersProjectRoleAsync(TeamMemberViewModel teamMemberViewModel);
+        Task<Response<TeamMemberViewModel>> GetTeamMemberByIdAsync(int id);
         Task<Response<List<TeamMemberViewModel>>> GetTeamMembersByProjectIdAsync(int projectId);
     }
 }

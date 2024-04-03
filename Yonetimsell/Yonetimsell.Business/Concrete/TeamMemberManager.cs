@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Entity.Concrete;
+using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.ResponseViewModels;
@@ -19,14 +21,16 @@ namespace Yonetimsell.Business.Concrete
     {
         private readonly ITeamMemberRepository _repository;
         private readonly MapperlyConfiguration _mapperly;
+        private readonly UserManager<User> _userManager;
 
-        public TeamMemberManager(ITeamMemberRepository repository, MapperlyConfiguration mapperly)
+        public TeamMemberManager(ITeamMemberRepository repository, MapperlyConfiguration mapperly, UserManager<User> userManager)
         {
             _repository = repository;
             _mapperly = mapperly;
+            _userManager = userManager;
         }
 
-        public async Task<Response<TeamMemberViewModel>> AddUserToProject(TeamMemberViewModel teamMemberViewModel)
+        public async Task<Response<TeamMemberViewModel>> AddUserToProjectAsync(TeamMemberViewModel teamMemberViewModel)
         {
             var teamMember = _mapperly.TeamMemberViewModelToTeamMember(teamMemberViewModel);
             var createdTeamMember = await _repository.CreateAsync(teamMember);
@@ -35,7 +39,7 @@ namespace Yonetimsell.Business.Concrete
             return Response<TeamMemberViewModel>.Success(result);
         }
 
-        public async Task<Response<NoContent>> ChangeUsersProjectRole(TeamMemberViewModel teamMemberViewModel)
+        public async Task<Response<NoContent>> ChangeUsersProjectRoleAsync(TeamMemberViewModel teamMemberViewModel)
         {
             var teamMember = await _repository.GetAsync(x=>x.Id == teamMemberViewModel.Id);
             if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
@@ -62,13 +66,29 @@ namespace Yonetimsell.Business.Concrete
             }).ToList();
             return Response<List<TeamMemberViewModel>>.Success(result);
         }
-
-        public async Task<Response<NoContent>> RemoveUserFromProject(TeamMemberViewModel teamMemberViewModel)
+        public async Task<Response<NoContent>> RemoveUserFromProjectAsync(int id)
         {
-            var teamMember = _mapperly.TeamMemberViewModelToTeamMember(teamMemberViewModel);
+            var teamMember = await _repository.GetAsync(x=>x.Id == id);
             if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
             await _repository.HardDeleteAsync(teamMember);
             return Response<NoContent>.Success();
+        }
+        public async Task<Response<TeamMemberViewModel>> GetTeamMemberByIdAsync(int id)
+        {
+            var teamMember = await _repository.GetAsync(x=> x.Id == id,
+                query => query.Include(x => x.Project).ThenInclude(y=>y.User));
+            if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
+            var result = new TeamMemberViewModel
+            {
+                Id = teamMember.Id,
+                ProjectRole = teamMember.ProjectRole,
+                ProjectId = teamMember.ProjectId,
+                UserId = teamMember.UserId,
+                UserName = teamMember.User.UserName,
+                FullName = $"{teamMember.User.FirstName} {teamMember.User.LastName}",
+            }
+                ;
+            return Response<TeamMemberViewModel>.Success(result);
         }
     }
 }

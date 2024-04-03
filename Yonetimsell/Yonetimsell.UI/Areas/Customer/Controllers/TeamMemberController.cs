@@ -10,6 +10,7 @@ using Yonetimsell.Business.Mappings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Yonetimsell.Shared.ComplexTypes;
+using Microsoft.CodeAnalysis;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
@@ -71,7 +72,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 ProjectId = projectId,
                 ProjectRole = projectRole
             };
-            var response = await _teamMemberManager.AddUserToProject(teamMemberViewModel);
+            var response = await _teamMemberManager.AddUserToProjectAsync(teamMemberViewModel);
             if (response.IsSucceeded)
             {
                 return RedirectToAction("Detail", "Project", new { projectId = projectId });
@@ -81,6 +82,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 ModelState.AddModelError("", "Kullanıcı takıma eklenemedi");
                 return RedirectToAction("AddTeamMember", new { projectId = projectId });
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveTeamMember(int id, string projectId)
+        {
+            await _teamMemberManager.RemoveUserFromProjectAsync(id);
+            return Redirect($"/Customer/Project/Detail?projectId={projectId}");
         }
 
     }
