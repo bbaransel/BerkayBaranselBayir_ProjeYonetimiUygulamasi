@@ -58,25 +58,25 @@
             <div class=" p-4">
                     @if(Model.TeamMembers!=null && Model.TeamMembers.Count > 0)
                     {
-                        foreach(var m in Model.TeamMembers)
-                        {
-                            <div class="h-100 bg-light rounded p-4">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <h6 class="mb-0">Takım Arkadaşları</h6>
-                                    <a asp-area="Customer" asp-controller="TeamMember" asp-action="AddTeamMember" asp-route-projectId="@Model.Id">Takım arkadaşı ekle</a>
-                                </div>
+                        <div class="h-100 bg-light rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="mb-0">Takım Arkadaşları</h6>
+                                <a asp-area="Customer" asp-controller="TeamMember" asp-action="AddTeamMember" asp-route-projectId="@Model.Id">Takım arkadaşı ekle</a>
+                            </div>
+                            @foreach(var m in Model.TeamMembers)
+                            {
                                 <div class="d-flex align-items-center border-bottom py-3">
                                     <img class="rounded-circle flex-shrink-0" src="~/customer/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="w-100 ms-3">
                                         <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="mb-0">Jhon Doe</h6>
-                                            <small>15 minutes ago</small>
+                                            <h6 class="mb-0">@m.FullName</h6>
+                                            <small><strong>Rol:</strong> @m.ProjectRole</small>
                                         </div>
-                                        <span>Short message goes here...</span>
+                                        <span>@m.UserName</span>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     }
                     else
                     {

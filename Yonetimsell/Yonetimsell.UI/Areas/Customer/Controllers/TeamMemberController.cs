@@ -8,6 +8,8 @@ using Yonetimsell.Shared.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Yonetimsell.Business.Mappings;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Yonetimsell.Shared.ComplexTypes;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
@@ -37,25 +39,49 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var result = new AddTeamMemberViewModel
             {
                 TeamMemberViewModel = teamMemberViewModel,
-                Friendships = friendList
+                Friendships = friendList,
+                CurrentUserId = userId
             };
             return View(result);
         }
+        //[HttpPost]
+        //public async Task<IActionResult> AddTeamMember(AddTeamMemberViewModel addTeamMemberViewModel)
+        //{
+        //    if(!ModelState.IsValid)
+        //    {
+        //        ModelState.AddModelError("", "Bilgileri kontrol ediniz.");
+        //        return View(addTeamMemberViewModel);
+        //    }
+        //    var response = await _teamMemberManager.AddUserToProject(addTeamMemberViewModel.TeamMemberViewModel);
+        //    if (!response.IsSucceeded)
+        //    {
+        //        ModelState.AddModelError("", "Kullanıcı takıma eklenemedi");
+        //        return View(addTeamMemberViewModel);
+        //    }
+        //    return Redirect($"/Customer/Project/Detail?projectId={addTeamMemberViewModel.TeamMemberViewModel.ProjectId}");
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> AddTeamMember(AddTeamMemberViewModel addTeamMemberViewModel)
+        public async Task<IActionResult> AddTeamMember(string userId, int projectId, ProjectRole projectRole, string currentUserId)
         {
-            if(!ModelState.IsValid)
+            //Buraya zaten olup olmadığı kontrolü eklenmeli
+            var teamMemberViewModel = new TeamMemberViewModel
             {
-                ModelState.AddModelError("", "Bilgileri kontrol ediniz.");
-                return View(addTeamMemberViewModel);
+                UserId = userId,
+                ProjectId = projectId,
+                ProjectRole = projectRole
+            };
+            var response = await _teamMemberManager.AddUserToProject(teamMemberViewModel);
+            if (response.IsSucceeded)
+            {
+                return RedirectToAction("Detail", "Project", new { projectId = projectId });
             }
-            var response = await _teamMemberManager.AddUserToProject(addTeamMemberViewModel.TeamMemberViewModel);
-            if (!response.IsSucceeded)
+            else
             {
                 ModelState.AddModelError("", "Kullanıcı takıma eklenemedi");
-                return View(addTeamMemberViewModel);
+                return RedirectToAction("AddTeamMember", new { projectId = projectId });
             }
-            return Redirect($"/Customer/Project/Detail?projectId={addTeamMemberViewModel.TeamMemberViewModel.ProjectId}");
         }
+
     }
 }

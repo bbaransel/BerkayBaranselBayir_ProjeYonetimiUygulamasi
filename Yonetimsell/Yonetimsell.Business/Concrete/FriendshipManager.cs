@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,13 +21,22 @@ namespace Yonetimsell.Business.Concrete
         {
             _repository = repository;
             _mapperly = mapperly;
+
         }
 
         public async Task<Response<List<FriendshipViewModel>>> GetFriendListAsync(string userId)
         {
             var friendList = await _repository.GetFriendListByUserId(userId);
             if (friendList == null) Response<NoContent>.Fail("Arkadaş listenizde kullanıcı bulunamadı");
-            var result = _mapperly.ListFriendshipToListFriendshipViewModel(friendList);
+            //var result = _mapperly.ListFriendshipToListFriendshipViewModel(friendList);
+            var result = friendList.Select(x=> new FriendshipViewModel
+            {
+                Id = x.Id,
+                SenderUserId = x.SenderUserId,
+                SenderUserName = x.SenderUser.UserName,
+                ReceiverUserId =x.ReceiverUserId,
+                ReceiverUserName = x.ReceiverUser.UserName,
+            }).ToList();
             return Response<List<FriendshipViewModel>>.Success(result);
         }
 

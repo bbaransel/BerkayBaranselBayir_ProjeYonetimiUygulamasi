@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ComplexTypes;
+using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
@@ -44,9 +46,20 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<List<TeamMemberViewModel>>> GetTeamMembersByProjectIdAsync(int projectId)
         {
-            var teamMembers = await _repository.GetAllAsync(x=>x.ProjectId == projectId);
+            var teamMembers = await _repository.GetAllAsync(x => 
+                x.ProjectId == projectId,
+                query => query.Include(x => x.User));
             if (teamMembers == null) Response<NoContent>.Fail("Hiç takım arkadaşı bulunamadı");
-            var result = _mapperly.ListTeamMemberToListTeamMemberViewModel(teamMembers);
+            var result = teamMembers.Select(x => new TeamMemberViewModel
+            {
+                Id = x.Id,
+                ProjectRole = x.ProjectRole,
+                ProjectId = projectId,
+                UserId = x.UserId,
+                UserName = x.User.UserName,
+                FullName = $"{x.User.FirstName} {x.User.LastName}",
+
+            }).ToList();
             return Response<List<TeamMemberViewModel>>.Success(result);
         }
 

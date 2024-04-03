@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels;
+using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
@@ -24,6 +25,10 @@ namespace Yonetimsell.Business.Mappings
             CreateMap<User, UserViewModel>().ReverseMap();
             CreateMap<AddProjectViewModel, Project>().ReverseMap();
             CreateMap<ProjectViewModel, Project>().ReverseMap();
+            CreateMap<Friendship, FriendshipViewModel>()
+                .ForMember(dest => dest.SenderUserName, opt => opt.MapFrom(src => src.SenderUser.UserName))
+                .ForMember(dest => dest.ReceiverUserName, opt => opt.MapFrom(src => src.ReceiverUser.UserName));
+            CreateMap<List<Friendship>, List<FriendshipViewModel>>();
         }
     }
 }

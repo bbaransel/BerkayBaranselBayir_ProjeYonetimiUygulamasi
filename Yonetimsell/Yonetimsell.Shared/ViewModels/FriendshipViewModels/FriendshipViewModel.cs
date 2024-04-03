@@ -11,7 +11,9 @@ namespace Yonetimsell.Shared.ViewModels.FriendshipViewModels
     {
         public int Id { get; set; }
         public string SenderUserId { get; set; }
+        public string SenderUserName { get; set; }
         public string ReceiverUserId { get; set; }
+        public string ReceiverUserName { get; set; }
         public FriendshipStatus Status { get; set; }
     }
 }

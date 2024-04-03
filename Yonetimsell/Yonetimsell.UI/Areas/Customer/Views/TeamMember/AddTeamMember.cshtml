@@ -1,2 +1,64 @@
 ﻿@model AddTeamMemberViewModel
-<h1>BURAYA PROJEYE EKLENMEK ÜZERE ARKADAŞ LİSTESİ GELECEK</h1>
+
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 display-6">Kullanıcı Listesi</h6>
+        </div>
+        <div class="table-responsive">
+            <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">Kullanıcı Adı</th>
+                        <th scope="col">Proje Rolü</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Friendships)
+                    {
+                        <tr>
+                            @{
+                                string resultId;
+                                string resultName;
+                                if (Model.CurrentUserId == user.SenderUserId)
+                                {
+                                    resultId = user.ReceiverUserId;
+                                    resultName = user.ReceiverUserName;
+                                }
+                                else if (Model.CurrentUserId == user.ReceiverUserId)
+                                {
+                                    resultId = user.SenderUserId;
+                                    resultName = user.SenderUserName;
+                                }
+                                else
+                                {
+                                    resultId = "Kullanıcı id bulunamadı";
+                                    resultName = "Kullanıcı Bulunamadı";
+                                }
+                            }
+                            <form asp-area="Customer" asp-controller="TeamMember" asp-action="AddTeamMember" method="post">
+                            <td>@resultName</td>
+                            <td>
+                                <select name="ProjectRole" class="form-select form-select-sm mb-3">
+                                    <option value="0">Proje Yöneticisi</option>
+                                    <option value="1">Geliştirici</option>
+                                    <option value="2">Testçi</option>
+                                    <option value="3">Analist</option>
+                                    <option value="4">Tasarımcı</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="hidden" name="UserId" value="@resultId" />
+                                <input type="hidden" name="ProjectId" value="@Model.TeamMemberViewModel.ProjectId" />
+                                <input type="hidden" name="CurrentUserId" value="@Model.CurrentUserId" />
+                                <button type="submit" class="btn btn-success">Ekle</button>
+                            </td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

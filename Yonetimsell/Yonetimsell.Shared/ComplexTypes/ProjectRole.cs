@@ -17,6 +17,6 @@ namespace Yonetimsell.Shared.ComplexTypes
         Analyst = 3,
 
         [Display(Name = "Tasarımcı")]
-        Designer = 3,
+        Designer = 4,
     }
 }
