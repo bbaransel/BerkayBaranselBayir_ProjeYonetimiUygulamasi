@@ -7,7 +7,7 @@ namespace Yonetimsell.Shared.ComplexTypes
         [Display(Name = "Düşük")]
         Low = 0,
 
-        [Display(Name = "Orta")]
+        [Display(Name = "Normal")]
         Medium = 1,
 
         [Display(Name = "Yüksek")]
