@@ -45,23 +45,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             };
             return View(result);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> AddTeamMember(AddTeamMemberViewModel addTeamMemberViewModel)
-        //{
-        //    if(!ModelState.IsValid)
-        //    {
-        //        ModelState.AddModelError("", "Bilgileri kontrol ediniz.");
-        //        return View(addTeamMemberViewModel);
-        //    }
-        //    var response = await _teamMemberManager.AddUserToProject(addTeamMemberViewModel.TeamMemberViewModel);
-        //    if (!response.IsSucceeded)
-        //    {
-        //        ModelState.AddModelError("", "Kullanıcı takıma eklenemedi");
-        //        return View(addTeamMemberViewModel);
-        //    }
-        //    return Redirect($"/Customer/Project/Detail?projectId={addTeamMemberViewModel.TeamMemberViewModel.ProjectId}");
-        //}
-
         [HttpPost]
         public async Task<IActionResult> AddTeamMember(string userId, int projectId, ProjectRole projectRole, string currentUserId)
         {

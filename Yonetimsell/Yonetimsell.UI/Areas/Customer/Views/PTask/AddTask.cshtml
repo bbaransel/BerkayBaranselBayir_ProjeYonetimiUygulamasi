@@ -1,0 +1,65 @@
+﻿@model AssignPTaskToTeamMemberViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-10">
+            <div class="bg-light rounded p-4">
+                <h6 class="mb-4">Yeni Proje</h6>
+                <form asp-area="Customer" asp-controller="PTask" asp-action="AddTask" method="post">
+                    <div asp-validation-summary="All"></div>
+                    <input type="hidden" asp-for="AddPTaskViewModel.ProjectId" />
+                    <div class="row g-2">
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input placeholder="Name" type="text" class="form-control" asp-for="AddPTaskViewModel.Name">
+                            <label class="form-label" asp-for="AddPTaskViewModel.Name"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-3">
+                            <input type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" asp-for="AddPTaskViewModel.DueDate">
+                            <label class="form-label" asp-for="AddPTaskViewModel.DueDate"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-3">
+                            <select onchange="selectTeamMember(this)" asp-items="Model.TeamMembers" id="selectList" class="form-select mb-4">
+                                <option value="">Bir takım arkadaşı seçiniz...</option>
+                            </select>
+                            <label for="selectList">Kimin görevi</label>
+                        </div>
+                        <input type="hidden" id="selectedTeamMember" asp-for="AddPTaskViewModel.UserId"/>
+                        <div class="form-floating mb-3 col-sm-6">
+                            <textarea class="form-control" asp-for="AddPTaskViewModel.Description"
+                                   placeholder="Açıklama" style="height:140px"></textarea>
+                            <label asp-for="AddPTaskViewModel.Description"></label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3 col-sm-6">
+                                <select class="form-select mb-4" asp-for="AddPTaskViewModel.Status">
+                                    <option value="0">Devam Ediyor</option>
+                                    <option value="1">Tamamlandı</option>
+                                    <option value="2">Hatalı</option>
+                                    <option value="3">Beklemede</option>
+                                </select>
+                                <label asp-for="AddPTaskViewModel.Status"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6">
+                                <select class="form-select" asp-for="AddPTaskViewModel.Priority">
+                                    <option value="0">Düşük</option>
+                                    <option value="1">Orta</option>
+                                    <option value="2">Yüksek</option>
+                                    <option value="3">Kritik</option>
+                                </select>
+                                <label asp-for="AddPTaskViewModel.Priority"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success w-100 mt-3" type="submit">Görevi ekle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function selectTeamMember(element) {
+            var selectedUserId = element.value;
+            document.getElementById("selectedTeamMember").value = selectedUserId;
+        }
+    </script>
+}

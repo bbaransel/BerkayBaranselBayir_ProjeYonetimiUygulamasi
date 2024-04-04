@@ -10,8 +10,8 @@ using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
-    [Authorize]
     [Area("Customer")]
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -33,7 +33,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var projects = await _projectManager.GetProjectsByUserIdAsync(userId);
             if (!projects.IsSucceeded)
             {
-                return View();
+                return Redirect("/Customer");
             }
             return View(projects.Data);
         }
