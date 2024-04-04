@@ -65,9 +65,17 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             result.TeamMembers = teamMembersResponse.Data;
             return View(result);
         }
-        //public async Task<IActionResult> Edit(EditProjectViewModel editProjectViewModel) 
-        //{
-            
-        //}
+        public async Task<IActionResult> Edit(EditProjectViewModel editProjectViewModel)
+        {
+            var userId = _userManager.GetUserId(User);
+            var projectViewModel = _mapperly.EditProjectViewModelToProjectViewModel(editProjectViewModel);
+            var createdResponse = await _projectManager.UpdateAsync(projectViewModel);
+            if (createdResponse.IsSucceeded)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(createdResponse);
+
+        }
     }
 }
