@@ -1,58 +1,60 @@
 ﻿@using System.Globalization
 @model EditProjectViewModel
 <div class="container-fluid pt-4 px-4 h-100">
-    <form asp-area="Customer" asp-controller="Project" asp-action="Edit" method="post">
-        <div class="row g-4">
+    <div class="row g-4">
             <!-- Project base info-->
-            <div class="col-sm-8 col-lg-8 bg-light">
+        <div class="col-sm-8 col-lg-8 bg-light">
+            <form asp-area="Customer" asp-controller="Project" asp-action="Edit" method="post">
                 <div class=" p-4">
-                 <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
                     <h6 class="">Projeni Düzenle</h6>
                         <a asp-area="Customer" asp-controller="PTask" asp-action="AddTask" asp-route-projectId="@Model.Id" class="btn btn-warning btn-sm">Yeni Görev Ata</a>
-                 </div>
-                <div class="row g-2">
-                    <div class=" col-sm-6">
-                        <div class="form-floating mb-3">
-                            <input placeholder="Name" type="text" class="form-control" asp-for="Name">
-                            <label class="form-label" asp-for="Name" ></label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" asp-for="Description"
-                                        placeholder="Açıklama" style="height:215px"></textarea>
-                            <label asp-for="Description"></label>
-                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-floating mb-3">
-                            <input type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" asp-for="EndDate">
-                            <label class="form-label" asp-for="EndDate"></label>
+                    <div class="row g-2">
+                        <div class=" col-sm-6">
+                            <div class="form-floating mb-3">
+                                <input placeholder="Name" type="text" class="form-control" asp-for="Name">
+                                <label class="form-label" asp-for="Name" ></label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" asp-for="Description"
+                                            placeholder="Açıklama" style="height:215px"></textarea>
+                                <label asp-for="Description"></label>
+                            </div>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" asp-for="Budget">
-                            <label class="form-label" asp-for="Budget"></label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select form-select-sm mb-4" asp-for="Status">
-                                <option value="0">Devam Ediyor</option>
-                                <option value="1">Tamamlandı</option>
-                                <option value="2">Hatalı</option>
-                                <option value="3">Beklemede</option>
-                            </select>
-                            <label for="Status">Durum</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" asp-for="Priority">
-                                <option value="0">Düşük</option>
-                                <option value="1">Orta</option>
-                                <option value="2">Yüksek</option>
-                                <option value="3">Kritik</option>
-                            </select>
-                            <label for="Priority">Önceliği</label>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <input type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" asp-for="EndDate">
+                                <label class="form-label" asp-for="EndDate"></label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" asp-for="Budget">
+                                <label class="form-label" asp-for="Budget"></label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select form-select-sm mb-4" asp-for="Status">
+                                    <option value="0">Devam Ediyor</option>
+                                    <option value="1">Tamamlandı</option>
+                                    <option value="2">Hatalı</option>
+                                    <option value="3">Beklemede</option>
+                                </select>
+                                <label for="Status">Durum</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" asp-for="Priority">
+                                    <option value="0">Düşük</option>
+                                    <option value="1">Orta</option>
+                                    <option value="2">Yüksek</option>
+                                    <option value="3">Kritik</option>
+                                </select>
+                                <label for="Priority">Önceliği</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            </div>
+                <button class="btn btn-success w-100" type="submit">Değişiklikleri Kaydet</button>
+            </form>
+        </div>
             <!-- TeamMembers-->
             <div class="col-sm-4 col-lg-4 bg-light">
             <div class=" p-4">
@@ -70,10 +72,10 @@
                                     <div class="w-100 ms-3">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h6 class="mb-0">@m.FullName</h6>
-                                            <form asp-area="Customer" asp-controller="TeamMember" asp-action="RemoveTeamMember" method="post">
+                                            <form id="removeForm_@m.Id" asp-area="Customer" asp-controller="TeamMember" asp-action="RemoveTeamMember" method="post">
                                                 <input type="hidden" name="id" value="@m.Id" />
                                                 <input type="hidden" name="projectId" value="@m.ProjectId" />
-                                            <small><button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button></small>
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                             </form>
                                         </div>
                                         <div>@m.UserName</div>
@@ -95,11 +97,7 @@
                     }
                 </div>
         </div>
-            <div class="col-sm-12 bg-light mt-0">
-                <button class="btn btn-success w-100" type="submit">Değişiklikleri Kaydet</button>
-            </div>
-        </div>
-    </form>
+    </div>
     <div class="row g-4">
             <!--Tasks-->
             @if (Model.PTasks != null && Model.PTasks.Count > 0)
@@ -120,38 +118,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var p in Model.PTasks)
+                                @foreach (var t in Model.PTasks)
                                 {
-                                    <tr data-project-id="@p.Id">
-                                        <td>@p.Name</td>
+                                    <tr data-project-id="@t.Id">
+                                        <td>@t.Name</td>
                                         @{
-                                            int lenght = p.Description.Length >= 30 ? 30 : p.Description.Length;
+                                            int lenght = t.Description.Length >= 30 ? 30 : t.Description.Length;
                                         }
-                                        <td>@p.Description.Substring(0, lenght)@(p.Description.Length > 30 ? "..." : "")</td>
+                                        <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
+                                        <td>@t.UserName</td>
                                         <td>
-                                            <select class="form-select form-select-sm">
-                                                <option>Yapılacak</option>
-                                                <option>Yapılacak</option>
-                                                <option>Yapılacak</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-select form-select-sm" asp-for="@p.Priority">
+                                            <select class="form-select form-select-sm" asp-for="@t.Priority">
                                                 <option value="0">Düşük</option>
                                                 <option value="1">Orta</option>
                                                 <option value="2">Yüksek</option>
-                                                <option value="3">Acil/Kritik</option>
+                                                <option value="3">Kritik</option>
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-select form-select-sm" asp-for="@p.Status">
+                                            <select class="form-select form-select-sm" asp-for="@t.Status">
                                                 <option value="0">Devam ediyor</option>
                                                 <option value="1">Tamamlandı</option>
                                                 <option value="2">Hatalı</option>
                                                 <option value="3">Beklemede</option>
                                             </select>
                                         </td>
-                                        <td>@p.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(p.DueDate.DayOfWeek)</td>
+                                        <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
                                         <td>
                                             <div class="pg-bar mb-3">
                                                 <div class="progress">
@@ -161,13 +153,12 @@
                                         </td>
                                         <td>
                                             <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
-                                                <a asp-area="Customer" asp-controller="Project" asp-action="Edit" asp-route-projectId="@p.Id" class="btn btn-warning btn-md"><i class="far fa-edit"></i></a>
-                                                <a href="#" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
+                                                <a asp-area="Customer" asp-controller="PTask" asp-action="Edit" asp-route-pTaskId="@t.Id" class="btn btn-warning btn-md"><i class="far fa-edit"></i></a>
+                                                <a asp-area="Customer" asp-controller="PTask" asp-action="RemoveTask" asp-route-pTaskId="@t.Id" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
                                 }
-                            <a asp-area="Customer" asp-controller="PTask" asp-action="AddTask" asp-route-projectId="@Model.Id" class="btn btn-warning w-100">Yeni Görev Ata</a>
                             </tbody>
                         </table>
                     </div>

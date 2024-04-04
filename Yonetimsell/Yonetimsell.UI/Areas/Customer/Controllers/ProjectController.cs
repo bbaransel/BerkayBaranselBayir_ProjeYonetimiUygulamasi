@@ -17,13 +17,15 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IProjectService _projectManager;
         private readonly ITeamMemberService _teamMemberManager;
+        private readonly IPTaskService _pTaskManager;
         private readonly MapperlyConfiguration _mapperly;
 
-        public ProjectController(UserManager<User> userManager, IProjectService projectManager, ITeamMemberService teamMemberManager, MapperlyConfiguration mapperly)
+        public ProjectController(UserManager<User> userManager, IProjectService projectManager, ITeamMemberService teamMemberManager, IPTaskService pTaskManager, MapperlyConfiguration mapperly)
         {
             _userManager = userManager;
             _projectManager = projectManager;
             _teamMemberManager = teamMemberManager;
+            _pTaskManager = pTaskManager;
             _mapperly = mapperly;
         }
 
@@ -57,9 +59,15 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         {
             var response = await _projectManager.GetByIdAsync(projectId);
             var teamMembersResponse = await _teamMemberManager.GetTeamMembersByProjectIdAsync(projectId);
+            var pTaskResponse = await _pTaskManager.GetTasksByProjectIdAsync(projectId);
             var result = _mapperly.ProjectViewModelToEditProjectViewModel(response.Data);
+            result.PTasks = pTaskResponse.Data;
             result.TeamMembers = teamMembersResponse.Data;
             return View(result);
         }
+        //public async Task<IActionResult> Edit(EditProjectViewModel editProjectViewModel) 
+        //{
+            
+        //}
     }
 }

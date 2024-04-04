@@ -18,20 +18,12 @@ namespace Yonetimsell.Business.Mappings
     [Mapper]
     public partial class MapperlyConfiguration
     {
-        #region Project
-        public partial Project AddProjectViewModelToProject(AddProjectViewModel addProjectViewModel);
-        public partial ProjectViewModel ProjectToProjectViewModel(Project project);
-        public partial List<ProjectViewModel> ListProjectToListProjectViewModel(List<Project> projects);
-        public partial Project ProjectViewModelToProject(ProjectViewModel projectViewModel);
-        public partial List<Project> ListProjectViewModelToListProject(List<ProjectViewModel> projectViewModels);
-        public partial ProjectViewModel EditProjectViewModelToProjectViewModel(EditProjectViewModel editProjectViewModel);
-        public partial EditProjectViewModel ProjectViewModelToEditProjectViewModel(ProjectViewModel projectViewModels);
-        #endregion
         #region PTask
         public partial PTask AddPTaskViewModelToPTask(AddPTaskViewModel addPTaskViewModel);
         public partial PTask PTaskViewModelToPTask(PTaskViewModel pTaskViewModel);
         public partial List<PTask> ListPTaskViewModelToListPTask(List<PTaskViewModel> pTaskViewModels);
         public partial PTaskViewModel PTaskToPTaskViewModel(PTask pTask);
+        [MapProperty(nameof(PTask.User.UserName), nameof(PTaskViewModel.UserName))]
         public partial List<PTaskViewModel> ListPTaskToListPTaskViewModel(List<PTask> pTasks);
         #endregion
         #region TeamMember
@@ -53,6 +45,15 @@ namespace Yonetimsell.Business.Mappings
         public partial List<FriendshipViewModel> ListFriendshipToListFriendshipViewModel(List<Friendship> friendships);
         [MapProperty(nameof(User.Id), nameof(AddFriendUserViewModel.UserId))]
         public partial AddFriendUserViewModel UserToAddFriendUserViewModel(User user);
+        #endregion
+        #region Project
+        public partial Project AddProjectViewModelToProject(AddProjectViewModel addProjectViewModel);
+        public partial ProjectViewModel ProjectToProjectViewModel(Project project);
+        public partial List<ProjectViewModel> ListProjectToListProjectViewModel(List<Project> projects);
+        public partial Project ProjectViewModelToProject(ProjectViewModel projectViewModel);
+        public partial List<Project> ListProjectViewModelToListProject(List<ProjectViewModel> projectViewModels);
+        public partial ProjectViewModel EditProjectViewModelToProjectViewModel(EditProjectViewModel editProjectViewModel);
+        public partial EditProjectViewModel ProjectViewModelToEditProjectViewModel(ProjectViewModel projectViewModels);
         #endregion
     }
 }

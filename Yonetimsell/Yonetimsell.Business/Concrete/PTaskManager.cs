@@ -128,7 +128,19 @@ namespace Yonetimsell.Business.Concrete
         {
             var pTasks = await _repository.GetTasksByProjectIdAsync(projectId);
             if (pTasks == null) Response<NoContent>.Fail("İlgili projeye ait task bulunamadı");
-            var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
+            var result = pTasks.Select(x => new PTaskViewModel
+            {
+                Description = x.Description,
+                DueDate = x.DueDate,
+                Id = x.Id,
+                IsCompleted = x.IsCompleted,
+                Name = x.Name,
+                Priority = x.Priority,
+                ProjectId = x.ProjectId,
+                Status = x.Status,
+                UserId = x.UserId,
+                UserName = x.User.UserName
+            }).ToList();
             return Response<List<PTaskViewModel>>.Success(result);
         }
 

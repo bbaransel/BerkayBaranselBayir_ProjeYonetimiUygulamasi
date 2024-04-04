@@ -1,0 +1,83 @@
+﻿@using System.Globalization
+@model CustomerPTaskListViewModel
+@if(Model.PTasks.Count > 0)
+{
+    <div class="container-fluid pt-4 px-4 h-100">
+        <div class="row g-4">
+            @if(Model.Low.Count > 0)
+            {
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4 text-success">Düşük Öncelikliler</h6>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Görev Adı</th>
+                                <th scope="col">Açıklaması</th>
+                                <th scope="col">Öncelik</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Süre</th>
+                                <th scope="col">#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var t in Model.Low)
+                            {
+                                <tr data-project-id="@t.Id">
+                                    <td>@t.Name</td>
+                                    @{
+                                        int lenght = t.Description.Length >= 30 ? 30 : t.Description.Length;
+                                    }
+                                    <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
+                                    <td>
+                                        <select class="form-select form-select-sm" asp-for="@t.Priority">
+                                            <option value="0">Düşük</option>
+                                            <option value="1">Orta</option>
+                                            <option value="2">Yüksek</option>
+                                            <option value="3">Kritik</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-select-sm" asp-for="@t.Status">
+                                            <option value="0">Devam ediyor</option>
+                                            <option value="1">Tamamlandı</option>
+                                            <option value="2">Hatalı</option>
+                                            <option value="3">Beklemede</option>
+                                        </select>
+                                    </td>
+                                    <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
+                                    <td>
+                                        <div class="pg-bar mb-3">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" style="width:35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
+                                                <a asp-area="Customer" asp-controller="PTask" asp-action="CompleteTask" asp-route-pTaskId="@t.Id" class="btn btn-success btn-sm"><i class="fas fa-check"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid pt-4 px-4 h-100">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4">Mevcut göreviniz bulunmamaktadır.</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+}

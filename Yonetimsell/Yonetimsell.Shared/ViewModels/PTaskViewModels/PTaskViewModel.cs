@@ -15,11 +15,10 @@ namespace Yonetimsell.Shared.ViewModels.PTaskViewModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string UserId { get; set; }
-        public UserViewModel User { get; set; }
+        public string UserName { get; set; }
         public int ProjectId { get; set; }
-        public ProjectViewModel Project { get; set; }
         public DateTime DueDate { get; set; }
-        public bool IsCompleted { get; set; } = false;
+        public bool IsCompleted { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }
     }

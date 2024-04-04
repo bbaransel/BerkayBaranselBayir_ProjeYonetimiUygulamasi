@@ -16,16 +16,21 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
     {
         private readonly IPTaskService _pTaskManager;
         private readonly ITeamMemberService _teamMemberManager;
+        private readonly UserManager<User> _userManager;
 
-        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager)
+        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager)
         {
             _pTaskManager = pTaskManager;
             _teamMemberManager = teamMemberManager;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var ptasksResponse = await _pTaskManager.GetTasksByUserIdAsync(userId);
+            var result = new CustomerPTaskListViewModel { PTasks = ptasksResponse.Data };
+            return View(result);
         }
         public async Task<IActionResult> AddTask(int projectId)
         {
