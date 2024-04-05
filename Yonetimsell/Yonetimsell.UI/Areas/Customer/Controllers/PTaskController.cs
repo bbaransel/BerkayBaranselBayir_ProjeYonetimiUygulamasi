@@ -74,6 +74,37 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             ModelState.AddModelError("", "Görev atanırken bir sorun oluştu.");
             return View(assignPTaskToTeamMemberViewModel.AddPTaskViewModel);
         }
+        public async Task<IActionResult> Done(int pTaskId)
+        {
+            await _pTaskManager.ChangePTaskStatusAsync(pTaskId, Status.Done);
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> OnHold(int pTaskId)
+        {
+            var pTaskResponse = await _pTaskManager.GetByIdAsync(pTaskId);
+            if (pTaskResponse.Data.Status == Status.OnHold)
+            {
+                await _pTaskManager.ChangePTaskStatusAsync(pTaskId, Status.Continues);
+            }
+            else
+            {
+                await _pTaskManager.ChangePTaskStatusAsync(pTaskId, Status.OnHold);
+            }
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Stuck(int pTaskId)
+        {
+            var pTaskResponse = await _pTaskManager.GetByIdAsync(pTaskId);
+            if (pTaskResponse.Data.Status == Status.Stuck)
+            {
+                await _pTaskManager.ChangePTaskStatusAsync(pTaskId, Status.Continues);
+            }
+            else
+            {
+                await _pTaskManager.ChangePTaskStatusAsync(pTaskId, Status.Stuck);
+            }
+            return RedirectToAction("Index");
+        }
 
     }
 }
