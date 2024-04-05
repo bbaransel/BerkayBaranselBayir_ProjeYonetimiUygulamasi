@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
+using Yonetimsell.UI.Areas.Customer.Models;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
@@ -32,12 +34,40 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var projects = await _projectManager.GetProjectsByUserIdAsync(userId);
-            if (!projects.IsSucceeded)
+            var projectsResponse = await _projectManager.GetProjectsByUserIdAsync(userId);
+            if (!projectsResponse.IsSucceeded)
             {
                 return Redirect("/Customer");
             }
-            return View(projects.Data);
+            
+            var projectsResult = projectsResponse.Data.Select(x => new CustomerProjectViewModel
+            {
+                Budget = x.Budget,
+                CreatedDate = x.CreatedDate,
+                Description = x.Description,
+                EndDate = x.EndDate,
+                Id = x.Id,
+                Name = x.Name,
+                Priority = x.Priority,
+                PTasks = x.PTasks,
+                Status = x.Status,
+                Subscriptions = x.Subscriptions,
+                User = x.User,
+                UserId = x.UserId,
+            }).ToList();
+            foreach(var p in projectsResult)
+            {
+                int percentage = await _pTaskManager.GetPTaskProgressPercentageByProjectIdAsync(p.Id);
+                p.ProgressPTaskPercentage = percentage;
+                var teamMembersResponse = await _teamMemberManager.GetTeamMembersByProjectIdAsync(p.Id);
+                var teamMembersSelectList = teamMembersResponse.Data.Select(x=> new SelectListItem
+                {
+                    Text = $"{x.ProjectRole.GetDisplayName()}: {x.FullName}",
+                    Value = x.UserId
+                }).ToList();
+                p.TeamMembers = teamMembersSelectList;
+            }
+            return View(projectsResult);
         }
         public IActionResult Create()
         {
@@ -65,6 +95,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             result.TeamMembers = teamMembersResponse.Data;
             return View(result);
         }
+        [HttpPost]
         public async Task<IActionResult> Edit(EditProjectViewModel editProjectViewModel)
         {
             var userId = _userManager.GetUserId(User);
@@ -75,7 +106,13 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 return RedirectToAction("Index");
             }
             return View(createdResponse);
-
+        }
+        public async Task<IActionResult> Remove(int projectId)
+        {
+            //Notification will be added( Example: Silmek istediğinizden emin misiniz ilgili tüm görevler silinecek!)
+            await _projectManager.SoftDeleteAsync(projectId);
+            await _projectManager.ClearAllTasksAsync(projectId);
+            return RedirectToAction("Index");
         }
     }
 }

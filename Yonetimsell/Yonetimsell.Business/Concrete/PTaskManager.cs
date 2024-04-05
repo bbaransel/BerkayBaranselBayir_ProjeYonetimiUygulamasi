@@ -108,6 +108,16 @@ namespace Yonetimsell.Business.Concrete
             return Response<int>.Success(count);
         }
 
+        public async Task<int> GetPTaskProgressPercentageByProjectIdAsync(int projectId)
+        {
+            var allPTasks = await _repository.GetCountAsync(x=>x.ProjectId == projectId);
+            var completedPTasks = await _repository.GetCountAsync(x => x.ProjectId == projectId && x.Status == Status.Done);
+            if (allPTasks == 0) return 0;
+            double progressPercentage = ((double)completedPTasks / allPTasks) * 100;
+            int result = (int)Math.Ceiling(progressPercentage);
+            return result;
+        }
+
         public async Task<Response<List<PTaskViewModel>>> GetTasksByPriorityAsync(string userId, Priority priority)
         {
             var pTasks = await _repository.GetTasksByPriorityAsync(userId, priority);

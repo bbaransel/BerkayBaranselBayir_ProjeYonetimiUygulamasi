@@ -33,7 +33,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<List<PTask>> GetTasksByPriorityAsync(string userId, Priority priority)
         {
-            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.UserId == userId && pt.Priority == priority).ToListAsync();
+            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.UserId == userId && pt.Priority == priority && pt.Status!=Status.Done).ToListAsync();
             return tasks;
         }
 

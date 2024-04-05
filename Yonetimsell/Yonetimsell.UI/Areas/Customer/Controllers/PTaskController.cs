@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
+using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
 
@@ -28,8 +29,17 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var ptasksResponse = await _pTaskManager.GetTasksByUserIdAsync(userId);
-            var result = new CustomerPTaskListViewModel { PTasks = ptasksResponse.Data };
+            var lowTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.Low);
+            var mediumTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.Medium);
+            var highTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.High);
+            var criticalTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.Critical);
+            var result = new CustomerPTaskListViewModel 
+            {
+                Critical = criticalTaskResponse.Data,
+                High = highTaskResponse.Data,
+                Low = lowTaskResponse.Data,
+                Medium = mediumTaskResponse.Data,
+            };
             return View(result);
         }
         public async Task<IActionResult> AddTask(int projectId)

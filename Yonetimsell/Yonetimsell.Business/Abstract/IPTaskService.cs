@@ -29,5 +29,6 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<int>> GetCompletedTaskCountByUserIdAsync(string userId);
         Task<Response<int>> GetActiveTaskCountByProjectIdAsync(int projectId);
         Task<Response<int>> GetCompletedTaskCountByProjectIdAsync(int projectId);
+        Task<int> GetPTaskProgressPercentageByProjectIdAsync(int projectId);
     }
 }

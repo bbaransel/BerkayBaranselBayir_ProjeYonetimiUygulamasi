@@ -2,7 +2,7 @@
 @using Yonetimsell.Shared.ComplexTypes
 @using Yonetimsell.Shared.Extensions
 @model CustomerPTaskListViewModel
-@if(Model.PTasks.Count > 0)
+@if(Model.Low.Count > 0 || Model.Medium.Count > 0 || Model.High.Count > 0 || Model.Critical.Count > 0)
 {
     <div class="container-fluid pt-4 px-4 h-100">
         <div class="row g-4">
