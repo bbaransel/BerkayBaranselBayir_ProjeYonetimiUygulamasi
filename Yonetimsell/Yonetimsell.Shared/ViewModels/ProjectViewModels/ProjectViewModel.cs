@@ -21,7 +21,6 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
         public DateTime CreatedDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal Budget { get; set; }
-        public bool IsCompleted { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }
         public List<PTaskViewModel> PTasks { get; set; }

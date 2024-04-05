@@ -5,11 +5,11 @@
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0 display-6">Projelerim</h6>
-            <a asp-area="Customer" asp-controller="Project" asp-action="Create" class=" btn btn-lg btn-success">Yeni <i class="fas fa-plus"></i></a>
+            <a asp-area="Customer" asp-controller="Project" asp-action="Create" class="btn btn-lg btn-success">Yeni <i class="fas fa-plus"></i></a>
         </div>
-        <div class="table-responsive">
-            @if (Model.Count != 0)
-            {
+        @if (Model.Count > 0)
+        {
+            <div class="table-responsive">
                 <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                     <tr class="text-dark">
@@ -101,8 +101,12 @@
                     }
                 </tbody>
             </table>
-            }
-        </div>
+            </div>
+        }
+        else
+        {
+            <h3 class="w-100 text-start">Mevcut projeniz bulunmamaktadır. İlk projenizi oluşturmak için <a asp-area="Customer" asp-controller="Project" asp-action="Create" class=" btn-link fs-3">tıklayınız...</a></h3>
+        }
     </div>
 </div>
 <!-- Recent Sales End -->

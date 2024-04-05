@@ -26,19 +26,6 @@ namespace Yonetimsell.Business.Concrete
             _mapperly = mapperly;
         }
 
-        /// <summary>
-        /// This method finds the Project Entity using given projectId and changes the Projects's IsCompleted value to its reverse.
-        /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
-        public async Task<Response<NoContent>> ChangeIsCompletedAsync(int projectId)
-        {
-            var project = await _repository.GetAsync(x=>x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
-            await _repository.ChangeProjectIsCompletedAsync(project);
-            return Response<NoContent>.Success();
-        }
-
         public async Task<Response<NoContent>> ChangeProjectPriorityAsync(int projectId, Priority priority)
         {
             var project = await _repository.GetAsync(x => x.Id == projectId);
@@ -103,18 +90,18 @@ namespace Yonetimsell.Business.Concrete
         }
         public async Task<Response<int>> GetActiveProjectCountAsync()
         {
-            var count = await _repository.GetCountAsync(x=>x.IsCompleted==false && x.IsDeleted==false);
+            var count = await _repository.GetCountAsync(x=>x.Status != Status.Done && x.IsDeleted==false);
             return Response<int>.Success(count);
         }
         public async Task<Response<int>> GetCompletedProjectCountAsync()
         {
-            var count = await _repository.GetCountAsync(x => x.IsCompleted == true && x.IsDeleted == false);
+            var count = await _repository.GetCountAsync(x => x.Status == Status.Done && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetActiveProjectCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x=>x.UserId == userId && x.IsCompleted==false && x.IsDeleted == false);
+            var count = await _repository.GetCountAsync(x=>x.UserId == userId && x.Status!=Status.Done && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
 
@@ -172,7 +159,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<int>> GetCompletedProjectCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x=>x.UserId==userId && x.IsCompleted==true && x.IsDeleted==false);
+            var count = await _repository.GetCountAsync(x=>x.UserId==userId && x.Status==Status.Done && x.IsDeleted==false);
             return Response<int>.Success(count);
         }
     }

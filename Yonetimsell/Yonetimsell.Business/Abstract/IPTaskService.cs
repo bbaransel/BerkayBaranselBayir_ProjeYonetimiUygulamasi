@@ -18,7 +18,6 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<PTaskViewModel>> GetByIdAsync(int pTaskId);
         Task<Response<List<PTaskViewModel>>> GetTasksByPriorityAsync(string userId, Priority priority);
         Task<Response<List<PTaskViewModel>>> GetTasksByStatusAsync(string userId, Status status);
-        Task<Response<NoContent>> ChangeIsCompletedAsync(int pTaskId);
         Task<Response<NoContent>> ChangePTaskStatusAsync(int pTaskId, Status status);
         Task<Response<NoContent>> ChangePTaskPriorityAsync(int pTaskId, Priority priority);
         Task<Response<List<PTaskViewModel>>> GetTasksByProjectIdAsync(int projectId);

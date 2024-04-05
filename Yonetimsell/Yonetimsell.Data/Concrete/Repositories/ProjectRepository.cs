@@ -17,13 +17,6 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task ChangeProjectIsCompletedAsync(Project project)
-        {
-            project.IsCompleted = !project.IsCompleted;
-            YonetimsellDbContext.Update(project);
-            await YonetimsellDbContext.SaveChangesAsync();
-        }
-
         public async Task ChangeProjectPriorityAsync(Project project, Priority priority)
         {
             project.Priority = priority;
@@ -40,38 +33,46 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task ClearAllTasksFromProjectAsync(int projectId)
         {
-            var deletedPTasks = await YonetimsellDbContext.PTasks.Where(pt => pt.ProjectId == projectId).ToListAsync();
+            var deletedPTasks = await YonetimsellDbContext.PTasks.Where(pt => pt.ProjectId == projectId)
+                .ToListAsync();
             YonetimsellDbContext.PTasks.RemoveRange(deletedPTasks);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteTaskFromProjectAsync(int projectId, int pTaskId)
         {
-            var deletedPTask = await YonetimsellDbContext.PTasks.Where(pt => pt.ProjectId == projectId && pt.Id == pTaskId).FirstOrDefaultAsync();
+            var deletedPTask = await YonetimsellDbContext.PTasks.Where(pt => pt.ProjectId == projectId && pt.Id == pTaskId)
+                .FirstOrDefaultAsync();
             YonetimsellDbContext.PTasks.Remove(deletedPTask);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
         public async Task<List<Project>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
-            var projects = await YonetimsellDbContext.Projects.Where(p=>p.UserId==userId && p.Priority== priority && p.IsDeleted == false).ToListAsync();
+            var projects = await YonetimsellDbContext.Projects.Where(p=>p.UserId==userId && p.Priority== priority && p.IsDeleted == false)
+                .ToListAsync();
             return projects;
         }
 
         public async Task<List<Project>> GetProjectsByStatusAsync(string userId, Status status)
         {
-            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.Status == status && p.IsDeleted == false).ToListAsync();
+            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.Status == status && p.IsDeleted == false)
+                .ToListAsync();
             return projects;
         }
 
         public async Task<List<Project>> GetProjectsByUserIdAsync(string userId)
         {
-            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.IsDeleted==false).Include(p => p.PTasks).ToListAsync();
+            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.IsDeleted==false)
+                .Include(p => p.PTasks)
+                .ToListAsync();
             return projects;
         }
         public async Task<List<Project>> GetDeletedProjectsByUserIdAsync(string userId)
         {
-            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.IsDeleted == true).Include(p => p.PTasks).ToListAsync();
+            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.IsDeleted == true)
+                .Include(p => p.PTasks)
+                .ToListAsync();
             return projects;
         }
     }

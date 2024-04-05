@@ -13,7 +13,6 @@ namespace Yonetimsell.Entity.Concrete
         public int ProjectId { get; set; }
         public Project Project { get; set; }
         public DateTime DueDate { get; set; }
-        public bool IsCompleted { get; set; } = false;
         public Priority Priority { get; set; }
         public Status Status { get; set; }
     }

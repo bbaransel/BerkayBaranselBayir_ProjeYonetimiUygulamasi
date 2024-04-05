@@ -18,7 +18,6 @@ namespace Yonetimsell.Shared.ViewModels.PTaskViewModels
         public string UserName { get; set; }
         public int ProjectId { get; set; }
         public DateTime DueDate { get; set; }
-        public bool IsCompleted { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }
     }

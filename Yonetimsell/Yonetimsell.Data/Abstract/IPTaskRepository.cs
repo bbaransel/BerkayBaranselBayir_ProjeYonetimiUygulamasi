@@ -9,7 +9,6 @@ namespace Yonetimsell.Data.Abstract
         Task<List<PTask>> GetTasksByProjectIdAsync(int projectId);
         Task ChangeTaskStatusAsync(PTask pTask, Status status);
         Task ChangeTaskPriorityAsync(PTask pTask, Priority priority);
-        Task ChangeTaskIsCompletedAsync(PTask pTask);
         Task<List<PTask>> GetTasksByPriorityAsync(string userId, Priority priority);
         Task<List<PTask>> GetTasksByStatusAsync(string userId, Status status);
 

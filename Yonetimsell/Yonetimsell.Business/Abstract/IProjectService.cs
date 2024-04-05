@@ -17,7 +17,6 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority);
         Task<Response<List<ProjectViewModel>>> GetProjectsByStatusAsync(string userId, Status status);
         Task<Response<NoContent>> ClearAllTasksAsync(int projectId);
-        Task<Response<NoContent>> ChangeIsCompletedAsync(int projectId);
         Task<Response<NoContent>> ChangeProjectStatusAsync(int projectId, Status status);
         Task<Response<NoContent>> ChangeProjectPriorityAsync(int projectId, Priority priority);
         Task<Response<int>> GetAllProjectCountAsync();

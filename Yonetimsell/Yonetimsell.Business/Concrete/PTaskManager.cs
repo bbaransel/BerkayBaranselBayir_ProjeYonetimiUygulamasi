@@ -25,14 +25,6 @@ namespace Yonetimsell.Business.Concrete
             _mapperly = mapperly;
         }
 
-        public async Task<Response<NoContent>> ChangeIsCompletedAsync(int pTaskId)
-        {
-            var pTask = await _repository.GetAsync(x=>x.Id== pTaskId);
-            if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı");
-            await _repository.ChangeTaskIsCompletedAsync(pTask);
-            return Response<NoContent>.Success();
-        }
-
         public async Task<Response<NoContent>> ChangePTaskPriorityAsync(int pTaskId, Priority priority)
         {
             var pTask = await _repository.GetAsync(x => x.Id == pTaskId);
@@ -60,19 +52,19 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<int>> GetActiveTaskCountAsync()
         {
-            var count = await _repository.GetCountAsync(x=>x.IsCompleted==false);
+            var count = await _repository.GetCountAsync(x=>x.Status != Status.Done);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetActiveTaskCountByProjectIdAsync(int projectId)
         {
-            var count = await _repository.GetCountAsync(x =>x.ProjectId == projectId && x.IsCompleted == false);
+            var count = await _repository.GetCountAsync(x =>x.ProjectId == projectId && x.Status != Status.Done);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetActiveTaskCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x =>x.UserId == userId && x.IsCompleted == false);
+            var count = await _repository.GetCountAsync(x =>x.UserId == userId && x.Status != Status.Done);
             return Response<int>.Success(count);
         }
 
@@ -100,19 +92,19 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<int>> GetCompletedTaskCountAsync()
         {
-            var count = await _repository.GetCountAsync(x => x.IsCompleted == true);
+            var count = await _repository.GetCountAsync(x => x.Status == Status.Done);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetCompletedTaskCountByProjectIdAsync(int projectId)
         {
-            var count = await _repository.GetCountAsync(x => x.ProjectId == projectId && x.IsCompleted == true);
+            var count = await _repository.GetCountAsync(x => x.ProjectId == projectId && x.Status == Status.Done);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetCompletedTaskCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x => x.UserId == userId && x.IsCompleted == true);
+            var count = await _repository.GetCountAsync(x => x.UserId == userId && x.Status == Status.Done);
             return Response<int>.Success(count);
         }
 
@@ -133,7 +125,6 @@ namespace Yonetimsell.Business.Concrete
                 Description = x.Description,
                 DueDate = x.DueDate,
                 Id = x.Id,
-                IsCompleted = x.IsCompleted,
                 Name = x.Name,
                 Priority = x.Priority,
                 ProjectId = x.ProjectId,

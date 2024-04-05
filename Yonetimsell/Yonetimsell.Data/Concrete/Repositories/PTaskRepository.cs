@@ -17,13 +17,6 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task ChangeTaskIsCompletedAsync(PTask pTask)
-        {
-            pTask.IsCompleted = !pTask.IsCompleted;
-            YonetimsellDbContext.Update(pTask);
-            await YonetimsellDbContext.SaveChangesAsync();
-        }
-
         public async Task ChangeTaskPriorityAsync(PTask pTask, Priority priority)
         {
             pTask.Priority = priority;
