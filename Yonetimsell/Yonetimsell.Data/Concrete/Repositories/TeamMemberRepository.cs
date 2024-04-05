@@ -20,6 +20,13 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
+        public async Task ClearTeamMembersTaksAsync(string userId, int projectId)
+        {
+            var deletedTask = await YonetimsellDbContext.PTasks.Where(x=>x.ProjectId == projectId && x.UserId== userId).ToListAsync();
+            YonetimsellDbContext.PTasks.RemoveRange(deletedTask);
+            await YonetimsellDbContext.SaveChangesAsync();
+        }
+
         public async Task<List<TeamMember>> GetMembersByProjectIdAsync(int projectId)
         {
             var teamMembers = await YonetimsellDbContext.TeamMembers.Where(x=> x.ProjectId == projectId).ToListAsync();

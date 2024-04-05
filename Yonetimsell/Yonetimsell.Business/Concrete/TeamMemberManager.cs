@@ -70,6 +70,7 @@ namespace Yonetimsell.Business.Concrete
         {
             var teamMember = await _repository.GetAsync(x=>x.Id == id);
             if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
+            await _repository.ClearTeamMembersTaksAsync(teamMember.UserId, teamMember.ProjectId);
             await _repository.HardDeleteAsync(teamMember);
             return Response<NoContent>.Success();
         }
@@ -86,8 +87,7 @@ namespace Yonetimsell.Business.Concrete
                 UserId = teamMember.UserId,
                 UserName = teamMember.User.UserName,
                 FullName = $"{teamMember.User.FirstName} {teamMember.User.LastName}",
-            }
-                ;
+            };
             return Response<TeamMemberViewModel>.Success(result);
         }
     }
