@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualBasic;
+using System.Xml.Linq;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
@@ -18,12 +21,14 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly IPTaskService _pTaskManager;
         private readonly ITeamMemberService _teamMemberManager;
         private readonly UserManager<User> _userManager;
+        private readonly IProjectService _projectManager;
 
-        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager)
+        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager)
         {
             _pTaskManager = pTaskManager;
             _teamMemberManager = teamMemberManager;
             _userManager = userManager;
+            _projectManager = projectManager;
         }
 
         public async Task<IActionResult> Index()
@@ -40,6 +45,29 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 Low = lowTaskResponse.Data,
                 Medium = mediumTaskResponse.Data,
             };
+            return View(result);
+        }
+        public async Task<IActionResult> CompletedTasks()
+        {
+            var userId = _userManager.GetUserId(User);
+            var pTasksResponse = await _pTaskManager.GetTasksByStatusAsync(userId, Status.Done);
+            var result = pTasksResponse.Data.Select(x=> new CustomerCompletedPTaskViewModel
+            {
+                Id=x.Id,
+                Name=x.Name,
+                Description=x.Description,
+                UserId=x.UserId,
+                UserName=x.UserName,
+                ProjectId=x.ProjectId,
+                DueDate=x.DueDate,
+                Priority=x.Priority,
+                Status=x.Status,
+            }).ToList();
+            foreach(var task in result)
+            {
+                var projectResponse = await _projectManager.GetByIdAsync(task.ProjectId);
+                task.ProjectName = projectResponse.Data.Name;
+            }
             return View(result);
         }
         public async Task<IActionResult> AddTask(int projectId)

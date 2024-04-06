@@ -1,0 +1,51 @@
+﻿@using System.Globalization
+@using Yonetimsell.Shared.Extensions
+@model List<CustomerCompletedPTaskViewModel>
+@if (Model.Count > 0)
+{
+    <div class="container-fluid pt-4 px-4 h-100">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4 text-danger">Tamamlanan Görevler</h6>
+                    <table id="myDataTableCritical" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Proje Adı</th>
+                                <th scope="col">Görev Adı</th>
+                                <th scope="col">Açıklaması</th>
+                                <th scope="col">Önceliği</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in Model)
+                            {
+                                <tr data-project-id="@t.Id">
+                                    <td>@t.ProjectName</td>
+                                    <td>@t.Name</td>
+                                    @{
+                                        int lenght = t.Description.Length >= 30 ? 30 : t.Description.Length;
+                                    }
+                                    <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
+                                    <td>@t.Priority.GetDisplayName()</td>
+                                    <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid pt-4 px-4">
+        <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
+            <div class="col-md-6 text-center">
+                <h3>Tamamlanmış göreviniz bulunmamaktadır.</h3>
+            </div>
+        </div>
+    </div>
+}
