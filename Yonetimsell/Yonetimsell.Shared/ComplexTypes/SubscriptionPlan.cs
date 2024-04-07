@@ -9,8 +9,11 @@ namespace Yonetimsell.Shared.ComplexTypes
 {
     public enum SubscriptionPlan
     {
+        [Display(Name ="Temel")]
         Basic = 0,
+        [Display(Name ="Standart")]
         Standard = 1,
-        Premium= 2,
+        [Display(Name = "Özel")]
+        Premium = 2,
     }
 }

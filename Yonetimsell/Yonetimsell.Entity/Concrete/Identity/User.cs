@@ -10,6 +10,7 @@ namespace Yonetimsell.Entity.Concrete.Identity
         public string Address { get; set; }
         public string City { get; set; }
         public Gender Gender { get; set; }
+        public string ImageUrl { get; set; } = "/files/images/default.png";
         public DateTime? DateOfBirth { get; set; }
         public List<PTask> AssignedTasks { get; set; }
         public List<TeamMember> TeamMemberships { get; set; }

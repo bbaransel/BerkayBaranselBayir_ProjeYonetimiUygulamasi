@@ -8,6 +8,8 @@ using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Data.Concrete.Repositories;
 using Yonetimsell.Entity.Concrete.Identity;
+using Yonetimsell.Shared.Helpers.Abstract;
+using Yonetimsell.Shared.Helpers.Concrete;
 using Yonetimsell.UI.EmailServices.Abstract;
 using Yonetimsell.UI.EmailServices.Concrete;
 
@@ -76,6 +78,7 @@ namespace Yonetimsell.UI.Extensions
         }
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)
         {
+            services.AddScoped<IImageService, ImageManager>(); 
             services.AddScoped<IEmailSender, SmtpEmailSender>(options => new SmtpEmailSender(
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Host"],
             services.BuildServiceProvider().GetRequiredService<IConfiguration>().GetValue<int>("EmailSender:Port"),

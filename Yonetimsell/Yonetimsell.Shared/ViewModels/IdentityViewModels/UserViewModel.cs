@@ -37,6 +37,8 @@ namespace Yonetimsell.Shared.ViewModels.IdentityViewModels
         [DisplayName("Telefon Numarası")]
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public string PhoneNumber { get; set; }
+        [DisplayName("Resim")]
+        public string ImageUrl { get; set; }
 
         [DisplayName("Doğum Tarihi")]
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]

@@ -27,6 +27,30 @@ namespace Yonetimsell.UI.Controllers
                 return View();
             }
         }
+        public IActionResult About()
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId != null)
+            {
+                return Redirect("/Customer");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        public IActionResult Subscriptions()
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId != null)
+            {
+                return Redirect("/Customer");
+            }
+            else
+            {
+                return View();
+            }
+        }
 
     }
 }

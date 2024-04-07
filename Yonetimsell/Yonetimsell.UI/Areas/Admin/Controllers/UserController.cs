@@ -56,6 +56,7 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
                     City = adminAddUserViewModel.City,
                     Gender = adminAddUserViewModel.Gender,
                     DateOfBirth = adminAddUserViewModel.DateOfBirth,
+                    ImageUrl = adminAddUserViewModel.ImageUrl,
                     EmailConfirmed = true
                 };
                 var result = await _userManager.CreateAsync(user, adminAddUserViewModel.Password);

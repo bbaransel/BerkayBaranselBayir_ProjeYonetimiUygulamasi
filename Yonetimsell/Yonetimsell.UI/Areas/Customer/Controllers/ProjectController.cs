@@ -71,10 +71,10 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         }
         public IActionResult Create()
         {
-            return View(new AddProjectViewModel());
+            return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(AddProjectViewModel addProjectViewModel)
+        public async Task<IActionResult> Create(AddProjectViewModel addProjectViewModel, IFormFile file)
         {
             addProjectViewModel.UserId = _userManager.GetUserId(User);
             var result = await _projectManager.CreateAsync(addProjectViewModel);

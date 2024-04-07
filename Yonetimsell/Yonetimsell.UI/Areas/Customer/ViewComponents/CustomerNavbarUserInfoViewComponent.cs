@@ -22,6 +22,7 @@ namespace Yonetimsell.UI.Areas.Customer.ViewComponents
             {
                 UserName = user.UserName,
                 FullName = $"{user.FirstName} {user.LastName}",
+                ImageUrl = user.ImageUrl,
             };
             return View(result);
         }
