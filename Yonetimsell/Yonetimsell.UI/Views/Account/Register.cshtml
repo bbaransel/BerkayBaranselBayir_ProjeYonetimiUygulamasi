@@ -1,29 +1,44 @@
-﻿        <!-- Sign Up Start -->
-        <div class="container-fluid">
-            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
-                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                    <form>
-                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <h3>Kayıt ol</h3>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingText" placeholder="jhondoe">
-                            <label for="floatingText">Username</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-4">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                            <label for="floatingPassword">Password</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Kayıt ol</button>
-                        <p class="text-center mb-0">Zaten bir hesabınız var mı? <a href="">Giriş yap</a></p>
-                    </div>
-                    </form>
+﻿@model RegisterViewModel        
+<!-- Sign Up Start -->
+<div class="container-fluid">
+    <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+            <form asp-area="" asp-controller="Account" asp-action="Register" method="post">
+            <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h3>Kayıt ol</h3>
                 </div>
+                <div class="row">
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" asp-for="FirstName">
+                        <label asp-for="FirstName" class="ms-2"></label>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" asp-for="LastName">
+                        <label asp-for="LastName" class="ms-2"></label>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" asp-for="UserName">
+                        <label asp-for="UserName" class="ms-2"></label>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="email" class="form-control" asp-for="Email">
+                        <label asp-for="Email" class="ms-2"></label>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="password" class="form-control" asp-for="Password">
+                        <label asp-for="Password" class="ms-2"></label>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="password" class="form-control" asp-for="RePassword">
+                        <label asp-for="RePassword" class="ms-2"></label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Kayıt ol</button>
+                <p class="text-center mb-0">Zaten bir hesabınız var mı? <a asp-area="" asp-controller="Account" asp-action="Login">Giriş yap</a></p>
             </div>
+            </form>
         </div>
-        <!-- Sign Up End -->
+    </div>
+</div>
+<!-- Sign Up End -->

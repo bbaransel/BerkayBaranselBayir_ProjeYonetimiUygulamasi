@@ -14,3 +14,9 @@
 
 <!-- Template Javascript -->
 <script src="~/js/main.js"></script>
+
+<!-- SweetAlert2 -->
+@if (TempData["SuccessToast"] != null)
+{
+    @Html.Raw(TempData["SuccessToast"])
+}

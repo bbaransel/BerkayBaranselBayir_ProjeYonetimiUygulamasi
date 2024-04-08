@@ -39,7 +39,7 @@ namespace Yonetimsell.UI.Extensions
                 #endregion
                 #region Account Lock Options
                 options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = false;
                 #endregion

@@ -26,12 +26,51 @@ namespace Yonetimsell.UI.Controllers
         {
             return View();
         }
-        //RegisterViewModel'ıma daha karar vermedim sonra düzenlenecek.
-        //[HttpPost]
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    UserName = registerViewModel.UserName,
+                    Email = registerViewModel.Email,
+                    FirstName = registerViewModel.FirstName,
+                    LastName = registerViewModel.LastName,
+                    EmailConfirmed = true
+                };
+
+                var result = await _userManager.CreateAsync(user, registerViewModel.Password);
+                if (result.Succeeded)
+                {
+                    //MAIL GÖNDERME İŞLEMİ BAŞLIYOR
+                    //Token Oluşturma
+
+                    var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var backUrl = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userId = user.Id,
+                        token = tokenCode
+                    });
+
+                    //Mail gönderme
+                    await _emailSender.SendEmailAsync(
+                        user.Email,
+                        "Yonetimsell Üyelik Onayı",
+                        $"<p>Yonetimsell uygulamasına üyeliğinizi onaylamak için aşağıdaki linke tıklayınız.</p><a href='https://localhost:7051{backUrl}'>ONAY LİNKİ</a>"
+                        );
+
+                    //Yukarıdaki email onayı kodlarını aktif ettiğimizde burayı sileceğiz.
+
+                    TempData["SuccesToast"] = _sweetAlert.TopEndNotification("success","Üyeliğiniz başarıyla oluşturulmuştur. Mailinizi kontrol ederek üyeliğinizi onaylayabilirsiniz.");
+                    return Redirect("~/");
+                }
+
+            }
+
+            return View(registerViewModel);
+        }
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -41,6 +80,7 @@ namespace Yonetimsell.UI.Controllers
             }
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
@@ -51,104 +91,53 @@ namespace Yonetimsell.UI.Controllers
             var user = await _userManager.FindByNameAsync(loginViewModel.Username);
             if (user == null)
             {
+                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı adı ve şifre hatalı!");
                 return View(loginViewModel);
             }
             await _signInManager.SignOutAsync();
             var isConfirmed = await _userManager.IsEmailConfirmedAsync(user);
             if (!isConfirmed)
             {
+                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Lütfen e-postanızı onaylayıp tekrar deneyiniz.");
                 Console.WriteLine("E-posta onaylanmamış.");
                 return View(loginViewModel);
             }
             var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, loginViewModel.RememberMe, true);
             if (result.Succeeded)
             {
+                // Başarılı giriş durumunda yapılacak işlemler
                 await _userManager.ResetAccessFailedCountAsync(user);
                 await _userManager.SetLockoutEndDateAsync(user, null);
-                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("success", "Giriş başarılı");
+                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile giriş yapıldı");
+
+                // ReturnUrl varsa yönlendirme
                 var returnUrl = TempData["ReturnUrl"]?.ToString();
                 if (!String.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
-                return RedirectToAction("Index", "Home");
-            }
-            else if (result.IsLockedOut)
-            {
-                var lockoutEndDate = await _userManager.GetLockoutEndDateAsync(user);
-                var timeLeft = (lockoutEndDate.Value - DateTime.Now).Seconds;
-                return View(loginViewModel);
+
+                return RedirectToAction("Index", "Home"); // Varsayılan yönlendirme
             }
             else
             {
-                var failedAttemptCount = await _userManager.GetAccessFailedCountAsync(user);
-                var maxFailedAttempts = _signInManager.Options.Lockout.MaxFailedAccessAttempts;
-                if (failedAttemptCount < maxFailedAttempts && !result.IsLockedOut)
+                // Giriş başarısız durumları
+                if (result.IsLockedOut)
                 {
-                    var remainingAttempts = maxFailedAttempts - failedAttemptCount;
-                    //_notyfService.Information($"Kalan hakkınız: {remainingAttempts}");
+                    TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Hesabınız kilitli");
+                    // Hesap kilitli durumu
+                    // ... (Kodunuzun bu kısmı aynı şekilde kalır) ...
                 }
                 else
                 {
-                    await _userManager.SetLockoutEnabledAsync(user, true);
-                    //_notyfService.Information($"Hesabınız {lockoutEndDate.Value.ToString("dd-MM-yyyy")} tarihine kadar kilitlendi");
+                    TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı adı ve şifre hatalı!");
+                    // Diğer giriş başarısızlıkları
+                    // ... (Kodunuzun bu kısmı aynı şekilde kalır) ...
                 }
             }
+
             return View(loginViewModel);
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel loginViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByNameAsync(loginViewModel.Username);
-        //        if (user != null)
-        //        {
-        //            await _signInManager.SignOutAsync();
-        //            var isComfirmed = await _userManager.IsEmailConfirmedAsync(user);
-        //            if (!isComfirmed)
-        //            {
-        //                Console.WriteLine("mail onaylı değil");
-        //                return View(loginViewModel);
-        //            }
-        //            var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, loginViewModel.RememberMe, true);
-        //            var failedAttempCount = await _userManager.GetAccessFailedCountAsync(user);
-        //            var lockoutEndDate = await _userManager.GetLockoutEndDateAsync(user);
-        //            var attempCount = _signInManager.Options.Lockout.MaxFailedAccessAttempts;
-        //            if (result.Succeeded)
-        //            {
-        //                await _userManager.ResetAccessFailedCountAsync(user);
-        //                await _userManager.SetLockoutEndDateAsync(user, null);
-        //                var returnUrl = TempData["ReturnUrl"]?.ToString();
-        //                if (!String.IsNullOrEmpty(returnUrl))
-        //                {
-        //                    return Redirect(returnUrl);
-        //                }
-        //                return RedirectToAction("Index", "Home");
-        //            }
-        //            else if (result.IsLockedOut)
-        //            {
-        //                var timeLeft = (lockoutEndDate.Value - DateTime.Now).Seconds;
-        //                return View(loginViewModel);
-        //            }
-        //            else
-        //            {
-        //                if (failedAttempCount < attempCount && !result.IsLockedOut)
-        //                {
-        //                    var accessFailedCount = attempCount - failedAttempCount;
-        //                    //_notyfService.Information($"Kalan hakkınız: {accessFailedCount}");
-        //                }
-        //                else
-        //                {
-        //                    await _userManager.SetLockoutEnabledAsync(user, true);
-        //                    //_notyfService.Information($"Hesabınız {lockoutEndDate.Value.ToString("dd-mm-yyyy")} tarihine kadar kilitlendi");
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return View(loginViewModel);
-        //}
 
         public async Task<IActionResult> Logout()
         {

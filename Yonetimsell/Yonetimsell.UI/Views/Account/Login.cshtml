@@ -8,6 +8,7 @@
                     <h3>Giriş Yap</h3>
                 </div>
                 <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
+                    <div asp-validation-summary="All"></div>
                     <div class="col-md-12 text-danger" asp-validation-summary="All"></div>
                     <div class="form-floating mb-3">
                         <input class="form-control" asp-for="Username">
