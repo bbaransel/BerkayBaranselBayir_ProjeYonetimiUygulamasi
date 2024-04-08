@@ -126,7 +126,7 @@ namespace Yonetimsell.UI.Controllers
         {
             await _signInManager.SignOutAsync();
             TempData["ReturnUrl"] = null;
-            TempData["LoginToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile çıkış yapıldı");
+            TempData["LogoutToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile çıkış yapıldı");
             return Redirect("/");
         }
         public IActionResult AccessDenied()
@@ -268,7 +268,7 @@ namespace Yonetimsell.UI.Controllers
                     }
                     return View(changePasswordViewModel);
                 }
-                TempData["ResetPasswordToast"] = _sweetAlert.TopEndNotification("error", "Geçerli şifreniz hatalıdır.");
+                TempData["ChangePasswordToast"] = _sweetAlert.TopEndNotification("error", "Geçerli şifreniz hatalıdır.");
                 ModelState.AddModelError("", "Geçerli şifreniz hatalıdır.");
             }
             return View();

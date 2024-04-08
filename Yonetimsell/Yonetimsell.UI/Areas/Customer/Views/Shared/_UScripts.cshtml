@@ -14,7 +14,11 @@
 <script src="~/customer/js/main.js"></script>
 
 <!-- SweetAlert2 -->
-@if (TempData["SuccessToast"] != null)
+@if (TempData["LoginToast"] != null)
 {
-    @Html.Raw(TempData["SuccessToast"])
+    @Html.Raw(TempData["LoginToast"])
+}
+@if (TempData["ChangePasswordToast"] != null)
+{
+    @Html.Raw(TempData["ChangePasswordToast"])
 }

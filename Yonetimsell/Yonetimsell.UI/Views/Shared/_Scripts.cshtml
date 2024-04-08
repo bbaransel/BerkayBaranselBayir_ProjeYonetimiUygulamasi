@@ -16,11 +16,31 @@
 <script src="~/js/main.js"></script>
 
 <!-- SweetAlert2 -->
+@if (TempData["RegisterToast"] != null)
+{
+    @Html.Raw(TempData["RegisterToast"])
+}
 @if (TempData["LoginToast"] != null)
 {
     @Html.Raw(TempData["LoginToast"])
 }
-@if (TempData["RegisterToast"] != null)
+@if (TempData["LogoutToast"] != null)
 {
-    @Html.Raw(TempData["RegisterToast"])
+    @Html.Raw(TempData["LogoutToast"])
+}
+@if (TempData["ConfirmEmailToast"] != null)
+{
+    @Html.Raw(TempData["ConfirmEmailToast"])
+}
+@if (TempData["ForgotPasswordToast"] != null)
+{
+    @Html.Raw(TempData["ForgotPasswordToast"])
+}
+@if (TempData["ResetPasswordToast"] != null)
+{
+    @Html.Raw(TempData["ResetPasswordToast"])
+}
+@if (TempData["ChangePasswordToast"] != null)
+{
+    @Html.Raw(TempData["ChangePasswordToast"])
 }
