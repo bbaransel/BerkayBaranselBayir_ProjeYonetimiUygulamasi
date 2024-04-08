@@ -44,33 +44,25 @@ namespace Yonetimsell.UI.Controllers
                 var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                 if (result.Succeeded)
                 {
-                    //MAIL GÖNDERME İŞLEMİ BAŞLIYOR
-                    //Token Oluşturma
-
                     var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var backUrl = Url.Action("ConfirmEmail", "Account", new
                     {
                         userId = user.Id,
                         token = tokenCode
                     });
-
-                    //Mail gönderme
                     await _emailSender.SendEmailAsync(
                         user.Email,
                         "Yonetimsell Üyelik Onayı",
                         $"<p>Yonetimsell uygulamasına üyeliğinizi onaylamak için aşağıdaki linke tıklayınız.</p><a href='https://localhost:7051{backUrl}'>ONAY LİNKİ</a>"
                         );
-
-                    //Yukarıdaki email onayı kodlarını aktif ettiğimizde burayı sileceğiz.
-
-                    TempData["SuccesToast"] = _sweetAlert.TopEndNotification("success","Üyeliğiniz başarıyla oluşturulmuştur. Mailinizi kontrol ederek üyeliğinizi onaylayabilirsiniz.");
+                    TempData["RegisterToast"] = _sweetAlert.TopEndNotification("success", "Onay maili gönderildi");
                     return Redirect("~/");
                 }
-
             }
-
+            TempData["RegisterToast"] = _sweetAlert.TopEndNotification("error", "Lütfen boş alan bırakmayınız");
             return View(registerViewModel);
         }
+
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -91,14 +83,14 @@ namespace Yonetimsell.UI.Controllers
             var user = await _userManager.FindByNameAsync(loginViewModel.Username);
             if (user == null)
             {
-                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı adı ve şifre hatalı!");
+                TempData["LoginToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı adı veya şifre hatalı!");
                 return View(loginViewModel);
             }
             await _signInManager.SignOutAsync();
             var isConfirmed = await _userManager.IsEmailConfirmedAsync(user);
             if (!isConfirmed)
             {
-                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Lütfen e-postanızı onaylayıp tekrar deneyiniz.");
+                TempData["LoginToast"] = _sweetAlert.TopEndNotification("error", "Lütfen e-postanızı onaylayıp tekrar deneyiniz.");
                 Console.WriteLine("E-posta onaylanmamış.");
                 return View(loginViewModel);
             }
@@ -108,34 +100,25 @@ namespace Yonetimsell.UI.Controllers
                 // Başarılı giriş durumunda yapılacak işlemler
                 await _userManager.ResetAccessFailedCountAsync(user);
                 await _userManager.SetLockoutEndDateAsync(user, null);
-                TempData["SuccessToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile giriş yapıldı");
-
-                // ReturnUrl varsa yönlendirme
+                TempData["LoginToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile giriş yapıldı");
                 var returnUrl = TempData["ReturnUrl"]?.ToString();
                 if (!String.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
-
-                return RedirectToAction("Index", "Home"); // Varsayılan yönlendirme
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                // Giriş başarısız durumları
                 if (result.IsLockedOut)
                 {
-                    TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Hesabınız kilitli");
-                    // Hesap kilitli durumu
-                    // ... (Kodunuzun bu kısmı aynı şekilde kalır) ...
+                    TempData["LoginToast"] = _sweetAlert.TopEndNotification("error", "Hesabınız kilitli");
                 }
                 else
                 {
-                    TempData["SuccessToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı adı ve şifre hatalı!");
-                    // Diğer giriş başarısızlıkları
-                    // ... (Kodunuzun bu kısmı aynı şekilde kalır) ...
+                    TempData["LoginToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı adı veya şifre hatalı!");
                 }
             }
-
             return View(loginViewModel);
         }
 
@@ -143,6 +126,7 @@ namespace Yonetimsell.UI.Controllers
         {
             await _signInManager.SignOutAsync();
             TempData["ReturnUrl"] = null;
+            TempData["LoginToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile çıkış yapıldı");
             return Redirect("/");
         }
         public IActionResult AccessDenied()
