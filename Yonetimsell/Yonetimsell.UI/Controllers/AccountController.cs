@@ -137,22 +137,22 @@ namespace Yonetimsell.UI.Controllers
         {
             if (userId == null && token == null)
             {
-                Console.WriteLine("userıd yada token null");
+                TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("error", "Hesabınız onaylanırken bir hata oluştu tekrar deneyiniz.");
                 return View();
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                Console.WriteLine("User bulunamadı");
+                TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("error", "Kullanıcı bulunamadı.");
                 return View();
             }
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
-                Console.WriteLine("Başarılı");
+                TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("success", "Hesabınız onaylandı.");
                 return RedirectToAction("Login");
             }
-            Console.WriteLine("Hesabınız onaylanırken bir hata oluştu tekrar deneyiniz.");
+            TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("error", "Hesabınız onaylanırken bir hata oluştu tekrar deneyiniz.");
             return View();
         }
         public IActionResult ForgotPassword()
@@ -164,12 +164,14 @@ namespace Yonetimsell.UI.Controllers
         {
             if (email == null)
             {
+                TempData["ForgotPasswordToast"] = _sweetAlert.TopEndNotification("error", "Bilgileri kontrol ediniz.");
                 ModelState.AddModelError("", "Eposta adresi boş bırakılamaz.");
                 return View();
             }
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
+                TempData["ForgotPasswordToast"] = _sweetAlert.TopEndNotification("error", "Bilgileri kontrol ediniz.");
                 ModelState.AddModelError("", "Geçerli epostaya ait hesap bulunamadı.");
                 return View();
             }
@@ -179,25 +181,28 @@ namespace Yonetimsell.UI.Controllers
                 userId = user.Id,
                 token = token
             });
-            var subject = "MiniShopApp Şifre Sıfırlama";
+            var subject = "Yonetimsell Şifre Sıfırlama";
             var htmlMessage = $"<h1>Yonetimsell Şifre Sıfırlama İşlemi</h1>" +
                 $"<p>" +
                 $"Lütfen şifrenizi sıfırlamak için aşağıdaki linke tıklayınız." +
                 $"</p>" +
-                $"<a href='https://localhost:59079{backUrl}'>Şifreyi sıfırla</a>";
+                $"<a href='https://localhost:7051{backUrl}'>Şifreyi sıfırla</a>";
             await _emailSender.SendEmailAsync(email, subject, htmlMessage);
+            TempData["ForgotPasswordToast"] = _sweetAlert.TopEndNotification("success", "Mailinizi kontrol ediniz.");
             return RedirectToAction("Login");
         }
         public async Task<IActionResult> ResetPassword(string userId, string token)
         {
             if (userId == null && token == null)
             {
+                TempData["ResetPasswordToast"] = _sweetAlert.TopEndNotification("erorr", "Hata!");
                 ModelState.AddModelError("", "Bir sorun oluştu");
                 return View();
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
+                TempData["ResetPasswordToast"] = _sweetAlert.TopEndNotification("erorr", "Geçerli kullanıcı bulunamadı!");
                 ModelState.AddModelError("", "Kullanıcı bulunamadı");
                 return View();
             }
@@ -218,12 +223,14 @@ namespace Yonetimsell.UI.Controllers
             var user = await _userManager.FindByIdAsync(resetPasswordViewModel.UserId);
             if (user == null)
             {
+                TempData["ResetPasswordToast"] = _sweetAlert.TopEndNotification("erorr", "Geçerli kullanıcı bulunamadı!");
                 ModelState.AddModelError("", "Böyle bir kullanıcı bulunamadı.");
                 return View(resetPasswordViewModel);
             }
             var result = await _userManager.ResetPasswordAsync(user, resetPasswordViewModel.Token, resetPasswordViewModel.Password);
             if (result.Succeeded)
             {
+                TempData["ResetPasswordToast"] = _sweetAlert.TopEndNotification("success", "Şifreniz başarıyla değiştirildi.");
                 return RedirectToAction("Login");
             }
             foreach (var error in result.Errors)
@@ -251,6 +258,7 @@ namespace Yonetimsell.UI.Controllers
                         var updateSecurityStampResult = await _userManager.UpdateSecurityStampAsync(user);
                         await _signInManager.SignOutAsync();
                         await _signInManager.PasswordSignInAsync(user, changePasswordViewModel.NewPassword, false, false);
+                        TempData["ChangePasswordToast"] = _sweetAlert.TopEndNotification("success", "Şifreniz başarıyla değiştirildi.");
                         ModelState.AddModelError("", "Şifreniz başarı ile değiştirilmiştir.");
                         return RedirectToAction("Profile");
                     }
@@ -260,7 +268,8 @@ namespace Yonetimsell.UI.Controllers
                     }
                     return View(changePasswordViewModel);
                 }
-                ModelState.AddModelError("", "Geçerli şifreiz hatalıdır.");
+                TempData["ResetPasswordToast"] = _sweetAlert.TopEndNotification("error", "Geçerli şifreniz hatalıdır.");
+                ModelState.AddModelError("", "Geçerli şifreniz hatalıdır.");
             }
             return View();
         }
