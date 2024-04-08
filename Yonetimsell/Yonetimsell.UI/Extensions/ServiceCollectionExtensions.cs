@@ -78,6 +78,7 @@ namespace Yonetimsell.UI.Extensions
         }
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)
         {
+            services.AddScoped<ISweetAlertService, SweetAlertManager>();
             services.AddScoped<IImageService, ImageManager>(); 
             services.AddScoped<IEmailSender, SmtpEmailSender>(options => new SmtpEmailSender(
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Host"],
