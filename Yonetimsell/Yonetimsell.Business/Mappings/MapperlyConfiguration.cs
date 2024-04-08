@@ -9,6 +9,7 @@ using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
+using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
@@ -54,6 +55,10 @@ namespace Yonetimsell.Business.Mappings
         public partial List<Project> ListProjectViewModelToListProject(List<ProjectViewModel> projectViewModels);
         public partial ProjectViewModel EditProjectViewModelToProjectViewModel(EditProjectViewModel editProjectViewModel);
         public partial EditProjectViewModel ProjectViewModelToEditProjectViewModel(ProjectViewModel projectViewModels);
+        #endregion
+        #region User
+        public partial UserViewModel UserToUserViewModel(User user);
+        public partial EditUserViewModel UserToEditUserViewModel(User user);
         #endregion
     }
 }

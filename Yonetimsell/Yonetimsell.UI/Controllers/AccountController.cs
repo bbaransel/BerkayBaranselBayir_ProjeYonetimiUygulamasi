@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.Helpers.Abstract;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
@@ -13,13 +14,15 @@ namespace Yonetimsell.UI.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISweetAlertService _sweetAlert;
+        private readonly MapperlyConfiguration _mapperly;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ISweetAlertService sweetAlert)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ISweetAlertService sweetAlert, MapperlyConfiguration mapperly)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _sweetAlert = sweetAlert;
+            _mapperly = mapperly;
         }
         [HttpGet]
         public IActionResult Register()
@@ -239,39 +242,7 @@ namespace Yonetimsell.UI.Controllers
             }
             return View(resetPasswordViewModel);
         }
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
-                var isVerified = await _userManager.CheckPasswordAsync(user, changePasswordViewModel.CurrentPassword);
-                if (isVerified)
-                {
-                    var result = await _userManager.ChangePasswordAsync(user, changePasswordViewModel.CurrentPassword, changePasswordViewModel.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        var updateSecurityStampResult = await _userManager.UpdateSecurityStampAsync(user);
-                        await _signInManager.SignOutAsync();
-                        await _signInManager.PasswordSignInAsync(user, changePasswordViewModel.NewPassword, false, false);
-                        TempData["ChangePasswordToast"] = _sweetAlert.TopEndNotification("success", "Şifreniz başarıyla değiştirildi.");
-                        ModelState.AddModelError("", "Şifreniz başarı ile değiştirilmiştir.");
-                        return RedirectToAction("Profile");
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View(changePasswordViewModel);
-                }
-                TempData["ChangePasswordToast"] = _sweetAlert.TopEndNotification("error", "Geçerli şifreniz hatalıdır.");
-                ModelState.AddModelError("", "Geçerli şifreniz hatalıdır.");
-            }
-            return View();
-        }
+       
+
     }
 }

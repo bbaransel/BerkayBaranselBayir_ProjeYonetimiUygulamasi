@@ -116,7 +116,7 @@
                             <td>
                                 <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
                                     <a asp-area="Customer" asp-controller="Project" asp-action="Detail" asp-route-projectId="@p.Id" class="btn btn-warning btn-md"><i class="far fa-edit"></i></a>
-                                    <a asp-area="Customer" asp-controller="Project" asp-action="Remove" asp-route-projectId="@p.Id" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
+                                    <a href="#" id="removeProject" data-project-id="@p.Id" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
                                 </div>
                             </td>
                         </tr>
@@ -153,6 +153,27 @@
                     // Proje detay sayfasına yönlendirme işlemi
                     window.location.href = '/Customer/Project/Detail?projectId=' + projectId;
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#removeProject').click(function (e) {
+                e.preventDefault();
+                var projectId = $(this).data('project-id');
+                Swal.fire({
+                    title: 'Silmek istediğinize emin misiniz?',
+                    text: "Silinen proje geri getirelemeyecek!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/Customer/Project/Remove?projectId=' + projectId;
+                    }
+                });
             });
         });
     </script>

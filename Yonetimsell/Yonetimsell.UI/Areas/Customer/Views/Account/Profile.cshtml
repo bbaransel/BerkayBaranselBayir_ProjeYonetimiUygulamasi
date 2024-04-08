@@ -1,0 +1,66 @@
+﻿@using Yonetimsell.Shared.ComplexTypes
+@using Yonetimsell.Shared.Extensions
+@model EditUserViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <form asp-area="Customer" asp-controller="Account" asp-action="Profile" method="post">
+        <div class="row g-4">
+            <div class="col-md-10 d-flex justify-content-center flex-column align-items-center bg-light mb-0">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="UserName"/>
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="ImageUrl" />
+                <img class="img-fluid rounded-circle w-25 mt-3" src="@Model.ImageUrl"/>
+                <div class="d-flex justify-content-between align-items-center w-25">
+                    <a asp-area="Customer" asp-controller="Account" asp-action="ChangePicture">Resmi Değiştir</a>
+                    <a asp-area="Customer" asp-controller="Account" asp-action="ChangePassword">Şifreyi Değiştir</a>
+                </div>
+            </div>
+            <div class="col-md-10 bg-light mt-0 p-3">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="row">
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input disabled type="text" class="form-control" asp-for="UserName">
+                        <label class="form-label ms-2" asp-for="UserName"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input type="text" class="form-control" asp-for="FirstName">
+                        <label class="form-label ms-2" asp-for="FirstName"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input type="text" class="form-control" asp-for="LastName">
+                        <label class="form-label ms-2" asp-for="LastName"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input disabled type="text" class="form-control" asp-for="Email">
+                        <label class="form-label ms-2" asp-for="Email"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input type="text" class="form-control" asp-for="PhoneNumber">
+                        <label class="form-label ms-2" asp-for="PhoneNumber"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input type="date" class="form-control" asp-for="DateOfBirth">
+                        <label class="form-label ms-2" asp-for="DateOfBirth"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input type="text" class="form-control" asp-for="Address">
+                        <label class="form-label ms-2" asp-for="Address"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <input type="text" class="form-control" asp-for="City">
+                        <label class="form-label ms-2" asp-for="City"></label>
+                    </div>
+                    <div class="form-floating col-md-4 mx-0 mb-3">
+                        <select class="form-select mb-4" asp-for="Gender">
+                            <option value="0">@Gender.Woman.GetDisplayName()</option>
+                            <option value="1">@Gender.Man.GetDisplayName()</option>
+                            <option value="2">@Gender.Other.GetDisplayName()</option>
+                        </select>
+                        <label class="form-label ms-2" asp-for="Gender"></label>
+                    </div>
+                </div>
+            <button class="btn btn-success w-100 mb-1" type="submit">Kaydet</button>
+            </div>
+        </div>
+    </form>
+</div>

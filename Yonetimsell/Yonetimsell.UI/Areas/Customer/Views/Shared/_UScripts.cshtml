@@ -22,3 +22,7 @@
 {
     @Html.Raw(TempData["ChangePasswordToast"])
 }
+@if (TempData["ProfileToast"] != null)
+{
+    @Html.Raw(TempData["ProfileToast"])
+}

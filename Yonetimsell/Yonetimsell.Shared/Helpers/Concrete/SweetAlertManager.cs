@@ -24,5 +24,17 @@ namespace Yonetimsell.Shared.Helpers.Concrete
                         }});
                     </script>";
         }
+        public string MiddleNotification(string icon, string title)
+        {
+            return $@"<script>
+                        Swal.fire({{
+                          position: ""center"",
+                          icon: ""{icon}"",
+                          title: ""{title}"",
+                          showConfirmButton: false,
+                          timer: 1500
+                        }});
+                    </script>";
+        }
     }
 }
