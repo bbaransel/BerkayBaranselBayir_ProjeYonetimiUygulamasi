@@ -2,6 +2,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <script src="~/customer/lib/chart/chart.min.js"></script>
 <script src="~/customer/lib/easing/easing.min.js"></script>
 <script src="~/customer/lib/waypoints/waypoints.min.js"></script>
@@ -25,4 +26,8 @@
 @if (TempData["ProfileToast"] != null)
 {
     @Html.Raw(TempData["ProfileToast"])
+}
+@if (TempData["ChangePictureToast"] != null)
+{
+    @Html.Raw(TempData["ChangePictureToast"])
 }

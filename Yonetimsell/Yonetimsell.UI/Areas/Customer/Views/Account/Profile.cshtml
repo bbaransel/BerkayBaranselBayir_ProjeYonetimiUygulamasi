@@ -1,6 +1,4 @@
-﻿@using Yonetimsell.Shared.ComplexTypes
-@using Yonetimsell.Shared.Extensions
-@model EditUserViewModel
+﻿@model EditUserViewModel
 <div class="container-fluid pt-4 px-4 h-100">
     <form asp-area="Customer" asp-controller="Account" asp-action="Profile" method="post">
         <div class="row g-4">
@@ -9,10 +7,10 @@
                 <input type="hidden" asp-for="UserName"/>
                 <input type="hidden" asp-for="Email" />
                 <input type="hidden" asp-for="ImageUrl" />
-                <img class="img-fluid rounded-circle w-25 mt-3" src="@Model.ImageUrl"/>
-                <div class="d-flex justify-content-between align-items-center w-25">
-                    <a asp-area="Customer" asp-controller="Account" asp-action="ChangePicture">Resmi Değiştir</a>
-                    <a asp-area="Customer" asp-controller="Account" asp-action="ChangePassword">Şifreyi Değiştir</a>
+                <img class="img-fluid rounded-circle mt-3" style="width:300px; height:300px" src="@Model.ImageUrl"/>
+                <div class="m-n2 pt-3">
+                    <a asp-area="Customer" asp-controller="Account" asp-action="ChangePicture" class="btn btn-link">Resmi Değiştir</a>
+                    <a asp-area="Customer" asp-controller="Account" asp-action="ChangePassword" class="btn btn-link">Şifreyi Değiştir</a>
                 </div>
             </div>
             <div class="col-md-10 bg-light mt-0 p-3">

@@ -1,0 +1,41 @@
+﻿<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <h3 class="mb-3">Profil Resmini Değiştir</h3>
+        <div class="col-md-10">
+            <form asp-area="Customer" asp-controller="Account" asp-action="ChangePicture" method="post" enctype="multipart/form-data" class="dropzone" id="myDropzone">
+                <div class="fallback">
+                    <input type="file" name="image" />
+                </div>
+                <button type="button" id="uploadbutton" class="btn btn-primary float-end"><i class="fas fa-upload"></i> Yükle</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        Dropzone.autoDiscover = false;
+        $(function () {
+            var dz = null;
+            $("#myDropzone").dropzone({
+                autoProcessQueue: false,
+                maxFileSize: 1, //MB
+                maxFiles: 1,
+                parallelUploads: 1,
+                paramName: "image", // Dosyanın parametre adı
+                acceptedFiles: ".jpeg,.jpg,.png",
+                uploadMultiple: false,
+                addRemoveLinks: true,
+                init: function () {
+                    dz = this;
+                    $("#uploadbutton").click(function () {
+                        dz.processQueue();
+                    });
+                },
+                dictDefaultMessage: "Dosyalarınızı buraya sürükleyebilirsiniz.",
+                dictRemoveFile: "Dosyayı sil."
+            });
+        });
+    </script>
+
+}
