@@ -1,0 +1,36 @@
+﻿@model List<MessageViewModel>
+<div class ="container-fluid pt-4 px-4">
+    <h1 class="display-4 text-primary">Gelen Mesaj</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            @foreach(var m in Model)
+            {
+                <div class="d-flex align-items-center border-bottom py-3">
+                    <img class="rounded-circle flex-shrink-0" src="@m.SenderImageUrl" alt="" style="width: 40px; height: 40px;">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 justify-content-between">
+                            <div>
+                                <h6 class="mb-0">@m.SenderFullName</h6>
+                                <small>@($"@{m.SenderUserName}")</small>
+                            </div>
+                            <small>@m.SendingDate</small>
+                        </div>
+                        <span>@m.Text</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-12">
+            <form asp-area="Customer" asp-controller="Message" asp-action="SendMessage" method="post">
+                <input type="hidden" value="@(Model.Last().SenderUserName == User.Identity.Name ? Model.Last().ReciverId : Model.Last().SenderId )" name="MessageViewModel.ReciverId" />
+                <input type="hidden" value="@Model.Last().Id" name="MessageViewModel.RelatedId" />
+                <div class="form-group mb-2">
+                    <label id="Text" name="Text"></label>
+                    <textarea class="form-control" rows="4" id="Text" name="MessageViewModel.Text"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm float-end ">Yanıtla</button>
+            </form>
+        </div>
+    </div>
+</div>

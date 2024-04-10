@@ -1,0 +1,22 @@
+﻿@model SendMessageViewModel
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Mesaj Gönder</h6>
+                <form asp-area="Customer" asp-controller="Message" asp-action="SendMessage" method="post">
+                    <div class="col-md-12 text-danger" asp-validation-summary="All"></div>
+                    <div class="form-floating mb-3">
+                        <select asp-for="MessageViewModel.ReciverId" class="form-select mb-4" asp-items="@Model.FriendList"></select>
+                        <label asp-for="MessageViewModel.ReciverUserName"></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" asp-for="MessageViewModel.Text" placeholder="Açıklama" style="height:215px"></textarea>
+                        <label asp-for="MessageViewModel.Text"></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Gönder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

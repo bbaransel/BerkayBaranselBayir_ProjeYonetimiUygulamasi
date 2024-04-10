@@ -1,0 +1,45 @@
+﻿@model List<MessageViewModel>
+
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 display-6">Mesajlarım</h6>
+            <a asp-area="Customer" asp-controller="Message" asp-action="SendMessage" class="btn btn-primary">Yeni mesaj gönder <i class="fas fa-plus"></i></a>
+        </div>
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="table-responsive">
+                <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col"></th>
+                            <th scope="col">İsmi</th>
+                            <th scope="col">Kullanıcı adı</th>
+                            <th scope="col">Mesaj</th>
+                            <th scope="col">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <td class="col-1 text-center"><img src="@m.SenderImageUrl" style="width:50px; height:50px" class="rounded-circle" /></td>
+                                <td>@m.SenderFullName</td>
+                                <td>@m.SenderUserName</td>
+                                @{
+                                    int length = m.Text.Length >= 10 ? 10 : m.Text.Length;
+                                }
+                                <td>@m.Text.Substring(0, length)</td>
+                                <td><a asp-area="Customer" asp-controller="Message" asp-action="Detail" asp-route-messageId="@m.Id" class="btn @(m.IsRead?"btn-secondary":"btn-primary")">Detay</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div>Hiç mesajınız bulunmamaktadır.</div>
+        }
+    </div>
+</div>

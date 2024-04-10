@@ -25,11 +25,13 @@ namespace Yonetimsell.Shared.ViewModels.MessageViewModels
         [DisplayName("Kime:")]
         public string ReciverUserName { get; set; }
         public string ReciverFullName { get; set; }
+        public string ReciverImageUrl { get; set; }
         public string SenderId { get; set; }
 
         [DisplayName("Kimden:")]
         public string SenderUserName { get; set; }
         public string SenderFullName { get; set; }
+        public string SenderImageUrl { get; set; }
         public bool IsRead { get; set; }
         public int RelatedId { get; set; } = 0;
     }
