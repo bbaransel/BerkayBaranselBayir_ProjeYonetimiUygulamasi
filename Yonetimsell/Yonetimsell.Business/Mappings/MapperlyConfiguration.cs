@@ -10,6 +10,7 @@ using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
+using Yonetimsell.Shared.ViewModels.MessageViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
@@ -59,6 +60,12 @@ namespace Yonetimsell.Business.Mappings
         #region User
         public partial UserViewModel UserToUserViewModel(User user);
         public partial EditUserViewModel UserToEditUserViewModel(User user);
+        #endregion
+        #region Message
+        public partial MessageViewModel MessageToMessageViewModel(Message message);
+        public partial List<MessageViewModel> ListMessageToListMessageViewModel(List<Message> messages);
+        public partial Message MessageViewModelToMessage(MessageViewModel messageViewModel);
+        public partial List<Message> ListMessageViewModelToListMessage(List<MessageViewModel> messageViewModels);
         #endregion
     }
 }

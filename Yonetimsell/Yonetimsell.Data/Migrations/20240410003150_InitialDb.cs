@@ -192,6 +192,36 @@ namespace Yonetimsell.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Text = table.Column<string>(type: "TEXT", nullable: true),
+                    SenderId = table.Column<string>(type: "TEXT", nullable: true),
+                    SenderUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    ReciverId = table.Column<string>(type: "TEXT", nullable: true),
+                    ReciverUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    IsRead = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SendingDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RelatedId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_ReciverUserId",
+                        column: x => x.ReciverUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderUserId",
+                        column: x => x.SenderUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -308,9 +338,9 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7288875a-2256-431c-b8bc-5672ece41609", null, "Süper Yönetici haklarını taşıyan rol", "SuperAdmin", "SUPERADMIN" },
-                    { "9e2b8b23-bf0a-4584-a39b-f3819dcb6a01", null, "Yönetici haklarını taşıyan rol", "Admin", "ADMIN" },
-                    { "b44f51a6-2f02-463f-a4ac-2ad0c83b861d", null, "Kullanıcı haklarını taşıyan rol", "Customer", "CUSTOMER" }
+                    { "00b28a29-adef-42e5-9770-9ee9d0abc3ae", null, "Süper Yönetici haklarını taşıyan rol", "SuperAdmin", "SUPERADMIN" },
+                    { "06ae8f18-cd2b-4552-8721-7209e0744d5b", null, "Yönetici haklarını taşıyan rol", "Admin", "ADMIN" },
+                    { "2974d9ba-e84a-4ad7-9d41-981cba2fa60c", null, "Kullanıcı haklarını taşıyan rol", "Customer", "CUSTOMER" }
                 });
 
             migrationBuilder.InsertData(
@@ -318,11 +348,11 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "ImageUrl", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "119a0be7-3d26-49cc-8123-f37e1b65c279", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "7b05fbd0-409e-40d9-a4cc-ab48cb3d1987", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "lebron@gmail.com", true, "LeBron", 1, "/files/images/default.png", "James", false, null, "LEBRON@GMAIL.COM", "LEBRON", "AQAAAAIAAYagAAAAEOIAqefQYtpdmEgrPfXsHmF413zuC0vzzZDsrZm7CtV/Z2zf4KlP/FzRJdfgN2K7qQ==", "05487654321", false, "87219141-4e37-4f48-bc14-64bd68dd4429", false, "lebron" },
-                    { "23884993-80ed-4588-bbba-f68c8374cb3b", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "bf3e07da-76e8-4c91-aa31-a0ddcd129451", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "admin", 0, "/files/images/default.png", "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEBpP2YCX6cInfy41pzz8RFv88g7BXoLRzaTVKUW8tP5maWLrOylCI65atVTNgqKyKg==", "05587654321", false, "7969f158-7de1-4221-b7e7-4dd670c31401", false, "admin" },
-                    { "48aa0aab-0e8c-4f77-82d2-0c44ee8d3cd5", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "9a4160eb-9e90-4343-aa68-9ebff465f8c3", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "engin@gmail.com", true, "Engin Niyazi", 1, "/files/images/default.png", "Ergül", false, null, "ENGIN@GMAIL.COM", "ENGINNIYAZI", "AQAAAAIAAYagAAAAEJwCNsZ4jke/kHcobdW/QGDQ/JiGaSXXH3L1QYndxr4b9dv5Cf4w8Wu48wTt7W8uFw==", "05987654321", false, "01d440e2-d772-4069-a475-20707fcda461", false, "enginniyazi" },
-                    { "9f1a78cb-e22f-43f8-8288-015dac504195", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "7a92b2d3-0b1a-4df9-9c4e-ec33c913ece1", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "customer@gmail.com", true, "customer", 0, "/files/images/default.png", "customer", false, null, "CUSTOMER@GMAIL.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEEWIM7brY/LA+Dp+nUIjUo2/AZebUVFppp0NL9meZ5sdH7qvhObZKi75muKvP9XbTw==", "05687654321", false, "4788fb88-ad5f-43a3-9ed7-e3d249dd58f1", false, "customer" },
-                    { "aaa0ee9f-a94e-4d5b-b58c-e959c354596e", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "0791f6fc-d607-46d7-ad20-eb4ab66c0a73", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "baransel@gmail.com", true, "Baransel", 1, "/files/images/default.png", "Bayir", false, null, "BARANSEL@GMAIL.COM", "BARANSEL", "AQAAAAIAAYagAAAAENm39JfmyxoPKQoWOeMlDghfR3usdiMNfMSWWG+Ye6MNZsWvl0i11LsTTugvpskWdA==", "05387654321", false, "19d0f589-ed47-48f3-891e-e7df860585b3", false, "baransel" }
+                    { "560bb7bf-8dcd-4db5-aa9b-6c59a3865850", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "110bd1fa-7301-41aa-9b6a-926062875beb", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "baransel@gmail.com", true, "Baransel", 1, "/files/images/default.png", "Bayir", false, null, "BARANSEL@GMAIL.COM", "BARANSEL", "AQAAAAIAAYagAAAAEM7qED7ti/t46xlm7xeQFNA5elTsD5aFN28Qi2Jb21M12ven7iRvaz4sLZV4wjdjzg==", "05387654321", false, "30a760e1-df03-4003-b8e7-5f2234064c1c", false, "baransel" },
+                    { "5e381a0b-f024-41b1-9763-4c1c5d4668e6", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "ad0ebf92-ad8b-48d2-b130-5ab6aed8a79b", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "customer@gmail.com", true, "customer", 0, "/files/images/default.png", "customer", false, null, "CUSTOMER@GMAIL.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEMVSh/hq5RrW9xyH4v9AFRsoervgMAhy14Cvf7pYxwtJch5TKlXkTlvy0dVVl1b7ww==", "05687654321", false, "9a9d793a-e919-48d1-88ef-37aefbdf5855", false, "customer" },
+                    { "72148d2f-7868-47a7-96c6-c9c1383ad9df", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "01c25401-6376-4aad-993b-d888b3eab5af", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "lebron@gmail.com", true, "LeBron", 1, "/files/images/default.png", "James", false, null, "LEBRON@GMAIL.COM", "LEBRON", "AQAAAAIAAYagAAAAEOITX27MC/6S5+ntS9g/FGEzi7dAhJNciJ5yomN4m7JhVtNVhJqmJWRatQHFy+pfoA==", "05487654321", false, "317c1b8d-ed91-414c-b50c-9001d4c1f63a", false, "lebron" },
+                    { "87becdad-b04f-480a-a1ef-48b871a00f36", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "26956680-679c-434f-ae33-21ab4effe798", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "admin", 0, "/files/images/default.png", "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEM1c2e+I/GRmr66POIgfrg1SQjE/1Z7qYOMvLBG25ujDIJ7Ln1+/W3pg4nBZYwvhyg==", "05587654321", false, "57035ebc-9dbf-4ba8-99dc-e9229117158a", false, "admin" },
+                    { "ab243936-c53b-4ddd-9197-35799ee4ddc7", 0, "Nokta Mah. Virgül Caddesi Ünlem Sokak no:1 daire:2", "İstanbul", "1ea0e99e-b22a-4f59-a02c-10839fb80f2e", new DateTime(1998, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "engin@gmail.com", true, "Engin Niyazi", 1, "/files/images/default.png", "Ergül", false, null, "ENGIN@GMAIL.COM", "ENGINNIYAZI", "AQAAAAIAAYagAAAAEFGiUIC/k4lkNPvELqsTlpIjij1sDAqOaQFBf/wj8ChuXZm3gRckTQ0s9CUSklyFiA==", "05987654321", false, "367b0285-3919-46ac-b1ca-576d8a00c89a", false, "enginniyazi" }
                 });
 
             migrationBuilder.InsertData(
@@ -330,11 +360,11 @@ namespace Yonetimsell.Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "9e2b8b23-bf0a-4584-a39b-f3819dcb6a01", "119a0be7-3d26-49cc-8123-f37e1b65c279" },
-                    { "9e2b8b23-bf0a-4584-a39b-f3819dcb6a01", "23884993-80ed-4588-bbba-f68c8374cb3b" },
-                    { "7288875a-2256-431c-b8bc-5672ece41609", "48aa0aab-0e8c-4f77-82d2-0c44ee8d3cd5" },
-                    { "b44f51a6-2f02-463f-a4ac-2ad0c83b861d", "9f1a78cb-e22f-43f8-8288-015dac504195" },
-                    { "7288875a-2256-431c-b8bc-5672ece41609", "aaa0ee9f-a94e-4d5b-b58c-e959c354596e" }
+                    { "00b28a29-adef-42e5-9770-9ee9d0abc3ae", "560bb7bf-8dcd-4db5-aa9b-6c59a3865850" },
+                    { "2974d9ba-e84a-4ad7-9d41-981cba2fa60c", "5e381a0b-f024-41b1-9763-4c1c5d4668e6" },
+                    { "06ae8f18-cd2b-4552-8721-7209e0744d5b", "72148d2f-7868-47a7-96c6-c9c1383ad9df" },
+                    { "06ae8f18-cd2b-4552-8721-7209e0744d5b", "87becdad-b04f-480a-a1ef-48b871a00f36" },
+                    { "00b28a29-adef-42e5-9770-9ee9d0abc3ae", "ab243936-c53b-4ddd-9197-35799ee4ddc7" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -382,6 +412,16 @@ namespace Yonetimsell.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Friendship_SenderUserId",
                 table: "Friendship",
+                column: "SenderUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReciverUserId",
+                table: "Messages",
+                column: "ReciverUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderUserId",
+                table: "Messages",
                 column: "SenderUserId");
 
             migrationBuilder.CreateIndex(
@@ -440,6 +480,9 @@ namespace Yonetimsell.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Friendship");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "PTasks");

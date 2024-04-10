@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Yonetimsell.Entity.Concrete.Identity;
+
+namespace Yonetimsell.Entity.Concrete
+{
+    public class Message
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string SenderId { get; set; }
+        public User SenderUser { get; set; }
+        public string ReciverId { get; set; }
+        public User ReciverUser { get; set; }
+        public bool IsRead { get; set; }
+        public DateTime SendingDate { get; set; } = DateTime.Now;
+        public int RelatedId { get; set; } = 0;
+    }
+}

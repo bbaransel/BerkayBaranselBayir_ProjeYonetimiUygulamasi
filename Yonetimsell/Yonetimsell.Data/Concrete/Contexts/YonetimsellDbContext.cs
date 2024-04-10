@@ -15,6 +15,7 @@ namespace Yonetimsell.Data.Concrete.Contexts
         public DbSet<Subscription> Subscriptions{ get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<Friendship> Friendship { get; set; }
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.SeedData();

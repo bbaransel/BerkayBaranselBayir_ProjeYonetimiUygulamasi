@@ -41,7 +41,7 @@ namespace Yonetimsell.Shared.Helpers.Concrete
             }
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
             var fileFullPath = Path.Combine(targetFolder, fileName);
-            var result = $"/files/images/users/{fileName}";
+            var result = $"/files/images/{folderName.GetDisplayName()}/{fileName}";
             await using (var stream = new FileStream(fileFullPath, FileMode.Create))
             {
                 image.CopyTo(stream);
