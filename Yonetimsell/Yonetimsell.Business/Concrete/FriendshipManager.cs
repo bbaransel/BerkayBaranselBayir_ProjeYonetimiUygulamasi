@@ -26,16 +26,37 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<List<FriendshipViewModel>>> GetFriendListAsync(string userId)
         {
-            var friendList = await _repository.GetFriendListByUserId(userId);
+            var friendList = await _repository.GetFriendListByUserIdAsync(userId);
             if (friendList == null) Response<NoContent>.Fail("Arkadaş listenizde kullanıcı bulunamadı");
-            //var result = _mapperly.ListFriendshipToListFriendshipViewModel(friendList);
             var result = friendList.Select(x=> new FriendshipViewModel
             {
                 Id = x.Id,
                 SenderUserId = x.SenderUserId,
                 SenderUserName = x.SenderUser.UserName,
+                SenderFullName = $"{x.SenderUser.FirstName} {x.SenderUser.LastName}",
+                SenderImageUrl = x.SenderUser.ImageUrl,
                 ReceiverUserId =x.ReceiverUserId,
                 ReceiverUserName = x.ReceiverUser.UserName,
+                ReceiverFullName = $"{x.ReceiverUser.FirstName} {x.ReceiverUser.LastName}",
+                ReceiverImageUrl = x.ReceiverUser.ImageUrl,
+            }).ToList();
+            return Response<List<FriendshipViewModel>>.Success(result);
+        }
+        public async Task<Response<List<FriendshipViewModel>>> GetPendingFriendListAsync(string userId)
+        {
+            var friendList = await _repository.GetFriendListByStatusAsync(userId, FriendshipStatus.Pending);
+            if (friendList == null) Response<NoContent>.Fail("Arkadaş listenizde kullanıcı bulunamadı");
+            var result = friendList.Select(x => new FriendshipViewModel
+            {
+                Id = x.Id,
+                SenderUserId = x.SenderUserId,
+                SenderUserName = x.SenderUser.UserName,
+                SenderFullName = $"{x.SenderUser.FirstName} {x.SenderUser.LastName}",
+                SenderImageUrl = x.SenderUser.ImageUrl,
+                ReceiverUserId = x.ReceiverUserId,
+                ReceiverUserName = x.ReceiverUser.UserName,
+                ReceiverFullName = $"{x.ReceiverUser.FirstName} {x.ReceiverUser.LastName}",
+                ReceiverImageUrl = x.ReceiverUser.ImageUrl,
             }).ToList();
             return Response<List<FriendshipViewModel>>.Success(result);
         }

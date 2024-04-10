@@ -21,12 +21,21 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task<List<Friendship>> GetFriendListByUserId(string userId)
+        public async Task<List<Friendship>> GetFriendListByUserIdAsync(string userId)
         {
             var friendList = await YonetimsellDbContext.Friendship
                 .Include(f => f.SenderUser)
                 .Include(f => f.ReceiverUser)
                 .Where(x => (x.SenderUserId == userId || x.ReceiverUserId == userId) && x.Status == FriendshipStatus.Accepted)
+                .ToListAsync();
+            return friendList;
+        }
+        public async Task<List<Friendship>> GetFriendListByStatusAsync(string userId, FriendshipStatus status)
+        {
+            var friendList = await YonetimsellDbContext.Friendship
+                .Include(f => f.SenderUser)
+                .Include(f => f.ReceiverUser)
+                .Where(x => (x.SenderUserId == userId || x.ReceiverUserId == userId) && x.Status == status)
                 .ToListAsync();
             return friendList;
         }

@@ -40,7 +40,13 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             }
             return View(addFriendUserViewModels);
         }
-
+        public async Task<IActionResult> FriendList()
+        {
+            var userId = _userManager.GetUserId(User);
+            var response = await _friendshipManager.GetFriendListAsync(userId);
+            var friendList = response.Data;
+            return View(friendList);
+        }
         public async Task<IActionResult> SendFriendRequest(string rUserId)
         {
             var userId = _userManager.GetUserId(User);
@@ -49,5 +55,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var sentFriendship = await _friendshipManager.SendFriendRequestAsync(friendship);
             return RedirectToAction("Index");
         }
+
     }
 }

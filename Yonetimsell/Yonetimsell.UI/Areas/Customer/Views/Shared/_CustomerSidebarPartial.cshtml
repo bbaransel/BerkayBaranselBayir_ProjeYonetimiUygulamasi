@@ -19,7 +19,14 @@
                     <a href="element.html" class="dropdown-item">Other Elements</a>
                 </div>
             </div>
-            <a asp-area="Customer" asp-controller="Friendship" asp-action="Index" class="nav-item nav-link"><i class="fas fa-user-friends"></i>Arkadaş ekle</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-user-friends"></i>Arkadaşlar</a>
+                <div class="dropdown-menu bg-transparent border-0 ms-3">
+                    <a asp-area="Customer" asp-controller="Friendship" asp-action="Index" class="nav-item nav-link">Arkadaş ekle</a>
+                    <a asp-area="Customer" asp-controller="Friendship" asp-action="FriendList" class="dropdown-item">Arkadaş Listesi</a>
+                </div>
+            </div>
+            <a asp-area="Customer" asp-controller="Message" asp-action="Index" class="nav-item nav-link"><i class="fas fa-envelope"></i>Mesajlarım</a>
             <a asp-area="Customer" asp-controller="Project" asp-action="Index" class="nav-item nav-link"><i class="fas fa-folder-open"></i>Projelerim</a>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-tasks"></i>Görevlerim</a>

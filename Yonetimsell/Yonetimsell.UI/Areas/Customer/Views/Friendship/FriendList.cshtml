@@ -1,0 +1,61 @@
+﻿@model List<FriendshipViewModel>
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 display-6">Arkadaş Listesi</h6>
+        </div>
+        @if(Model!=null && Model.Count > 0)
+        {
+        <div class="table-responsive">
+            <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col"></th>
+                        <th scope="col">İsim</th>
+                        <th scope="col">Kullanıcı Adı</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var f in Model)
+                    {
+                        <tr>
+                            @{
+                                if(f.ReceiverUserName == User.Identity.Name)
+                                {
+                                    string imageUrl = f.SenderImageUrl;
+                                    string id = f.SenderUserId;
+                                    string userName = f.SenderUserName;
+                                    string fullName = f.SenderFullName;
+                                    f.SenderImageUrl = f.ReceiverImageUrl;
+                                    f.SenderUserId = f.ReceiverUserId;
+                                    f.SenderUserName = f.ReceiverUserName;
+                                    f.SenderFullName = f.ReceiverFullName;
+                                    f.ReceiverImageUrl = imageUrl;
+                                    f.ReceiverUserId = id;
+                                    f.ReceiverUserName = userName;
+                                    f.ReceiverFullName = fullName;
+                                }
+                            }
+                            <td class="text-center col-1"><img src="@f.ReceiverImageUrl" style="height:50px; width:50px" class="rounded-circle"/></td>
+                            <td>@f.ReceiverFullName</td>
+                            <td>@f.ReceiverUserName</td>
+                            <td><a asp-area="Customer" asp-controller="Message" asp-action="SendMessage" asp-route-reciverId="@f.ReceiverUserId" class="btn btn-primary">Mesaj Gönder</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        else
+        {
+            <h3 class="w-100 text-start">Mevcut arkadaşınız bulunmamaktadır. Arkadaş eklemek için <a asp-area="Customer" asp-controller="Friendship" asp-action="Index" class=" btn-link fs-3">tıklayınız...</a></h3>
+        }
+    </div>
+</div>
+@section Styles {
+    @await Html.PartialAsync("_DataTablesStylesPartial")
+}
+@section Scripts {
+    @await Html.PartialAsync("_SimpleDataTablesScriptPartial")
+}

@@ -103,7 +103,7 @@ namespace Yonetimsell.UI.Controllers
                 // Başarılı giriş durumunda yapılacak işlemler
                 await _userManager.ResetAccessFailedCountAsync(user);
                 await _userManager.SetLockoutEndDateAsync(user, null);
-                TempData["LoginToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile giriş yapıldı");
+                TempData["LoginToast"] = _sweetAlert.TopEndNotification("success", "Başarıyla giriş yapıldı");
                 var returnUrl = TempData["ReturnUrl"]?.ToString();
                 if (!String.IsNullOrEmpty(returnUrl))
                 {
@@ -129,7 +129,7 @@ namespace Yonetimsell.UI.Controllers
         {
             await _signInManager.SignOutAsync();
             TempData["ReturnUrl"] = null;
-            TempData["LogoutToast"] = _sweetAlert.TopEndNotification("success", "Başarı ile çıkış yapıldı");
+            TempData["LogoutToast"] = _sweetAlert.TopEndNotification("success", "Başarıyla çıkış yapıldı");
             return Redirect("/");
         }
         public IActionResult AccessDenied()

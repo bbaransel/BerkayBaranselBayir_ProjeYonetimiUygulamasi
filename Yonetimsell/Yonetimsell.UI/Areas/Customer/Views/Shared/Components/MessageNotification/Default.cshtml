@@ -1,0 +1,36 @@
+﻿@model List<MessageViewModel>
+<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-envelope me-lg-2 @((Model!=null&& Model.Count>0)?"text-danger":"")"></i>
+        <span class="d-none d-lg-inline-flex">Mesajlar</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+    @if(Model != null && Model.Count > 0)
+    {
+        @foreach(var m in Model)
+        {
+            <a asp-area="Customer" asp-controller="Message" asp-action="Detail" asp-route-messageId="@m.Id" class="dropdown-item">
+            <div class="d-flex align-items-center">
+                <img class="rounded-circle" src="@m.SenderImageUrl" alt="" style="width: 40px; height: 40px;">
+                <div class="ms-2">
+                    <div>
+                        <h6 class="fw-normal mb-0"><strong>@m.SenderFullName</strong> size bir mesaj yolladı</h6>
+                        <small>@($"@{m.SenderUserName}")</small>
+                    </div>
+                    <small>@m.SendingDate</small>
+                </div>
+            </div>
+            </a>
+            <hr class="dropdown-divider">                
+        }
+    }
+    else
+    {
+        <div class="d-flex align-items-center p-3">
+            <div>Okunmamış mesajınız bulunmamaktadır.</div>
+            <hr/>
+        </div>
+    }
+        <a asp-area="Customer" asp-controller="Message" asp-action="Index" class="dropdown-item text-center">Bütün mesajları gör</a>
+    </div>
+</div>

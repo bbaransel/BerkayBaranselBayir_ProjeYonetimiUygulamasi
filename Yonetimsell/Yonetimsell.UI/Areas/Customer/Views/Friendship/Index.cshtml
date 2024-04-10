@@ -8,6 +8,7 @@
             <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                     <tr class="text-dark">
+                        <th scope="col"></th>
                         <th scope="col">İsim</th>
                         <th scope="col">Kullanıcı Adı</th>
                         <th scope="col">#</th>
@@ -17,6 +18,7 @@
                     @foreach(var u in Model)
                     {
                         <tr>
+                            <td class="text-center col-1"><img src="@u.ImageUrl" class="rounded-circle" style="height:50px; width:50px" /></td>
                             <td>@($"{u.FirstName} {u.LastName}")</td>
                             <td>@u.UserName</td>
                             <td><a asp-area="Customer" asp-controller="Friendship" asp-action="SendFriendRequest" asp-route-rUserId="@u.UserId" class="btn btn-success">Ekle</a></td>
@@ -27,3 +29,9 @@
         </div>
     </div>
 </div>
+@section Styles{
+    @await Html.PartialAsync("_DataTablesStylesPartial")
+}
+@section Scripts {
+    @await Html.PartialAsync("_SimpleDataTablesScriptPartial")
+}

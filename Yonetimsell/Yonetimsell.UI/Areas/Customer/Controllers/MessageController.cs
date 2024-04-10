@@ -50,22 +50,57 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             return View(relatedMessageList);
         }
 
-        public async Task<IActionResult> SendMessage()
+        //public async Task<IActionResult> SendMessage()
+        //{
+        //    var userId = _userManager.GetUserId(User);
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    var friendsResponse = await _friendshipManager.GetFriendListAsync(userId);
+        //    var friends = friendsResponse.Data;
+        //    List<SelectListItem> friendSelectList = friends.Select(x => new SelectListItem
+        //    {
+        //        Text = x.SenderUserName==user.UserName ? x.ReceiverUserName : x.SenderUserName,
+        //        Value = x.SenderUserId==user.Id ? x.ReceiverUserId : x.SenderUserId,
+        //    }).ToList();
+        //    SendMessageViewModel model = new SendMessageViewModel
+        //    {
+        //        FriendList = friendSelectList
+        //    };
+        //    return View(model);
+        //}
+        public async Task<IActionResult> SendMessage(string reciverId = null)
         {
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
-            var friendsResponse = await _friendshipManager.GetFriendListAsync(userId);
-            var friends = friendsResponse.Data;
-            List<SelectListItem> friendSelectList = friends.Select(x => new SelectListItem
+            if (reciverId == null)
             {
-                Text = x.SenderUserName==user.UserName ? x.ReceiverUserName : x.SenderUserName,
-                Value = x.SenderUserId==user.Id ? x.ReceiverUserId : x.SenderUserId,
-            }).ToList();
-            SendMessageViewModel model = new SendMessageViewModel
+                var friendsResponse = await _friendshipManager.GetFriendListAsync(userId);
+                var friends = friendsResponse.Data;
+                List<SelectListItem> friendsSelectList = friends.Select(x => new SelectListItem
+                {
+                    Text = x.SenderUserName == user.UserName ? x.ReceiverUserName : x.SenderUserName,
+                    Value = x.SenderUserId == user.Id ? x.ReceiverUserId : x.SenderUserId,
+                }).ToList();
+                SendMessageViewModel model = new SendMessageViewModel
+                {
+                    FriendList = friendsSelectList
+                };
+                return View(model);
+            }
+            var reciverUser = await _userManager.FindByIdAsync(reciverId);
+            var selectListItem = new SelectListItem
+            {
+                Text = reciverUser.UserName,
+                Value = reciverUser.Id,
+            };
+            var friendSelectList = new List<SelectListItem>
+            {
+                selectListItem
+            };
+            SendMessageViewModel result = new SendMessageViewModel
             {
                 FriendList = friendSelectList
             };
-            return View(model);
+            return View(result);
         }
         [HttpPost]
         public async Task<IActionResult> SendMessage(SendMessageViewModel model)
