@@ -49,24 +49,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             relatedMessageList.Add(message);
             return View(relatedMessageList);
         }
-
-        //public async Task<IActionResult> SendMessage()
-        //{
-        //    var userId = _userManager.GetUserId(User);
-        //    var user = await _userManager.FindByIdAsync(userId);
-        //    var friendsResponse = await _friendshipManager.GetFriendListAsync(userId);
-        //    var friends = friendsResponse.Data;
-        //    List<SelectListItem> friendSelectList = friends.Select(x => new SelectListItem
-        //    {
-        //        Text = x.SenderUserName==user.UserName ? x.ReceiverUserName : x.SenderUserName,
-        //        Value = x.SenderUserId==user.Id ? x.ReceiverUserId : x.SenderUserId,
-        //    }).ToList();
-        //    SendMessageViewModel model = new SendMessageViewModel
-        //    {
-        //        FriendList = friendSelectList
-        //    };
-        //    return View(model);
-        //}
         public async Task<IActionResult> SendMessage(string reciverId = null)
         {
             var userId = _userManager.GetUserId(User);
@@ -105,16 +87,16 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(SendMessageViewModel model)
         {
-            var reciverUser = await _userManager.FindByIdAsync(model.MessageViewModel.ReciverId);
+            var reciverUser = await _userManager.FindByIdAsync(model.MessageViewModel.ReceiverId);
             if (reciverUser == null) 
             {
                 TempData["MessageToast"] = _sweetAlert.MiddleNotification("error", "Lütfen kime gönderileceğini seçiniz.");
                 return RedirectToAction("SendMessage");
             }
-            model.MessageViewModel.ReciverId = reciverUser.Id;
-            model.MessageViewModel.ReciverFullName = $"{reciverUser.FirstName} {reciverUser.LastName}";
-            model.MessageViewModel.ReciverImageUrl = reciverUser.ImageUrl;
-            model.MessageViewModel.ReciverUserName = reciverUser.UserName;
+            model.MessageViewModel.ReceiverId = reciverUser.Id;
+            model.MessageViewModel.ReceiverFullName = $"{reciverUser.FirstName} {reciverUser.LastName}";
+            model.MessageViewModel.ReceiverImageUrl = reciverUser.ImageUrl;
+            model.MessageViewModel.ReceiverUserName = reciverUser.UserName;
             var senderUser = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             model.MessageViewModel.SenderId = senderUser.Id;
             model.MessageViewModel.SenderFullName = $"{senderUser.FirstName} {senderUser.LastName}";

@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
+using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
@@ -17,11 +14,38 @@ namespace Yonetimsell.Business.Concrete
     {
         private readonly IFriendshipRepository _repository;
         private readonly MapperlyConfiguration _mapperly;
+
         public FriendshipManager(IFriendshipRepository repository, MapperlyConfiguration mapperly)
         {
             _repository = repository;
             _mapperly = mapperly;
+        }
 
+        public async Task<Response<FriendshipViewModel>> GetByIdAsync(int id)
+        {
+            var friendship = await _repository.GetAsync(x=> x.Id == id,
+                query => query.Include(y => y.SenderUser)
+                .Include(y => y.ReceiverUser));
+            if (friendship == null) Response<NoContent>.Fail("Geçerli istek bulunamadı");
+            var result = new FriendshipViewModel
+            {
+                Id = id,
+                ReceiverUserId = friendship.ReceiverUserId,
+                ReceiverFullName = $"{friendship.ReceiverUser.FirstName} {friendship.ReceiverUser.LastName}",
+                ReceiverImageUrl = friendship.ReceiverUser.ImageUrl,
+                ReceiverUserName = friendship.ReceiverUser.UserName,
+                Status = friendship.Status,
+                SenderUserName = friendship.SenderUser.UserName,
+                SenderUserId = friendship.SenderUserId,
+                SenderImageUrl = friendship.SenderUser.ImageUrl,
+                SenderFullName = $"{friendship.SenderUser.FirstName} {friendship.SenderUser.LastName}",
+            };
+            return Response<FriendshipViewModel>.Success(result);
+        }
+        public async Task<Response<bool>> CheckIfFriendshipExistsAsync(string currentUserId, string otherUserId)
+        {
+            var result = await _repository.CheckIfFriendshipExistsAsync(currentUserId, otherUserId);
+            return Response<bool>.Success(result);
         }
 
         public async Task<Response<List<FriendshipViewModel>>> GetFriendListAsync(string userId)
@@ -63,23 +87,30 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> RemoveFriendAsync(string userId, string removedUserId)
         {
-            var friendship = await _repository.GetAsync(x=>x.SenderUserId == userId && x.ReceiverUserId == removedUserId);
+            var friendship = await _repository.GetAsync(x=>x.SenderUserId == userId && x.ReceiverUserId == removedUserId,
+                query => query.Include(y => y.SenderUser)
+                .Include(y => y.ReceiverUser));
             if (friendship == null)
             {
-                friendship = await _repository.GetAsync(x => x.SenderUserId == removedUserId && x.ReceiverUserId == userId);
+                friendship = await _repository.GetAsync(x => x.SenderUserId == removedUserId && x.ReceiverUserId == userId, query => 
+                    query.Include(y => y.SenderUser)
+                    .Include(y => y.ReceiverUser));
                 if (friendship == null) Response<NoContent>.Fail("Arkadaş listenizde ilgili kullanıcı bulunamadı");
             }
             await _repository.HardDeleteAsync(friendship);
             return Response<NoContent>.Success();
         }
-
-        public async Task<Response<FriendshipViewModel>> ReplyFriendRequestAsync(FriendshipViewModel friendshipViewModel)
+        public async Task<Response<NoContent>> DeleteFriendshipByIdAsync(int id)
         {
-            var friendship = _mapperly.FriendshipViewModelToFriendship(friendshipViewModel);
-            if (friendship == null) Response<NoContent>.Fail("İlgili arkadaşlık isteği bulunamadı");
-            friendship.Status = friendshipViewModel.Status;
-            await _repository.UpdateAsync(friendship);
-            return Response<FriendshipViewModel>.Success(friendshipViewModel);
+            var friendship = await _repository.GetAsync(x=>x.Id== id,
+                query => query.Include(y => y.SenderUser)
+                .Include(y => y.ReceiverUser));
+            if (friendship == null)
+            {
+                if (friendship == null) Response<NoContent>.Fail("Arkadaş listenizde ilgili kullanıcı bulunamadı");
+            }
+            await _repository.HardDeleteAsync(friendship);
+            return Response<NoContent>.Success();
         }
 
         public async Task<Response<FriendshipViewModel>> SendFriendRequestAsync(FriendshipViewModel friendshipViewModel)
@@ -89,6 +120,25 @@ namespace Yonetimsell.Business.Concrete
             if (createdFriendship == null) Response<NoContent>.Fail("Arkadaşlık isteği gönderilemedi");
             var result = _mapperly.FriendshipToFriendshipViewModel(createdFriendship);
             return Response<FriendshipViewModel>.Success(result);
+        }
+        public async Task<Response<NoContent>> AcceptFriendRequestAsync(int id)
+        {
+            var friendship = await _repository.GetAsync(x=> x.Id == id,
+                query => query.Include(y=>y.SenderUser)
+                .Include(y=>y.ReceiverUser));
+            if (friendship == null) Response<NoContent>.Fail("İlgili arkadaşlık isteği bulunamadı");
+            friendship.Status = FriendshipStatus.Accepted;
+            await _repository.UpdateAsync(friendship);
+            return Response<NoContent>.Success();
+        }
+        public async Task<Response<NoContent>> DenyFriendRequestAsync(int id)
+        {
+            var friendship = await _repository.GetAsync(x => x.Id == id,
+                query => query.Include(y => y.SenderUser)
+                .Include(y => y.ReceiverUser));
+            if (friendship == null) Response<NoContent>.Fail("İlgili arkadaşlık isteği bulunamadı");
+            await _repository.HardDeleteAsync(friendship);
+            return Response<NoContent>.Success();
         }
     }
 }

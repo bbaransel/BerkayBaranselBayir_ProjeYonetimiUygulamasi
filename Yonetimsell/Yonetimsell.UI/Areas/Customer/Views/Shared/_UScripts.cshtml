@@ -35,3 +35,7 @@
 {
     @Html.Raw(TempData["MessageToast"])
 }
+@if (TempData["FriendRequestToast"] != null)
+{
+    @Html.Raw(TempData["FriendRequestToast"])
+}

@@ -20,12 +20,12 @@ namespace Yonetimsell.Shared.ViewModels.MessageViewModels
         public string Text { get; set; }
 
         [DisplayName("Yanıt:")]
-        public string ReciverId { get; set; }
+        public string ReceiverId { get; set; }
 
         [DisplayName("Kime:")]
-        public string ReciverUserName { get; set; }
-        public string ReciverFullName { get; set; }
-        public string ReciverImageUrl { get; set; }
+        public string ReceiverUserName { get; set; }
+        public string ReceiverFullName { get; set; }
+        public string ReceiverImageUrl { get; set; }
         public string SenderId { get; set; }
 
         [DisplayName("Kimden:")]

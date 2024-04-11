@@ -39,7 +39,11 @@
         }
         else
         {
-            <div>Hiç mesajınız bulunmamaktadır.</div>
+            <div class="d-flex flex-column">
+                <h3 class="w-100 text-start">Hiç mesajınız bulunmamaktadır. Mesaj göndermek için buraya <a asp-area="Customer" asp-controller="Message" asp-action="SendMessage" class=" btn-link fs-3">tıklayınız...</a></h3>
+                <h3 class="w-100 text-start">Arkadaş eklemek için buraya <a asp-area="Customer" asp-controller="Friendship" asp-action="Index" class=" btn-link fs-3">tıklayınız...</a></h3>
+            </div>
+
         }
     </div>
 </div>

@@ -8,6 +8,7 @@ using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
+using Yonetimsell.Shared.Helpers.Abstract;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
 
@@ -20,12 +21,14 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly IFriendshipService _friendshipManager;
         private readonly UserManager<User> _userManager;
         private readonly MapperlyConfiguration _mapperly;
+        private readonly ISweetAlertService _sweetAlert;
 
-        public FriendshipController(IFriendshipService friendshipManager, UserManager<User> userManager, MapperlyConfiguration mapperly)
+        public FriendshipController(IFriendshipService friendshipManager, UserManager<User> userManager, MapperlyConfiguration mapperly, ISweetAlertService sweetAlert)
         {
             _friendshipManager = friendshipManager;
             _userManager = userManager;
             _mapperly = mapperly;
+            _sweetAlert = sweetAlert;
         }
 
         public IActionResult Index()
@@ -50,10 +53,45 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> SendFriendRequest(string rUserId)
         {
             var userId = _userManager.GetUserId(User);
-            //buraya zaten arkadaş listesinde olup olmadığı kontrolü eklenecek
-            var friendship = new FriendshipViewModel { ReceiverUserId = rUserId, SenderUserId = userId, Status = FriendshipStatus.Accepted}; // "Status Accepted" will change later on
+            var ifFriendshipExists = await _friendshipManager.CheckIfFriendshipExistsAsync(userId, rUserId);
+            if(ifFriendshipExists.Data)
+            {
+                TempData["FriendRequestToast"] = _sweetAlert.MiddleNotification("error", "Arkadaşlık isteği zaten gönderildi");
+                return RedirectToAction("Index");
+            }
+            var friendship = new FriendshipViewModel { ReceiverUserId = rUserId, SenderUserId = userId, Status = FriendshipStatus.Pending};
             var sentFriendship = await _friendshipManager.SendFriendRequestAsync(friendship);
+            TempData["FriendRequestToast"] = _sweetAlert.MiddleNotification("success", "Arkadaşlık isteği gönderildi.");
             return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> AcceptFriendRequest(int id)
+        {
+            var response = await _friendshipManager.AcceptFriendRequestAsync(id);
+            if (!response.IsSucceeded)
+            {
+                TempData["RepyRequestToast"] = _sweetAlert.TopEndNotification("error", "İstek bulunamadı.");
+                return RedirectToAction("PendingList");
+            }
+            TempData["RepyRequestToast"] = _sweetAlert.TopEndNotification("success", "Arkadaş başarıyla eklendi.");
+            return RedirectToAction("PendingList");
+        }
+        public async Task<IActionResult> DenyFriendRequest(int id)
+        {
+            var response = await _friendshipManager.DenyFriendRequestAsync(id);
+            if (!response.IsSucceeded)
+            {
+                TempData["RepyRequestToast"] = _sweetAlert.TopEndNotification("error", "İstek bulunamadı.");
+                return RedirectToAction("PendingList");
+            }
+            TempData["RepyRequestToast"] = _sweetAlert.TopEndNotification("warning", "Arkadaşlık isteği reddedildi.");
+            return RedirectToAction("PendingList");
+        }
+        public async Task<IActionResult> PendingList()
+        {
+            var userId = _userManager.GetUserId(User);
+            var response = await _friendshipManager.GetPendingFriendListAsync(userId);
+            var result = response.Data.Where(x => x.SenderUserId != userId).ToList();
+            return View(result);
         }
 
     }

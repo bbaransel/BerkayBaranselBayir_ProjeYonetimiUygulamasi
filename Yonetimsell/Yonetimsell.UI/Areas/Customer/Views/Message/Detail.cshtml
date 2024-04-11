@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-12 bg-light">
             <form asp-area="Customer" asp-controller="Message" asp-action="SendMessage" method="post">
-                <input type="hidden" value="@(Model.Last().SenderUserName == User.Identity.Name ? Model.Last().ReciverId : Model.Last().SenderId )" name="MessageViewModel.ReciverId" />
+                <input type="hidden" value="@(Model.Last().SenderUserName == User.Identity.Name ? Model.Last().ReceiverId : Model.Last().SenderId )" name="MessageViewModel.ReceiverId" />
                 <input type="hidden" value="@(Model.Last().RelatedId==0 ? Model.Last().Id : Model.Last().RelatedId)" name="MessageViewModel.RelatedId" />
                 <div class="form-group mb-2">
                     <label id="Text" name="Text"></label>
