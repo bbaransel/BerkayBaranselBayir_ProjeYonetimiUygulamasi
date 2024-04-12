@@ -88,19 +88,19 @@
                                     <div class="progress">
                                             @{
                                                 string taskBarColor = "";
-                                                if (p.ProgressTimePercentage <= 25)
+                                                if (p.ProgressPTaskPercentage <= 25)
                                                 {
                                                     taskBarColor = "bg-danger";
                                                 }
-                                                else if (p.ProgressTimePercentage <= 50)
+                                                else if (p.ProgressPTaskPercentage <= 50)
                                                 {
                                                     taskBarColor = "bg-warning";
                                                 }
-                                                else if (p.ProgressTimePercentage <= 75)
+                                                else if (p.ProgressPTaskPercentage <= 75)
                                                 {
                                                     taskBarColor = "";
                                                 }
-                                                else if (p.ProgressTimePercentage < 100)
+                                                else if (p.ProgressPTaskPercentage < 100)
                                                 {
                                                     taskBarColor = "bg-info";
                                                 }

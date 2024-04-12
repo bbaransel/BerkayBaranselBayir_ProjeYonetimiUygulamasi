@@ -18,6 +18,7 @@
                                     <th scope="col">Açıklaması</th>
                                     <th scope="col">Durum</th>
                                     <th scope="col">Bitiş Tarihi</th>
+                                    <th scope="col">Süre</th>
                                     <th scope="col" class="text-center">#</th>
                                 </tr>
                             </thead>
@@ -32,6 +33,36 @@
                                         <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
                                         <td>@t.Status.GetDisplayName()</td>
                                         <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
+                                        <td>
+                                            <div class="pg-bar mb-3">
+                                                <div class="progress">
+                                                    @{
+                                                        string timeBarColor = "";
+                                                        if (t.ProgressTimePercentage <= 25)
+                                                        {
+                                                            timeBarColor = "bg-success";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 50)
+                                                        {
+                                                            timeBarColor = "bg-info";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 75)
+                                                        {
+                                                            timeBarColor = "";
+                                                        }
+                                                        else if (t.ProgressTimePercentage < 100)
+                                                        {
+                                                            timeBarColor = "bg-warning";
+                                                        }
+                                                        else
+                                                        {
+                                                            timeBarColor = "bg-danger";
+                                                        }
+                                                    }
+                                                    <div class="progress-bar progress-bar-striped @timeBarColor" role="progressbar" aria-valuenow="@t.ProgressTimePercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
                                                 <div class="btn-group" role="group">
@@ -60,6 +91,7 @@
                                     <th scope="col">Açıklaması</th>
                                     <th scope="col">Durum</th>
                                     <th scope="col">Bitiş Tarihi</th>
+                                    <th scope="col">Süre</th>
                                     <th scope="col" class="text-center">#</th>
                                 </tr>
                             </thead>
@@ -74,6 +106,36 @@
                                         <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
                                         <td>@t.Status.GetDisplayName()</td>
                                         <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
+                                        <td>
+                                            <div class="pg-bar mb-3">
+                                                <div class="progress">
+                                                    @{
+                                                        string timeBarColor = "";
+                                                        if (t.ProgressTimePercentage <= 25)
+                                                        {
+                                                            timeBarColor = "bg-success";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 50)
+                                                        {
+                                                            timeBarColor = "bg-info";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 75)
+                                                        {
+                                                            timeBarColor = "";
+                                                        }
+                                                        else if (t.ProgressTimePercentage < 100)
+                                                        {
+                                                            timeBarColor = "bg-warning";
+                                                        }
+                                                        else
+                                                        {
+                                                            timeBarColor = "bg-danger";
+                                                        }
+                                                    }
+                                                    <div class="progress-bar progress-bar-striped @timeBarColor" role="progressbar" aria-valuenow="@t.ProgressTimePercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
                                                 <div class="btn-group" role="group">
@@ -102,6 +164,7 @@
                                     <th scope="col">Açıklaması</th>
                                     <th scope="col">Durum</th>
                                     <th scope="col">Bitiş Tarihi</th>
+                                    <th scope="col">Süre</th>
                                     <th scope="col" class="text-center">#</th>
                                 </tr>
                             </thead>
@@ -116,6 +179,36 @@
                                         <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
                                         <td>@t.Status.GetDisplayName()</td>
                                         <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
+                                        <td>
+                                            <div class="pg-bar mb-3">
+                                                <div class="progress">
+                                                    @{
+                                                        string timeBarColor = "";
+                                                        if (t.ProgressTimePercentage <= 25)
+                                                        {
+                                                            timeBarColor = "bg-success";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 50)
+                                                        {
+                                                            timeBarColor = "bg-info";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 75)
+                                                        {
+                                                            timeBarColor = "";
+                                                        }
+                                                        else if (t.ProgressTimePercentage < 100)
+                                                        {
+                                                            timeBarColor = "bg-warning";
+                                                        }
+                                                        else
+                                                        {
+                                                            timeBarColor = "bg-danger";
+                                                        }
+                                                    }
+                                                    <div class="progress-bar progress-bar-striped @timeBarColor" role="progressbar" aria-valuenow="@t.ProgressTimePercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
                                                 <div class="btn-group" role="group">
@@ -144,6 +237,7 @@
                                 <th scope="col">Açıklaması</th>
                                 <th scope="col">Durum</th>
                                 <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Süre</th>
                                 <th scope="col" class="text-center">#</th>
                             </tr>
                         </thead>
@@ -158,6 +252,36 @@
                                     <td>@t.Description.Substring(0, lenght)@(t.Description.Length > 30 ? "..." : "")</td>
                                     <td>@t.Status.GetDisplayName()</td>
                                     <td>@t.DueDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(t.DueDate.DayOfWeek)</td>
+                                        <td>
+                                            <div class="pg-bar mb-3">
+                                                <div class="progress">
+                                                    @{
+                                                        string timeBarColor = "";
+                                                        if (t.ProgressTimePercentage <= 25)
+                                                        {
+                                                            timeBarColor = "bg-success";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 50)
+                                                        {
+                                                            timeBarColor = "bg-info";
+                                                        }
+                                                        else if (t.ProgressTimePercentage <= 75)
+                                                        {
+                                                            timeBarColor = "";
+                                                        }
+                                                        else if (t.ProgressTimePercentage < 100)
+                                                        {
+                                                            timeBarColor = "bg-warning";
+                                                        }
+                                                        else
+                                                        {
+                                                            timeBarColor = "bg-danger";
+                                                        }
+                                                    }
+                                                    <div class="progress-bar progress-bar-striped @timeBarColor" role="progressbar" aria-valuenow="@t.ProgressTimePercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     <td>
                                         <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
                                             <div class="btn-group" role="group">

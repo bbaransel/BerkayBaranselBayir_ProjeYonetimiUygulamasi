@@ -146,7 +146,30 @@
                                         <td>
                                             <div class="pg-bar mb-3">
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width:35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                                @{
+                                                    string timeBarColor = "";
+                                                    if (t.ProgressTimePercentage <= 25)
+                                                    {
+                                                        timeBarColor = "bg-success";
+                                                    }
+                                                    else if (t.ProgressTimePercentage <= 50)
+                                                    {
+                                                        timeBarColor = "bg-info";
+                                                    }
+                                                    else if (t.ProgressTimePercentage <= 75)
+                                                    {
+                                                        timeBarColor = "";
+                                                    }
+                                                    else if (t.ProgressTimePercentage < 100)
+                                                    {
+                                                        timeBarColor = "bg-warning";
+                                                    }
+                                                    else
+                                                    {
+                                                        timeBarColor = "bg-danger";
+                                                    }
+                                                }
+                                                    <div class="progress-bar progress-bar-striped @timeBarColor" role="progressbar"  aria-valuenow="@t.ProgressTimePercentage" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         </td>

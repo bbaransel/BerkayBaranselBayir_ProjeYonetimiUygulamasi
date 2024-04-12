@@ -140,7 +140,8 @@ namespace Yonetimsell.Business.Concrete
                 ProjectId = x.ProjectId,
                 Status = x.Status,
                 UserId = x.UserId,
-                UserName = x.User.UserName
+                UserName = x.User.UserName,
+                CreatedDate = x.CreatedDate,
             }).ToList();
             return Response<List<PTaskViewModel>>.Success(result);
         }
