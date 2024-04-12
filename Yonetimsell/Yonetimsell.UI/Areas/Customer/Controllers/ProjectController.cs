@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing;
+using System.Net.NetworkInformation;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
+using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
+using Yonetimsell.Shared.Helpers.Abstract;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
@@ -21,14 +25,16 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly ITeamMemberService _teamMemberManager;
         private readonly IPTaskService _pTaskManager;
         private readonly MapperlyConfiguration _mapperly;
+        private readonly ISweetAlertService _sweetAlert;
 
-        public ProjectController(UserManager<User> userManager, IProjectService projectManager, ITeamMemberService teamMemberManager, IPTaskService pTaskManager, MapperlyConfiguration mapperly)
+        public ProjectController(UserManager<User> userManager, IProjectService projectManager, ITeamMemberService teamMemberManager, IPTaskService pTaskManager, MapperlyConfiguration mapperly, ISweetAlertService sweetAlert)
         {
             _userManager = userManager;
             _projectManager = projectManager;
             _teamMemberManager = teamMemberManager;
             _pTaskManager = pTaskManager;
             _mapperly = mapperly;
+            _sweetAlert = sweetAlert;
         }
 
         public async Task<IActionResult> Index()
@@ -109,10 +115,26 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         }
         public async Task<IActionResult> Remove(int projectId)
         {
-            //Notification will be added( Example: Silmek istediğinizden emin misiniz ilgili tüm görevler silinecek!)
             await _projectManager.SoftDeleteAsync(projectId);
             await _projectManager.ClearAllTasksAsync(projectId);
+            await _projectManager.ClearAllTeamMembersAsync(projectId);
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(int projectId, Status status)
+        {
+            await _projectManager.ChangeProjectStatusAsync(projectId, status);
+            string icon = "success";
+            string title = $"Durum \"{status.GetDisplayName()}\" olarak güncellendi";
+            return Json(new { success = true, icon = icon, title = title });
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePriority(int projectId, Priority priority)
+        {
+            await _projectManager.ChangeProjectPriorityAsync(projectId, priority);
+            string icon = "success";
+            string title = $"Öncelik \"{priority.GetDisplayName()}\" olarak güncellendi";
+            return Json(new { success = true, icon = icon, title = title });
         }
     }
 }

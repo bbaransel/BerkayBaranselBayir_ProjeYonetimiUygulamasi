@@ -37,15 +37,15 @@
                                 <select class="form-select form-select-sm" asp-items="p.TeamMembers"></select>
                             </td>
                             <td>
-                                <select class="form-select form-select-sm" asp-for="@p.Priority">
+                                    <select class="form-select form-select-sm" onchange="changePriority(this,@p.Id)" id="priority-@p.Id" asp-for="@p.Priority">
                                     <option value="0">Düşük</option>
                                     <option value="1">Orta</option>
                                     <option value="2">Yüksek</option>
-                                    <option value="3">Acil/Kritik</option>
+                                    <option value="3">Kritik</option>
                                 </select>
                             </td>
                             <td>
-                                <select class="form-select form-select-sm" asp-for="@p.Status">
+                                <select class="form-select form-select-sm" onchange="changeStatus(this,@p.Id)" id="status-@p.Id" asp-for="@p.Status">
                                     <option value="0">Devam ediyor</option>
                                     <option value="1">Tamamlandı</option>
                                     <option value="2">Hatalı</option>
@@ -116,7 +116,7 @@
                             <td>
                                 <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
                                     <a asp-area="Customer" asp-controller="Project" asp-action="Detail" asp-route-projectId="@p.Id" class="btn btn-warning btn-md"><i class="far fa-edit"></i></a>
-                                    <a href="#" id="removeProject" data-project-id="@p.Id" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></a>
+                                    <button onclick="removeProject(@p.Id)" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -156,26 +156,81 @@
             });
         });
     </script>
+}
+@section TopScripts{
     <script>
-        $(document).ready(function () {
-            $('#removeProject').click(function (e) {
-                e.preventDefault();
-                var projectId = $(this).data('project-id');
-                Swal.fire({
-                    title: 'Silmek istediğinize emin misiniz?',
-                    text: "Silinen proje geri getirelemeyecek!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Evet!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/Customer/Project/Remove?projectId=' + projectId;
-                    }
-                });
+        const changeStatus = function (element, projectId) {
+            var status = element.options[element.selectedIndex].value;
+            $.ajax({
+                url: '/Customer/Project/ChangeStatus',
+                method: 'POST',
+                data: {
+                    projectId: projectId,
+                    status: status
+                },
+                success: function (response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    });
+                }
             });
-        });
+        }
+        const changePriority = function (element, projectId) {
+            var priority = element.options[element.selectedIndex].value;
+            $.ajax({
+                url: '/Customer/Project/ChangePriority',
+                method: 'POST',
+                data: {
+                    projectId: projectId,
+                    priority: priority
+                },
+                success: function (response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    });
+                }
+            });
+        }
     </script>
-
+    <script>
+        const removeProject = function (projectId) {
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz?',
+                text: "Silinen proje geri getirelemeyecek!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Customer/Project/Remove?projectId=' + projectId;
+                }
+            });
+        }
+    </script>
 }

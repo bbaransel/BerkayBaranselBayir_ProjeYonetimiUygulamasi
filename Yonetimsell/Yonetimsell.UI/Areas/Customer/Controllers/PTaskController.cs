@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
+using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
 
@@ -133,6 +134,28 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        public async Task<IActionResult> Remove(int pTaskId)
+        {
+            var response = await _pTaskManager.GetByIdAsync(pTaskId);
+            var projectId = response.Data.ProjectId;
+            await _pTaskManager.HardDeleteAsync(pTaskId);
+            return Redirect($"/Customer/Project/Detail?projectId={projectId}");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(int pTaskId, Status status)
+        {
+            await _pTaskManager.ChangePTaskStatusAsync(pTaskId, status);
+            string icon = "success";
+            string title = $"Durum \"{status.GetDisplayName()}\" olarak güncellendi";
+            return Json(new { success = true, icon = icon, title = title });
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePriority(int pTaskId, Priority priority)
+        {
+            await _pTaskManager.ChangePTaskPriorityAsync(pTaskId, priority);
+            string icon = "success";
+            string title = $"Durum \"{priority.GetDisplayName()}\" olarak güncellendi";
+            return Json(new { success = true, icon = icon, title = title });
+        }
     }
 }

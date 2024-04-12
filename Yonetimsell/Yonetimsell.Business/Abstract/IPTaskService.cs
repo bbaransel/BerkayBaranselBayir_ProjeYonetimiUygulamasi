@@ -13,7 +13,7 @@ namespace Yonetimsell.Business.Abstract
     {
         Task<Response<PTaskViewModel>> CreateAsync(AddPTaskViewModel addPTaskViewModel);
         Task<Response<PTaskViewModel>> UpdateAsync(PTaskViewModel pTaskViewModel);
-        Task<Response<NoContent>> HardDelete(int pTaskId);
+        Task<Response<NoContent>> HardDeleteAsync(int pTaskId);
         Task<Response<List<PTaskViewModel>>> GetAllAsync();
         Task<Response<PTaskViewModel>> GetByIdAsync(int pTaskId);
         Task<Response<List<PTaskViewModel>>> GetTasksByPriorityAsync(string userId, Priority priority);

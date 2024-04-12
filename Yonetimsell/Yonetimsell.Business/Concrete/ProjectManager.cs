@@ -49,6 +49,13 @@ namespace Yonetimsell.Business.Concrete
             await _repository.ClearAllTasksFromProjectAsync(projectId);
             return Response<NoContent>.Success();
         }
+        public async Task<Response<NoContent>> ClearAllTeamMembersAsync(int projectId)
+        {
+            var project = await _repository.GetAsync(x => x.Id == projectId);
+            if (project == null) Response<NoContent>.Fail("ilgili proje bulunamadı");
+            await _repository.ClearAllTeamMembersFromProjectAsync(projectId);
+            return Response<NoContent>.Success();
+        }
 
         public async Task<Response<ProjectViewModel>> CreateAsync(AddProjectViewModel addProjectViewModel)
         {

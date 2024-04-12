@@ -66,9 +66,10 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 return RedirectToAction("AddTeamMember", new { projectId = projectId });
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> RemoveTeamMember(int id, string projectId)
+        public async Task<IActionResult> RemoveTeamMember(int id)
         {
+            var response = await _teamMemberManager.GetTeamMemberByIdAsync(id);
+            var projectId = response.Data.ProjectId;
             await _teamMemberManager.RemoveUserFromProjectAsync(id);
             return Redirect($"/Customer/Project/Detail?projectId={projectId}");
         }

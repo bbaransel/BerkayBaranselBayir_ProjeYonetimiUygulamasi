@@ -68,7 +68,9 @@ namespace Yonetimsell.Business.Concrete
         }
         public async Task<Response<NoContent>> RemoveUserFromProjectAsync(int id)
         {
-            var teamMember = await _repository.GetAsync(x=>x.Id == id);
+            var teamMember = await _repository.GetAsync(x=>x.Id == id,
+                query=>query.Include(x=>x.User)
+                .Include(x=>x.Project).ThenInclude(y=>y.PTasks));
             if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
             await _repository.ClearTeamMembersTaksAsync(teamMember.UserId, teamMember.ProjectId);
             await _repository.HardDeleteAsync(teamMember);
@@ -77,7 +79,8 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<TeamMemberViewModel>> GetTeamMemberByIdAsync(int id)
         {
             var teamMember = await _repository.GetAsync(x=> x.Id == id,
-                query => query.Include(x => x.Project).ThenInclude(y=>y.User));
+                query => query.Include(x => x.Project)
+                .Include(y=>y.User));
             if (teamMember == null) Response<NoContent>.Fail("İlgili takım arkadaşı bulunamadı");
             var result = new TeamMemberViewModel
             {

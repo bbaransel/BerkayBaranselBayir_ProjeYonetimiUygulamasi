@@ -38,6 +38,12 @@ namespace Yonetimsell.Data.Concrete.Repositories
             YonetimsellDbContext.PTasks.RemoveRange(deletedPTasks);
             await YonetimsellDbContext.SaveChangesAsync();
         }
+        public async Task ClearAllTeamMembersFromProjectAsync(int projectId)
+        {
+            var deletedTeamMembers = await YonetimsellDbContext.TeamMembers.Where(x=>x.ProjectId == projectId).ToListAsync();
+            YonetimsellDbContext.TeamMembers.RemoveRange(deletedTeamMembers);
+            await YonetimsellDbContext.SaveChangesAsync();
+        }
 
         public async Task DeleteTaskFromProjectAsync(int projectId, int pTaskId)
         {

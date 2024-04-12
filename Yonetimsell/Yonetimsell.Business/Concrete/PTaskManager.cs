@@ -161,7 +161,7 @@ namespace Yonetimsell.Business.Concrete
             return Response<List<PTaskViewModel>>.Success(result);
         }
 
-        public async Task<Response<NoContent>> HardDelete(int pTaskId)
+        public async Task<Response<NoContent>> HardDeleteAsync(int pTaskId)
         {
             var pTask = await _repository.GetAsync(x=>x.Id== pTaskId);
             if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı");
