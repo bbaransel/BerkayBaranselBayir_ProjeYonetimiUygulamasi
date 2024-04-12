@@ -45,7 +45,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             {
                 return Redirect("/Customer");
             }
-            
             var projectsResult = projectsResponse.Data.Select(x => new CustomerProjectViewModel
             {
                 Budget = x.Budget,
@@ -74,6 +73,16 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 p.TeamMembers = teamMembersSelectList;
             }
             return View(projectsResult);
+        }
+        public async Task<IActionResult> RemovedList()
+        {
+            var userId = _userManager.GetUserId(User);
+            var deletedList = await _projectManager.GetDeletedProjectsByUserIdAsync(userId);
+            if (!deletedList.IsSucceeded)
+            {
+                return Redirect("/Customer");
+            }
+            return View(deletedList.Data);
         }
         public IActionResult Create()
         {
@@ -120,13 +129,18 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             await _projectManager.ClearAllTeamMembersAsync(projectId);
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Delete(int projectId)
+        {
+            await _projectManager.HardDeleteAsync(projectId);
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(int projectId, Status status)
         {
             await _projectManager.ChangeProjectStatusAsync(projectId, status);
             string icon = "success";
             string title = $"Durum \"{status.GetDisplayName()}\" olarak güncellendi";
-            return Json(new { success = true, icon = icon, title = title });
+            return Json(new { success = true, icon, title });
         }
         [HttpPost]
         public async Task<IActionResult> ChangePriority(int projectId, Priority priority)
@@ -134,7 +148,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             await _projectManager.ChangeProjectPriorityAsync(projectId, priority);
             string icon = "success";
             string title = $"Öncelik \"{priority.GetDisplayName()}\" olarak güncellendi";
-            return Json(new { success = true, icon = icon, title = title });
+            return Json(new { success = true, icon, title });
         }
     }
 }

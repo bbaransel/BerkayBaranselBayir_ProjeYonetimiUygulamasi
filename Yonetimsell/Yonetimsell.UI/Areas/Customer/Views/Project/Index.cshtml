@@ -1,6 +1,5 @@
 ﻿@using System.Globalization
 @model List<CustomerProjectViewModel>
-<!-- Recent Sales Start -->
 <div class="container-fluid pt-4 px-4 h-100">
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -131,7 +130,6 @@
         }
     </div>
 </div>
-<!-- Recent Sales End -->
 @section Styles{
     @await Html.PartialAsync("_DataTablesStylesPartial")
 }
@@ -220,7 +218,7 @@
         const removeProject = function (projectId) {
             Swal.fire({
                 title: 'Silmek istediğinize emin misiniz?',
-                text: "Silinen proje geri getirelemeyecek!",
+                text: "Proje ile birlikte takım arkadaşları ve görevleri de silinecek!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

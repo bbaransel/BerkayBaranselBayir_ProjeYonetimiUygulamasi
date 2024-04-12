@@ -15,14 +15,16 @@ namespace Yonetimsell.UI.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISweetAlertService _sweetAlert;
         private readonly MapperlyConfiguration _mapperly;
+        private readonly RoleManager<Role> _roleManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ISweetAlertService sweetAlert, MapperlyConfiguration mapperly)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ISweetAlertService sweetAlert, MapperlyConfiguration mapperly, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _sweetAlert = sweetAlert;
             _mapperly = mapperly;
+            _roleManager = roleManager;
         }
         [HttpGet]
         public IActionResult Register()
@@ -153,6 +155,7 @@ namespace Yonetimsell.UI.Controllers
             if (result.Succeeded)
             {
                 TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("success", "Hesabınız onaylandı.");
+                await _userManager.AddToRoleAsync(user, "Customer");
                 return RedirectToAction("Login");
             }
             TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("error", "Hesabınız onaylanırken bir hata oluştu tekrar deneyiniz.");

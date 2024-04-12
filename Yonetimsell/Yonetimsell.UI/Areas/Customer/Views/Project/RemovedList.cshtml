@@ -1,0 +1,92 @@
+﻿@using System.Globalization
+@model List<ProjectViewModel>
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 display-6">Silinmiş Projelerim</h6>
+            <a asp-area="Customer" asp-controller="Project" asp-action="Create" class="btn btn-lg btn-success">Yeni <i class="fas fa-plus"></i></a>
+        </div>
+            @if (Model.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table id="myDataTable" class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">Proje Adı</th>
+                                <th scope="col">Açıklaması</th>
+                                <th scope="col">Öncelik</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col" class="text-center">#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model)
+                            {
+                                <tr data-project-id="@p.Id">
+                                    <td>@p.Name</td>
+                                    @{
+                                        int lenght = p.Description.Length >= 30 ? 30 : p.Description.Length;
+                                    }
+                                    <td>@p.Description.Substring(0, lenght)@(p.Description.Length > 30 ? "..." : "")</td>
+                                    <td>@p.Priority.GetDisplayName()</td>
+                                    <td>@p.Status.GetDisplayName()</td>
+                                    <td>@p.EndDate.ToString("dd-MM-yyyy") @CultureInfo.GetCultureInfo("tr-TR").DateTimeFormat.GetDayName(p.EndDate.DayOfWeek)</td>
+                                    <td>
+                                        <div class="m-n2 pb-3 pt-1 d-flex justify-content-evenly align-content-center">
+                                            <button onclick="changeIsDeleted(@p.Id)" class="btn btn-primary btn-md"><i class="fas fa-redo-alt"></i></button>
+                                            <button onclick="deleteProject(@p.Id)" class="btn btn-danger btn-md"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <h3 class="w-100 text-start">Silinmiş projeniz bulunmamaktadır. Projenizi oluşturmak için <a asp-area="Customer" asp-controller="Project" asp-action="Create" class=" btn-link fs-3">tıklayınız...</a></h3>
+            }
+    </div>
+</div>
+@section Styles{
+    @await Html.PartialAsync("_DataTablesStylesPartial")
+}
+@section Scripts {
+    @await Html.PartialAsync("_SimpleDataTablesScriptPartial")
+}
+@section TopScripts{
+    <script>
+        const changeIsDeleted = function (projectId) {
+            Swal.fire({
+                title: 'Geri döndürmek istediğinize emin misiniz?',
+                text: "Sadece proje bilgileri geri getirelecek.Takım arkadaşları ve görevler geri döndürülemez!",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Customer/Project/Remove?projectId=' + projectId;
+                }
+            });
+        }
+        const deleteProject = function (projectId) {
+            Swal.fire({
+                title: 'Tamamen silmek istediğinizden emin misiniz?',
+                text: "Buradan silinen proje bir daha geri getirilemeyecek!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Customer/Project/Delete?projectId=' + projectId;
+                }
+            });
+        }
+    </script>
+}
