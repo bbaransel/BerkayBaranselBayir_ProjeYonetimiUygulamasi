@@ -30,7 +30,7 @@
                                 <label class="form-label" asp-for="EndDate"></label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" asp-for="Budget">
+                                <input type="text" class="form-control" inputmode="decimal" min="0" asp-for="Budget">
                                 <label class="form-label" asp-for="Budget"></label>
                             </div>
                             <div class="form-floating mb-3">
@@ -190,6 +190,12 @@
 </div>
 @section Styles{
     @await Html.PartialAsync("_DataTablesStylesPartial")
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            display: none; /* Chrome, Safari, Edge */
+        }
+    </style>
 }
 @section Scripts{
     @await Html.PartialAsync("_DataTablesScriptsPartial")

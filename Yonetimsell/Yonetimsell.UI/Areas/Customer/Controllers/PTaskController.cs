@@ -9,6 +9,7 @@ using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
+using Yonetimsell.Shared.Helpers.Abstract;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
 
@@ -23,13 +24,15 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly ITeamMemberService _teamMemberManager;
         private readonly UserManager<User> _userManager;
         private readonly IProjectService _projectManager;
+        private readonly ISweetAlertService _sweetAlert;
 
-        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager)
+        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager, ISweetAlertService sweetAlert)
         {
             _pTaskManager = pTaskManager;
             _teamMemberManager = teamMemberManager;
             _userManager = userManager;
             _projectManager = projectManager;
+            _sweetAlert = sweetAlert;
         }
 
         public async Task<IActionResult> Index()
@@ -90,18 +93,28 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTask(AssignPTaskToTeamMemberViewModel assignPTaskToTeamMemberViewModel)
         {
+
+            var teamMembersResponse = await _teamMemberManager.GetTeamMembersByProjectIdAsync(assignPTaskToTeamMemberViewModel.AddPTaskViewModel.ProjectId);
+            var teamMemberList = teamMembersResponse.Data.Select(x => new SelectListItem
+            {
+                Text = x.UserName,
+                Value = x.UserId
+            }).ToList();
+            assignPTaskToTeamMemberViewModel.TeamMembers = teamMemberList;
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Lütfen boş alan bırakmayanız.");
-                return RedirectToAction("AddTask",assignPTaskToTeamMemberViewModel.AddPTaskViewModel.ProjectId);
+                TempData["AddTaskToast"] = _sweetAlert.MiddleNotification("warning", "Lütfen bilgileri kontrol ediniz.");
+                return View(assignPTaskToTeamMemberViewModel);
             }
             var createdTask = await _pTaskManager.CreateAsync(assignPTaskToTeamMemberViewModel.AddPTaskViewModel);
             if (createdTask.IsSucceeded)
             {
+                TempData["AddTaskToast"] = _sweetAlert.TopEndNotification("success", "Görev başarıyla eklendi.");
                 return Redirect($"/Customer/Project/Detail?projectId={assignPTaskToTeamMemberViewModel.AddPTaskViewModel.ProjectId}");
             }
+            TempData["AddTaskToast"] = _sweetAlert.MiddleNotification("error", "Görev eklenemedi.");
             ModelState.AddModelError("", "Görev atanırken bir sorun oluştu.");
-            return View(assignPTaskToTeamMemberViewModel.AddPTaskViewModel);
+            return View(assignPTaskToTeamMemberViewModel);
         }
         public async Task<IActionResult> Done(int pTaskId)
         {
@@ -147,15 +160,15 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             await _pTaskManager.ChangePTaskStatusAsync(pTaskId, status);
             string icon = "success";
             string title = $"Durum \"{status.GetDisplayName()}\" olarak güncellendi";
-            return Json(new { success = true, icon = icon, title = title });
+            return Json(new { success = true, icon, title });
         }
         [HttpPost]
         public async Task<IActionResult> ChangePriority(int pTaskId, Priority priority)
         {
             await _pTaskManager.ChangePTaskPriorityAsync(pTaskId, priority);
             string icon = "success";
-            string title = $"Durum \"{priority.GetDisplayName()}\" olarak güncellendi";
-            return Json(new { success = true, icon = icon, title = title });
+            string title = $"Öncelik \"{priority.GetDisplayName()}\" olarak güncellendi";
+            return Json(new { success = true, icon, title });
         }
     }
 }

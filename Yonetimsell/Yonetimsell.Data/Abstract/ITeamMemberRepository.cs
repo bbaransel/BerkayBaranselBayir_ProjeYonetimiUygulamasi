@@ -12,5 +12,6 @@ namespace Yonetimsell.Data.Abstract
         Task<List<TeamMember>> GetMembersByProjectIdAsync(int projectId);
         Task<List<TeamMember>> GetMembersByUserIdAsync(string userId);
         Task ClearTeamMembersTaksAsync(string userId, int projectId);
+        Task<bool> CheckIfExistsAsync(string userId, int projectId);
     }
 }

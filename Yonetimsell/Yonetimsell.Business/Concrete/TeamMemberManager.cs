@@ -93,5 +93,10 @@ namespace Yonetimsell.Business.Concrete
             };
             return Response<TeamMemberViewModel>.Success(result);
         }
+        public async Task<Response<bool>> CheckIfExistsAsync(string userId, int projectId)
+        {
+            var result = await _repository.CheckIfExistsAsync(userId, projectId);
+            return Response<bool>.Success(result);
+        }
     }
 }

@@ -47,3 +47,11 @@
 {
     @Html.Raw(TempData["PriorityToast"])
 }
+@if (TempData["TeamMemberToast"] != null)
+{
+    @Html.Raw(TempData["TeamMemberToast"])
+}
+@if (TempData["AddTaskToast"] != null)
+{
+    @Html.Raw(TempData["AddTaskToast"])
+}

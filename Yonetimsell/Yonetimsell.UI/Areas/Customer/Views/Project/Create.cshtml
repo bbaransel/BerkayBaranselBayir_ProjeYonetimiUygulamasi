@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" asp-for="Budget">
+                                <input type="number" inputmode="decimal" min="0" class="form-control" asp-for="Budget">
                                 <label class="form-label" asp-for="Budget"></label>
                             </div>
                             <div class="form-floating mb-3">
@@ -51,5 +51,13 @@
         </div>
     </div>
 </div>
+@section Styles{
+<style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            display: none; /* Chrome, Safari, Edge */
+        }
+</style>
+}
 
 

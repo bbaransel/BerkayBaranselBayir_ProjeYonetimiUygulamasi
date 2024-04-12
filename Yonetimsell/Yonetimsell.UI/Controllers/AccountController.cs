@@ -14,18 +14,15 @@ namespace Yonetimsell.UI.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISweetAlertService _sweetAlert;
-        private readonly MapperlyConfiguration _mapperly;
-        private readonly RoleManager<Role> _roleManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ISweetAlertService sweetAlert, MapperlyConfiguration mapperly, RoleManager<Role> roleManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ISweetAlertService sweetAlert)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _sweetAlert = sweetAlert;
-            _mapperly = mapperly;
-            _roleManager = roleManager;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -64,7 +61,7 @@ namespace Yonetimsell.UI.Controllers
                     return Redirect("~/");
                 }
             }
-            TempData["RegisterToast"] = _sweetAlert.TopEndNotification("error", "Lütfen boş alan bırakmayınız");
+            TempData["RegisterToast"] = _sweetAlert.TopEndNotification("error", "Lütfen bilgileri kontrol ediniz");
             return View(registerViewModel);
         }
 
@@ -154,7 +151,7 @@ namespace Yonetimsell.UI.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
-                TempData["ConfirmEmailToast"] = _sweetAlert.TopEndNotification("success", "Hesabınız onaylandı.");
+                TempData["ConfirmEmailToast"] = _sweetAlert.MiddleNotification("success", "Hesabınız onaylandı.");
                 await _userManager.AddToRoleAsync(user, "Customer");
                 return RedirectToAction("Login");
             }
@@ -194,7 +191,7 @@ namespace Yonetimsell.UI.Controllers
                 $"</p>" +
                 $"<a href='https://localhost:7051{backUrl}'>Şifreyi sıfırla</a>";
             await _emailSender.SendEmailAsync(email, subject, htmlMessage);
-            TempData["ForgotPasswordToast"] = _sweetAlert.TopEndNotification("success", "Mailinizi kontrol ediniz.");
+            TempData["ForgotPasswordToast"] = _sweetAlert.MiddleNotification("success", "Şifre sıfırlama maili gönderildi.");
             return RedirectToAction("Login");
         }
         public async Task<IActionResult> ResetPassword(string userId, string token)

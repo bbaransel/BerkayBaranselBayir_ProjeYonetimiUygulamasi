@@ -89,7 +89,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(AddProjectViewModel addProjectViewModel, IFormFile file)
+        public async Task<IActionResult> Create(AddProjectViewModel addProjectViewModel)
         {
             addProjectViewModel.UserId = _userManager.GetUserId(User);
             var result = await _projectManager.CreateAsync(addProjectViewModel);
@@ -113,7 +113,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditProjectViewModel editProjectViewModel)
         {
-            var userId = _userManager.GetUserId(User);
             var projectViewModel = _mapperly.EditProjectViewModelToProjectViewModel(editProjectViewModel);
             var createdResponse = await _projectManager.UpdateAsync(projectViewModel);
             if (createdResponse.IsSucceeded)

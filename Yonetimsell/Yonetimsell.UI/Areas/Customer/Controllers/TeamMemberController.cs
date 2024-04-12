@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Yonetimsell.Shared.ComplexTypes;
 using Microsoft.CodeAnalysis;
+using Yonetimsell.Shared.Helpers.Abstract;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
@@ -21,12 +22,14 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly ITeamMemberService _teamMemberManager;
         private readonly IFriendshipService _friendshipManager;
         private readonly UserManager<User> _userManager;
+        private readonly ISweetAlertService _sweetAlert;
 
-        public TeamMemberController(ITeamMemberService teamMemberManager, IFriendshipService friendshipManager, UserManager<User> userManager)
+        public TeamMemberController(ITeamMemberService teamMemberManager, IFriendshipService friendshipManager, UserManager<User> userManager, ISweetAlertService sweetAlert)
         {
             _teamMemberManager = teamMemberManager;
             _friendshipManager = friendshipManager;
             _userManager = userManager;
+            _sweetAlert = sweetAlert;
         }
         [HttpGet]
         public async Task<IActionResult> AddTeamMember(int projectId)
@@ -48,7 +51,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTeamMember(string userId, int projectId, ProjectRole projectRole, string currentUserId)
         {
-            //Buraya zaten olup olmadığı kontrolü eklenmeli
+            var checkResponse = await _teamMemberManager.CheckIfExistsAsync(userId, projectId);
+            if (checkResponse.Data)
+            {
+                TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("error", "Kullanıcı zaten takım arkadaşınız!");
+                return RedirectToAction("AddTeamMember", new { projectId });
+            }
             var teamMemberViewModel = new TeamMemberViewModel
             {
                 UserId = userId,
@@ -58,12 +66,13 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var response = await _teamMemberManager.AddUserToProjectAsync(teamMemberViewModel);
             if (response.IsSucceeded)
             {
-                return RedirectToAction("Detail", "Project", new { projectId = projectId });
+                TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("success", "Kullanıcı takım arkadaşlarına eklendi");
+                return RedirectToAction("Detail", "Project", new { projectId });
             }
             else
             {
-                ModelState.AddModelError("", "Kullanıcı takıma eklenemedi");
-                return RedirectToAction("AddTeamMember", new { projectId = projectId });
+                TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("error", "Kullanıcı takım arkadaşlarına eklenemedi!");
+                return RedirectToAction("AddTeamMember", new {  projectId });
             }
         }
         public async Task<IActionResult> RemoveTeamMember(int id)

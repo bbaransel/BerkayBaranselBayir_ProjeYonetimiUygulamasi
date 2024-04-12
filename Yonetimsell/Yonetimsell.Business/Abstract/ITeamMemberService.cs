@@ -17,5 +17,6 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<NoContent>> ChangeUsersProjectRoleAsync(TeamMemberViewModel teamMemberViewModel);
         Task<Response<TeamMemberViewModel>> GetTeamMemberByIdAsync(int id);
         Task<Response<List<TeamMemberViewModel>>> GetTeamMembersByProjectIdAsync(int projectId);
+        Task<Response<bool>> CheckIfExistsAsync(string userId, int projectId);
     }
 }

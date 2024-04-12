@@ -38,5 +38,17 @@ namespace Yonetimsell.Data.Concrete.Repositories
             var teamMembers = await YonetimsellDbContext.TeamMembers.Where(x => x.UserId == userId).ToListAsync();
             return teamMembers;
         }
+        public async Task<bool> CheckIfExistsAsync(string userId, int projectId)
+        {
+            var teamMember = await YonetimsellDbContext.TeamMembers.Where(x=>x.UserId == userId && x.ProjectId == projectId).FirstOrDefaultAsync();
+            if (teamMember != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
