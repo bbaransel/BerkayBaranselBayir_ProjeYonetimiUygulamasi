@@ -6,12 +6,12 @@ using Yonetimsell.Shared.ViewModels.MessageViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.ViewComponents
 {
-    public class MessageNotificationViewComponent : ViewComponent
+    public class HomePageMessageListViewComponent : ViewComponent
     {
         private readonly UserManager<User> _userManager;
         private readonly IMessageService _messageManager;
 
-        public MessageNotificationViewComponent(UserManager<User> userManager, IMessageService messageManager)
+        public HomePageMessageListViewComponent(UserManager<User> userManager, IMessageService messageManager)
         {
             _userManager = userManager;
             _messageManager = messageManager;
@@ -20,10 +20,10 @@ namespace Yonetimsell.UI.Areas.Customer.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var response = await _messageManager.GetAllReceivedMessageAsync(userId, false);
-            List<MessageViewModel> messages; 
-            if(response.IsSucceeded) 
-            { 
+            var response = await _messageManager.GetAllReceivedMessageAsync(userId);
+            List<MessageViewModel> messages;
+            if (response.IsSucceeded)
+            {
                 messages = response.Data.Take(3).ToList();
             }
             else
