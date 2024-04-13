@@ -16,5 +16,6 @@ namespace Yonetimsell.Entity.Concrete
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public Priority Priority { get; set; }
         public Status Status { get; set; }
+        public List<PTaskFile> PTaskFiles { get; set; }
     }
 }

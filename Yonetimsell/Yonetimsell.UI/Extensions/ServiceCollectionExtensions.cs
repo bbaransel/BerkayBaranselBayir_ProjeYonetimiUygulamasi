@@ -69,6 +69,7 @@ namespace Yonetimsell.UI.Extensions
             services.AddScoped<ITeamMemberService, TeamMemberManager>();
             services.AddScoped<IFriendshipService, FriendshipManager>();
             services.AddScoped<IMessageService, MessageManager>();
+            services.AddScoped<IPTaskFileService, PTaskFileManager>();
 
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IPTaskRepository, PTaskRepository>();
@@ -76,6 +77,7 @@ namespace Yonetimsell.UI.Extensions
             services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
             services.AddScoped<IFriendshipRepository, FriendshipRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IPTaskFileRepository, PTaskFileRepository>();
             return services;
         }
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)

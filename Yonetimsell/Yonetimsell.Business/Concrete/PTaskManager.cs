@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -84,9 +85,22 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<PTaskViewModel>> GetByIdAsync(int pTaskId)
         {
-            var pTask = await _repository.GetAsync(x=>x.Id == pTaskId);
+            var pTask = await _repository.GetAsync(x=>x.Id == pTaskId,
+                q=>q.Include(x=>x.User));
             if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı.");
-            var result = _mapperly.PTaskToPTaskViewModel(pTask);
+            var result = new PTaskViewModel
+            {
+                Id = pTask.Id,
+                Status = pTask.Status,
+                CreatedDate = pTask.CreatedDate,
+                Description = pTask.Description,
+                UserName = pTask.User.UserName,
+                DueDate = pTask.DueDate,
+                Name = pTask.Name,
+                Priority = pTask.Priority,
+                ProjectId = pTask.ProjectId,
+                UserId = pTask.UserId,
+            };
             return Response<PTaskViewModel>.Success(result);
         }
 
@@ -170,9 +184,9 @@ namespace Yonetimsell.Business.Concrete
             return Response<NoContent>.Success();
         }
 
-        public async Task<Response<PTaskViewModel>> UpdateAsync(PTaskViewModel pTaskViewModel)
+        public async Task<Response<PTaskViewModel>> UpdateAsync(EditPTaskViewModel editPTaskViewModel)
         {
-            var pTask = _mapperly.PTaskViewModelToPTask(pTaskViewModel);
+            var pTask = _mapperly.EditPTaskViewModelToPTask(editPTaskViewModel);
             if (pTask == null) Response<ProjectViewModel>.Fail("İlgili task bulunamadı");
             pTask.ModifiedDate = DateTime.Now;
             await _repository.UpdateAsync(pTask);

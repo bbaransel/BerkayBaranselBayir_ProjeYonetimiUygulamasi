@@ -114,12 +114,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> Edit(EditProjectViewModel editProjectViewModel)
         {
             var projectViewModel = _mapperly.EditProjectViewModelToProjectViewModel(editProjectViewModel);
-            var createdResponse = await _projectManager.UpdateAsync(projectViewModel);
-            if (createdResponse.IsSucceeded)
+            var response = await _projectManager.UpdateAsync(projectViewModel);
+            if (response.IsSucceeded)
             {
                 return RedirectToAction("Index");
             }
-            return View(createdResponse);
+            return View(response);
         }
         public async Task<IActionResult> Remove(int projectId)
         {

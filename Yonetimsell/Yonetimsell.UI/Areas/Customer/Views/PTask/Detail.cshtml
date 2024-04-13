@@ -1,0 +1,53 @@
+﻿@model EditPTaskViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-sm-12 col-lg-8 bg-light">
+            <div class="rounded p-4">
+                <h6 class="mb-4">Görevi Düzenle</h6>
+                    <div class="dropzone-previews"></div>
+                    <div class="row g-2">
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input disabled placeholder="Name" type="text" class="form-control" asp-for="Name">
+                            <label class="form-label" asp-for="Name"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input disabled type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" asp-for="DueDate">
+                            <label disabled class="form-label" asp-for="DueDate"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input disabled placeholder="Name" type="text" class="form-control" asp-for="UserName">
+                            <label class="form-label" asp-for="UserName"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-6">
+                            <textarea disabled class="form-control" asp-for="Description" placeholder="Açıklama" style="height:140px"></textarea>
+                            <label asp-for="Description"></label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-4 col-sm-12">
+                                <input disabled type="text" class="form-control" name="Status" id="Status" value="@Model.Status.GetDisplayName()">
+                                <label class="form-label" for="Status">Durum</label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-12">
+                                <input disabled type="text" class="form-control" name="Priority" id="Priority" value="@Model.Priority.GetDisplayName()">
+                                <label class="form-label" for="Priority">Öncelik</label>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        @if (Model.PTaskFiles != null && Model.PTaskFiles.Count > 0)
+        {
+            <div class="col-sm-12 col-lg-4 bg-light">
+                <div class="p-4 rounded">
+                    <h6 class="mb-4">Dosyalar</h6>
+                    <div class="list-group">
+                        @foreach (var f in Model.PTaskFiles)
+                        {
+                            <a href="@f.FileUrl" target="_blank" class="list-group-item list-group-item-action ">@f.FileName</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

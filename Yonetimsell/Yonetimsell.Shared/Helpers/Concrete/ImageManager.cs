@@ -15,7 +15,7 @@ namespace Yonetimsell.Shared.Helpers.Concrete
         }
         public bool ImageIsValid(string extension)
         {
-            string[] correctExtensions = { ".png", ".jpg", ".jpeg" };
+            string[] correctExtensions = { ".png", ".jpg", ".jpeg",".pdf" };
             if (correctExtensions.Contains(extension))
             {
                 return true;

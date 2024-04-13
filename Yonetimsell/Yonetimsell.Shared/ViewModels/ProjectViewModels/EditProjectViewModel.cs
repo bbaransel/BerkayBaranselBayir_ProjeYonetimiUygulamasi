@@ -17,7 +17,7 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
         [Required]
         public int Id { get; set; }
         [Required]
-        [DisplayName("Proje İsmi")]
+        [DisplayName("Proje Adı")]
         public string Name { get; set; }
         [Required]
         public string UserId { get; set; }

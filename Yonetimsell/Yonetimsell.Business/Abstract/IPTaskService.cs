@@ -12,7 +12,7 @@ namespace Yonetimsell.Business.Abstract
     public interface IPTaskService
     {
         Task<Response<PTaskViewModel>> CreateAsync(AddPTaskViewModel addPTaskViewModel);
-        Task<Response<PTaskViewModel>> UpdateAsync(PTaskViewModel pTaskViewModel);
+        Task<Response<PTaskViewModel>> UpdateAsync(EditPTaskViewModel editPTaskViewModel);
         Task<Response<NoContent>> HardDeleteAsync(int pTaskId);
         Task<Response<List<PTaskViewModel>>> GetAllAsync();
         Task<Response<PTaskViewModel>> GetByIdAsync(int pTaskId);

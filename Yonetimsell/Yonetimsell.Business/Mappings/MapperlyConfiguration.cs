@@ -27,6 +27,7 @@ namespace Yonetimsell.Business.Mappings
         public partial PTaskViewModel PTaskToPTaskViewModel(PTask pTask);
         [MapProperty(nameof(PTask.User.UserName), nameof(PTaskViewModel.UserName))]
         public partial List<PTaskViewModel> ListPTaskToListPTaskViewModel(List<PTask> pTasks);
+        public partial PTask EditPTaskViewModelToPTask(EditPTaskViewModel editPTaskViewModel);
         #endregion
         #region TeamMember
         public partial TeamMember TeamMemberViewModelToTeamMember(TeamMemberViewModel teamMemberViewModel);
@@ -66,6 +67,12 @@ namespace Yonetimsell.Business.Mappings
         public partial List<MessageViewModel> ListMessageToListMessageViewModel(List<Message> messages);
         public partial Message MessageViewModelToMessage(MessageViewModel messageViewModel);
         public partial List<Message> ListMessageViewModelToListMessage(List<MessageViewModel> messageViewModels);
+        #endregion
+        #region PTaskFile
+        public partial PTaskFileViewModel PTaskFileToPTaskFileViewModel(PTaskFile pTaskFile);
+        public partial List<PTaskFileViewModel> ListPTaskFileToListPTaskFileViewModel(List<PTaskFile> pTaskFiles);
+        public partial PTaskFile PTaskFileViewModelToPTaskFile(PTaskFileViewModel pTaskFileViewModel);
+        public partial List<PTaskFile> ListPTaskFileViewModelToListPTaskFile(List<PTaskFileViewModel> pTaskFileViewModels);
         #endregion
     }
 }

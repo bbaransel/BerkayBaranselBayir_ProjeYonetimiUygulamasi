@@ -19,7 +19,7 @@
                 <tbody>
                     @foreach (var f in Model)
                     {
-                        <tr>
+                        <tr data-receiver-id="@f.ReceiverUserId">
                             @{
                                 if(f.ReceiverUserName == User.Identity.Name)
                                 {
@@ -58,4 +58,23 @@
 }
 @section Scripts {
     @await Html.PartialAsync("_SimpleDataTablesScriptPartial")
+    <script>
+        document.querySelectorAll('#myDataTable tbody tr').forEach(function (row) {
+            // Satır içerisindeki select ve button elementlerini dışarıda tut
+            var interactiveElements = row.querySelectorAll('td:not(.exclude-from-click) select, td:not(.exclude-from-click) a');
+            interactiveElements.forEach(function (element) {
+                element.addEventListener('dblclick', function (event) {
+                    event.stopPropagation(); // Satırın tıklanma işlemini durdur
+                });
+            });
+            // Satıra çift tıklanınca proje detay sayfasına yönlendirme işlemi
+            row.addEventListener('dblclick', function (event) {
+                var receiverId = this.dataset.receiverId; // Satırın veri özniteliğinden proje ID'sini al
+                if (receiverId) {
+                    // Proje detay sayfasına yönlendirme işlemi
+                    window.location.href = '/Customer/Message/SendMessage?receiverId=' + receiverId;
+                }
+            });
+        });
+    </script>
 }

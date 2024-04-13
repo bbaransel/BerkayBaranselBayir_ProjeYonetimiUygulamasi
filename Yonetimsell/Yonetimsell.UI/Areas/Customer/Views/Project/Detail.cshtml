@@ -119,7 +119,7 @@
                             <tbody>
                                 @foreach (var t in Model.PTasks)
                                 {
-                                    <tr data-project-id="@t.Id">
+                                    <tr data-ptask-id="@t.Id">
                                         <td>@t.Name</td>
                                         @{
                                             int lenght = t.Description.Length >= 30 ? 30 : t.Description.Length;
@@ -199,6 +199,25 @@
 }
 @section Scripts{
     @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script>
+        document.querySelectorAll('#myDataTable tbody tr').forEach(function (row) {
+            // Satır içerisindeki select ve button elementlerini dışarıda tut
+            var interactiveElements = row.querySelectorAll('td:not(.exclude-from-click) select, td:not(.exclude-from-click) a');
+            interactiveElements.forEach(function (element) {
+                element.addEventListener('dblclick', function (event) {
+                    event.stopPropagation(); // Satırın tıklanma işlemini durdur
+                });
+            });
+            // Satıra çift tıklanınca proje detay sayfasına yönlendirme işlemi
+            row.addEventListener('dblclick', function (event) {
+                var pTaskId = this.dataset.ptaskId; // Satırın dataset'inden proje ID'sini al
+                if (pTaskId) {
+                    // Proje detay sayfasına yönlendirme işlemi
+                    window.location.href = '/Customer/PTask/Edit?pTaskId=' + pTaskId;
+                }
+            });
+        });
+    </script>
 }
 @section TopScripts {
     <script>

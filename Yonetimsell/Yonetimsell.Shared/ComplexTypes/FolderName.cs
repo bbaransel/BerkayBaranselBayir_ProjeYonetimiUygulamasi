@@ -12,7 +12,7 @@ namespace Yonetimsell.Shared.ComplexTypes
     {
         [Display(Name ="users")]
         Users = 0,
-        [Display(Name = "projects")]
-        Projects = 1,
+        [Display(Name = "ptasks")]
+        PTasks = 1,
     }
 }

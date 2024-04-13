@@ -55,3 +55,7 @@
 {
     @Html.Raw(TempData["AddTaskToast"])
 }
+@if (TempData["EditTaskToast"] != null)
+{
+    @Html.Raw(TempData["EditTaskToast"])
+}

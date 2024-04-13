@@ -3,7 +3,7 @@
 <div class="container-fluid pt-4 px-4 h-100">
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0 display-6">Mesajlarım</h6>
+            <h6 class="mb-0 display-6">Gönderilen Mesajlarım</h6>
             <a asp-area="Customer" asp-controller="Message" asp-action="SendMessage" class="btn btn-primary">Yeni mesaj gönder <i class="fas fa-plus"></i></a>
         </div>
         @if (Model != null && Model.Count > 0)
@@ -13,7 +13,7 @@
                     <thead>
                         <tr class="text-dark">
                             <th scope="col"></th>
-                            <th scope="col">İsmi</th>
+                            <th scope="col">Kime</th>
                             <th scope="col">Kullanıcı adı</th>
                             <th scope="col">Mesaj</th>
                             <th scope="col">#</th>
@@ -23,9 +23,9 @@
                         @foreach (var m in Model)
                         {
                             <tr data-message-id="@m.Id">
-                                <td class="col-1 text-center"><img src="@m.SenderImageUrl" style="width:50px; height:50px" class="rounded-circle" /></td>
-                                <td>@m.SenderFullName</td>
-                                <td>@m.SenderUserName</td>
+                                <td class="col-1 text-center"><img src="@m.ReceiverImageUrl" style="width:50px; height:50px" class="rounded-circle" /></td>
+                                <td>@m.ReceiverFullName</td>
+                                <td>@m.ReceiverUserName</td>
                                 @{
                                     int length = m.Text.Length >= 10 ? 10 : m.Text.Length;
                                 }
@@ -47,10 +47,10 @@
         }
     </div>
 </div>
-@section Styles{
+@section Styles {
     @await Html.PartialAsync("_DataTablesStylesPartial")
 }
-@section Scripts{
+@section Scripts {
     @await Html.PartialAsync("_SimpleDataTablesScriptPartial")
     <script>
         document.querySelectorAll('#myDataTable tbody tr').forEach(function (row) {

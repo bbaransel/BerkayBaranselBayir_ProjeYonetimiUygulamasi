@@ -34,6 +34,13 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var result = messageListResponse.Data;
             return View(result);
         }
+        public async Task<IActionResult> SentList()
+        {
+            var userId = _userManager.GetUserId(User);
+            var messageListResponse = await _messageManager.GetAllSentMessageAsync(userId);
+            var result = messageListResponse.Data;
+            return View(result);
+        }
         public async Task<IActionResult> Detail(int messageId)
         {
             var result = await _messageManager.GetByIdAsync(messageId);

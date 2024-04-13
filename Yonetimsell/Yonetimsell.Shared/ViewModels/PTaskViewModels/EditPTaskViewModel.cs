@@ -6,33 +6,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
-using Yonetimsell.Shared.ViewModels.IdentityViewModels;
-using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
 namespace Yonetimsell.Shared.ViewModels.PTaskViewModels
 {
-    public class AddPTaskViewModel
+    public class EditPTaskViewModel
     {
+        [Required]
         public int Id { get; set; }
         [DisplayName("Görev Adı")]
-        [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]
+        [Required(ErrorMessage ="{0} alanı boş bırakılamaz.")]
         public string Name { get; set; }
         [DisplayName("Görev Açıklaması")]
-        [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Lütfen bir takım arkadaşı seçiniz.")]
+        [Required(ErrorMessage = "Kullanıcı idsi boş bırakılamaz.")]
         public string UserId { get; set; }
+        [DisplayName("Kimin görevi")]
+        [Required]
+        public string UserName { get; set; }
         [Required]
         public int ProjectId { get; set; }
-        [DisplayName("Bitiş Tarihi")]
-        [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]
-        [DataType(DataType.DateTime)]
+        [DisplayName("Bitiş tarihi")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]
         public DateTime DueDate { get; set; }
         [DisplayName("Öncelik")]
-        [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]
         public Priority Priority { get; set; }
         [DisplayName("Durum")]
-        [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]
         public Status Status { get; set; }
+        public List<PTaskFileViewModel> PTaskFiles { get; set; }
     }
 }

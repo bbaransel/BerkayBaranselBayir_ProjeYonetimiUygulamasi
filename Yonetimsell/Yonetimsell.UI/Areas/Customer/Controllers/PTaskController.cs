@@ -10,6 +10,8 @@ using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.Helpers.Abstract;
+using Yonetimsell.Shared.Helpers.Concrete;
+using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
 
@@ -25,14 +27,18 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IProjectService _projectManager;
         private readonly ISweetAlertService _sweetAlert;
+        private readonly IImageService _imageManager;
+        private readonly IPTaskFileService _fileManager;
 
-        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager, ISweetAlertService sweetAlert)
+        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager, ISweetAlertService sweetAlert, IImageService imageManager, IPTaskFileService fileManager)
         {
             _pTaskManager = pTaskManager;
             _teamMemberManager = teamMemberManager;
             _userManager = userManager;
             _projectManager = projectManager;
             _sweetAlert = sweetAlert;
+            _imageManager = imageManager;
+            _fileManager = fileManager;
         }
 
         public async Task<IActionResult> Index()
@@ -93,7 +99,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTask(AssignPTaskToTeamMemberViewModel assignPTaskToTeamMemberViewModel)
         {
-
             var teamMembersResponse = await _teamMemberManager.GetTeamMembersByProjectIdAsync(assignPTaskToTeamMemberViewModel.AddPTaskViewModel.ProjectId);
             var teamMemberList = teamMembersResponse.Data.Select(x => new SelectListItem
             {
@@ -115,6 +120,81 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             TempData["AddTaskToast"] = _sweetAlert.MiddleNotification("error", "Görev eklenemedi.");
             ModelState.AddModelError("", "Görev atanırken bir sorun oluştu.");
             return View(assignPTaskToTeamMemberViewModel);
+        }
+        public async Task<IActionResult> Detail(int pTaskId)
+        {
+            var pTaskResponse = await _pTaskManager.GetByIdAsync(pTaskId);
+            var filesResponse = await _fileManager.GetAllByPTaskIdAsync(pTaskId);
+            var result = new EditPTaskViewModel
+            {
+                UserId = pTaskResponse.Data.UserId,
+                ProjectId = pTaskResponse.Data.ProjectId,
+                Priority = pTaskResponse.Data.Priority,
+                Name = pTaskResponse.Data.Name,
+                Description = pTaskResponse.Data.Description,
+                DueDate = pTaskResponse.Data.DueDate,
+                Id = pTaskResponse.Data.Id,
+                Status = pTaskResponse.Data.Status,
+                UserName = pTaskResponse.Data.UserName,
+                PTaskFiles = filesResponse.Data
+            };
+            return View(result);
+        }
+        public async Task<IActionResult> Edit(int pTaskId)
+        {
+            var pTaskResponse = await _pTaskManager.GetByIdAsync(pTaskId);
+            var filesResponse = await _fileManager.GetAllByPTaskIdAsync(pTaskId);
+            var result = new EditPTaskViewModel
+            {
+                UserId = pTaskResponse.Data.UserId,
+                ProjectId = pTaskResponse.Data.ProjectId,
+                Priority = pTaskResponse.Data.Priority,
+                Name = pTaskResponse.Data.Name,
+                Description = pTaskResponse.Data.Description,
+                DueDate = pTaskResponse.Data.DueDate,
+                Id = pTaskResponse.Data.Id,
+                Status = pTaskResponse.Data.Status,
+                UserName = pTaskResponse.Data.UserName,
+                PTaskFiles = filesResponse.Data
+            };
+            return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditPTaskViewModel editPTaskViewModel, List<IFormFile> files)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["EditTaskToast"] = _sweetAlert.MiddleNotification("warning", "Lütfen bilgileri kontrol ediniz!");
+                return View(editPTaskViewModel);
+            }
+            if(files!=null && files.Count > 0)
+            {
+                foreach(var file in files)
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    var fileUrl = await _imageManager.UploadImage(file, FolderName.PTasks);
+                    var pTaskFileViewModel = new PTaskFileViewModel
+                    {
+                        FileName = fileName,
+                        FileUrl = fileUrl,
+                        PTaskId = editPTaskViewModel.Id
+                    };
+                    var createdFileResponse = await _fileManager.CreateAsync(pTaskFileViewModel);
+                    if (!createdFileResponse.IsSucceeded)
+                    {
+                        TempData["EditTaskToast"] = _sweetAlert.MiddleNotification("error", "Dosyalar yüklenemedi!");
+                        return View(editPTaskViewModel);
+                    }
+                }
+            }
+            var response = await _pTaskManager.UpdateAsync(editPTaskViewModel);
+            if (response.IsSucceeded)
+            {
+                TempData["EditTaskToast"] = _sweetAlert.MiddleNotification("success", "Görev başarıyla güncellendi");
+                return RedirectToAction("Detail", "Project", new { projectId = editPTaskViewModel.ProjectId });
+            }
+            TempData["EditTaskToast"] = _sweetAlert.MiddleNotification("error", "Görev güncellenemedi tekrar deneyiniz.");
+            return View(editPTaskViewModel);
         }
         public async Task<IActionResult> Done(int pTaskId)
         {
@@ -170,5 +250,6 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             string title = $"Öncelik \"{priority.GetDisplayName()}\" olarak güncellendi";
             return Json(new { success = true, icon, title });
         }
+        
     }
 }
