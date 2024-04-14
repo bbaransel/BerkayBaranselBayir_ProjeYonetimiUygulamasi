@@ -27,17 +27,17 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IProjectService _projectManager;
         private readonly ISweetAlertService _sweetAlert;
-        private readonly IImageService _imageManager;
+        private readonly IUploadService _uploadManager;
         private readonly IPTaskFileService _fileManager;
 
-        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager, ISweetAlertService sweetAlert, IImageService imageManager, IPTaskFileService fileManager)
+        public PTaskController(IPTaskService pTaskManager, ITeamMemberService teamMemberManager, UserManager<User> userManager, IProjectService projectManager, ISweetAlertService sweetAlert, IUploadService uploadManager, IPTaskFileService fileManager)
         {
             _pTaskManager = pTaskManager;
             _teamMemberManager = teamMemberManager;
             _userManager = userManager;
             _projectManager = projectManager;
             _sweetAlert = sweetAlert;
-            _imageManager = imageManager;
+            _uploadManager = uploadManager;
             _fileManager = fileManager;
         }
 
@@ -172,7 +172,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 foreach(var file in files)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                    var fileUrl = await _imageManager.UploadImage(file, FolderName.PTasks);
+                    var fileUrl = await _uploadManager.UploadFile(file, FolderName.PTasks);
                     var pTaskFileViewModel = new PTaskFileViewModel
                     {
                         FileName = fileName,

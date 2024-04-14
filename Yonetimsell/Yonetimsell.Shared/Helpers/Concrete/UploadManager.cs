@@ -6,16 +6,16 @@ using Yonetimsell.Shared.Helpers.Abstract;
 
 namespace Yonetimsell.Shared.Helpers.Concrete
 {
-    public class ImageManager : IImageService
+    public class UploadManager : IUploadService
     {
-        private readonly string _imagesFolder;
-        public ImageManager(IWebHostEnvironment _env)
+        private readonly string _filesFolder;
+        public UploadManager(IWebHostEnvironment _env)
         {
-            _imagesFolder = Path.Combine(_env.WebRootPath, "files","images");
+            _filesFolder = Path.Combine(_env.WebRootPath, "files");
         }
-        public bool ImageIsValid(string extension)
+        public bool FileIsValid(string extension)
         {
-            string[] correctExtensions = { ".png", ".jpg", ".jpeg",".pdf" };
+            string[] correctExtensions = { ".png", ".jpg", ".jpeg",".pdf",".txt",".docx" };
             if (correctExtensions.Contains(extension))
             {
                 return true;
@@ -23,28 +23,28 @@ namespace Yonetimsell.Shared.Helpers.Concrete
             return false;
         }
 
-        public async Task<string> UploadImage(IFormFile image, FolderName folderName)
+        public async Task<string> UploadFile(IFormFile file, FolderName folderName)
         {
-            if (image == null)
+            if (file == null)
             {
                 return null;
             }
-            var fileExtension = Path.GetExtension(image.FileName);
-            if (!ImageIsValid(fileExtension))
+            var fileExtension = Path.GetExtension(file.FileName);
+            if (!FileIsValid(fileExtension))
             {
                 return "";
             }
-            var targetFolder = Path.Combine(_imagesFolder, folderName.GetDisplayName());
+            var targetFolder = Path.Combine(_filesFolder, folderName.GetDisplayName());
             if (!Directory.Exists(targetFolder))
             {
                 Directory.CreateDirectory(targetFolder);
             }
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
             var fileFullPath = Path.Combine(targetFolder, fileName);
-            var result = $"/files/images/{folderName.GetDisplayName()}/{fileName}";
+            var result = $"/files/files/{folderName.GetDisplayName()}/{fileName}";
             await using (var stream = new FileStream(fileFullPath, FileMode.Create))
             {
-                image.CopyTo(stream);
+                file.CopyTo(stream);
             }
             return result;
 

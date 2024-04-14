@@ -17,15 +17,15 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly MapperlyConfiguration _mapperly;
         private readonly ISweetAlertService _sweetAlert;
-        private readonly IImageService _imageManager;
+        private readonly IUploadService _uploadManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, MapperlyConfiguration mapperly, ISweetAlertService sweetAlert, IImageService imageManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, MapperlyConfiguration mapperly, ISweetAlertService sweetAlert, IUploadService uploadManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapperly = mapperly;
             _sweetAlert = sweetAlert;
-            _imageManager = imageManager;
+            _uploadManager = uploadManager;
         }
 
         public async Task<IActionResult> Profile()
@@ -114,7 +114,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             }
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
-            user.ImageUrl = await _imageManager.UploadImage(image, FolderName.Users);
+            user.ImageUrl = await _uploadManager.UploadFile(image, FolderName.Users);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
