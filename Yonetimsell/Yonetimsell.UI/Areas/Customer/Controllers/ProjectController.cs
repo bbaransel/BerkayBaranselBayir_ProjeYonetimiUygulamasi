@@ -96,11 +96,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var userId = _userManager.GetUserId(User);
             addProjectViewModel.UserId  = userId;
             var subscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
-<<<<<<< Updated upstream
-            var projectCountResponse = await _projectManager.GetActiveProjectCountByUserIdAsync(userId);
-=======
             var projectCountResponse = await _projectManager.GetNonDeletedProjectCountByUserId(userId);
->>>>>>> Stashed changes
             if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2) 
             {
                 TempData["CreateProjectToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3'ten fazla proje oluşturamazsınız!");
@@ -140,21 +136,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var subscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
-<<<<<<< Updated upstream
-            var projectCountResponse = await _projectManager.GetActiveProjectCountByUserIdAsync(userId);
-            var projectResponse = await _projectManager.GetByIdAsync(projectId);
-            if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2 && projectResponse.Data.IsDeleted)
-            {
-                TempData["CreateProjectToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3'ten fazla aktif projeniz olamaz!");
-                return RedirectToAction("Index");
-=======
             var projectCountResponse = await _projectManager.GetNonDeletedProjectCountByUserId(userId);
             var projectResponse = await _projectManager.GetByIdAsync(projectId);
             if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2 && projectResponse.Data.IsDeleted)
             {
                 TempData["RemoveProjectToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3'ten fazla aktif projeniz olamaz!");
                 return RedirectToAction("RemovedList");
->>>>>>> Stashed changes
             }
             await _projectManager.SoftDeleteAsync(projectId);
             await _projectManager.ClearAllTasksAsync(projectId);
