@@ -68,6 +68,7 @@ namespace Yonetimsell.Business.Concrete
                 ProjectId = projectId,
                 UserId = x.UserId,
                 UserName = x.User.UserName,
+                UserImageUrl = x.User.ImageUrl,
                 FullName = $"{x.User.FirstName} {x.User.LastName}",
 
             }).ToList();

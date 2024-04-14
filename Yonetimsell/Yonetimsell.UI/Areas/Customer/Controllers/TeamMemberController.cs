@@ -25,12 +25,13 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly ISweetAlertService _sweetAlert;
         private readonly ISubscriptionService _subscriptionManager;
 
-        public TeamMemberController(ITeamMemberService teamMemberManager, IFriendshipService friendshipManager, UserManager<User> userManager, ISweetAlertService sweetAlert)
+        public TeamMemberController(ITeamMemberService teamMemberManager, IFriendshipService friendshipManager, UserManager<User> userManager, ISweetAlertService sweetAlert, ISubscriptionService subscriptionManager)
         {
             _teamMemberManager = teamMemberManager;
             _friendshipManager = friendshipManager;
             _userManager = userManager;
             _sweetAlert = sweetAlert;
+            _subscriptionManager = subscriptionManager;
         }
         [HttpGet]
         public async Task<IActionResult> AddTeamMember(int projectId)

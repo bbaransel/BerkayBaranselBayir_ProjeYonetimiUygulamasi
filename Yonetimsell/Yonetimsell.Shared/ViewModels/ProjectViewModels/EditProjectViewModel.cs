@@ -41,6 +41,7 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
         [Required]
         [DisplayName("Durum")]
         public Status Status { get; set; }
+        public bool IsDeleted { get; set; }
         public List<PTaskViewModel> PTasks { get; set; }
         public List<TeamMemberViewModel> TeamMembers { get; set; }
         public List<SubscriptionViewModel> Subscriptions { get; set; }

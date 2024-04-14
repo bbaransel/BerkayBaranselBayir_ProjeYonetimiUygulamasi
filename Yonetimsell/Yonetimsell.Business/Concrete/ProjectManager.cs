@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<List<ProjectViewModel>>> GetAllAsync()
         {
-            var projects = await _repository.GetAllAsync();
+            var projects = await _repository.GetAllAsync(include: query => query.Include(x => x.User));
             if (projects == null)
             {
                 return Response<List<ProjectViewModel>>.Fail("Hiç proje bulunamadı");
@@ -94,7 +95,10 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<ProjectViewModel>> GetByIdAsync(int projectId)
         {
-            var project = await _repository.GetAsync(p => p.Id == projectId);
+            var project = await _repository.GetAsync(p => p.Id == projectId,
+                query=>query.Include(y=>y.User)
+                .Include(y=>y.PTasks)
+                .Include(y=>y.TeamMembers));
             if (project == null)
             {
                 return Response<ProjectViewModel>.Fail("İlgili proje bulunamadı");

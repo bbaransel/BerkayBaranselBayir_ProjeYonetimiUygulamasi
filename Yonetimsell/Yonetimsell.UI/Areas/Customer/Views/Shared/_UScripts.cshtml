@@ -15,7 +15,14 @@
 <script src="~/customer/js/main.js"></script>
 
 <!-- SweetAlert2 -->
-@if (TempData["LoginToast"] != null)
+@if (TempData.Keys.Any(key => key.EndsWith("Toast")))
+{
+    foreach (var key in TempData.Keys.Where(key => key.EndsWith("Toast")))
+    {
+        @Html.Raw(TempData[key])
+    }
+}
+@* @if (TempData["LoginToast"] != null)
 {
     @Html.Raw(TempData["LoginToast"])
 }
@@ -70,4 +77,4 @@
 @if (TempData["RemoveProjectToast"] != null)
 {
     @Html.Raw(TempData["RemoveProjectToast"])
-}
+} *@

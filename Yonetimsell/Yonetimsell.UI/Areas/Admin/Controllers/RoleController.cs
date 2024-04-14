@@ -22,11 +22,13 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
             var roles = await _roleManager.Roles.ToListAsync();
             return View(roles);
         }
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult AddRole()
         {
             var role = new Role();
             return View(role);
         }
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public async Task<IActionResult> AddRole(Role role)
         {
@@ -44,6 +46,7 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
             await _roleManager.UpdateAsync(role);
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> DeleteRole(string roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
