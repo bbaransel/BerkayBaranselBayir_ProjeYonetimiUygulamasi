@@ -25,6 +25,7 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<int>> GetCompletedProjectCountAsync();
         Task<Response<int>> GetActiveProjectCountByUserIdAsync(string userId);
         Task<Response<int>> GetCompletedProjectCountByUserIdAsync(string userId);
+        Task<Response<int>> GetNonDeletedProjectCountByUserId(string userId);
 
 
 

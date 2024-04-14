@@ -146,6 +146,11 @@ namespace Yonetimsell.Business.Concrete
             var result = _mapperly.ListProjectToListProjectViewModel(projects);
             return Response<List<ProjectViewModel>>.Success(result);
         }
+        public async Task<Response<int>> GetNonDeletedProjectCountByUserId(string userId)
+        {
+            var count = await _repository.GetCountAsync(x => x.UserId == userId && x.IsDeleted == false);
+            return Response<int>.Success(count);
+        }
 
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByStatusAsync(string userId, Status status)
         {

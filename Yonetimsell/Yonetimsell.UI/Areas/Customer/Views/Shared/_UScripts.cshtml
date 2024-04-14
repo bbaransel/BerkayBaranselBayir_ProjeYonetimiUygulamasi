@@ -63,3 +63,11 @@
 {
     @Html.Raw(TempData["SubscriptionToast"])
 }
+@if (TempData["CreateProjectToast"] != null)
+{
+    @Html.Raw(TempData["CreateProjectToast"])
+}
+@if (TempData["RemoveProjectToast"] != null)
+{
+    @Html.Raw(TempData["RemoveProjectToast"])
+}

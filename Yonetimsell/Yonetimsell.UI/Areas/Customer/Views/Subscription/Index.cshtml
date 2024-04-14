@@ -4,7 +4,7 @@
         <h3 class="mb-4">Ödeme Sayfası</h3>
         <div class="col-sm-3">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" style="height:200px">
                     <h5 class="card-title">@SubscriptionPlan.Basic.GetDisplayName() Plan</h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
                     <form asp-area="Customer" asp-controller="Subscription" asp-action="Subscribe" method="get">
@@ -17,7 +17,7 @@
         </div>
         <div class="col-sm-3">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" style="height:200px">
                     <h5 class="card-title">@SubscriptionPlan.Standard.GetDisplayName() Plan</h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
                     <form asp-area="Customer" asp-controller="Subscription" asp-action="Subscribe" method="get">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="card">
+            <div class="card" style="height:200px">
                 <div class="card-body">
                     <h5 class="card-title">@SubscriptionPlan.Premium.GetDisplayName() Plan</h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
@@ -44,10 +44,10 @@
         @if (Model != null)
         {
             <div class="col-sm-3">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card" style="height:200px">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">Mevcut Planınız: @Model.SubscriptionPlan.GetDisplayName() Plan</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
+                        <p class="card-text"><strong>Üyeliğin bitmesine kalan süre:</strong> @(((int)(Model.ExpiryDate - DateTime.Now).TotalDays)) (@Model.ExpiryDate)</p>
                         <a href="#" class="btn btn-danger">İptal Et</a>
                     </div>
                 </div>

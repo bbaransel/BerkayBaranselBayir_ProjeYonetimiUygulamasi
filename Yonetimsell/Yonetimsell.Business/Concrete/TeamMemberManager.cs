@@ -21,13 +21,11 @@ namespace Yonetimsell.Business.Concrete
     {
         private readonly ITeamMemberRepository _repository;
         private readonly MapperlyConfiguration _mapperly;
-        private readonly UserManager<User> _userManager;
 
-        public TeamMemberManager(ITeamMemberRepository repository, MapperlyConfiguration mapperly, UserManager<User> userManager)
+        public TeamMemberManager(ITeamMemberRepository repository, MapperlyConfiguration mapperly)
         {
             _repository = repository;
             _mapperly = mapperly;
-            _userManager = userManager;
         }
 
         public async Task<Response<TeamMemberViewModel>> AddUserToProjectAsync(TeamMemberViewModel teamMemberViewModel)
@@ -112,6 +110,12 @@ namespace Yonetimsell.Business.Concrete
         {
             var result = await _repository.CheckIfExistsAsync(userId, projectId);
             return Response<bool>.Success(result);
+        }
+
+        public async Task<Response<int>> TeamMemberCountAsync(int projectId)
+        {
+            var teamMemberCount = await _repository.GetCountAsync(x=>x.ProjectId== projectId);
+            return Response<int>.Success(teamMemberCount);
         }
     }
 }

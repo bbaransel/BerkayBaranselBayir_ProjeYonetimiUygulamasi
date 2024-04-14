@@ -23,6 +23,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly IFriendshipService _friendshipManager;
         private readonly UserManager<User> _userManager;
         private readonly ISweetAlertService _sweetAlert;
+        private readonly ISubscriptionService _subscriptionManager;
 
         public TeamMemberController(ITeamMemberService teamMemberManager, IFriendshipService friendshipManager, UserManager<User> userManager, ISweetAlertService sweetAlert)
         {
@@ -52,6 +53,13 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> AddTeamMember(string userId, int projectId, ProjectRole projectRole, string currentUserId)
         {
             var checkResponse = await _teamMemberManager.CheckIfExistsAsync(userId, projectId);
+            var SubscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
+            var teamMemberCount = await _teamMemberManager.TeamMemberCountAsync(projectId);
+            if(!SubscriptionResponse.IsSucceeded && teamMemberCount.Data == 3)
+            {
+                TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3ten fazla takım arkadaşı ekleyemezsiniz!");
+                return RedirectToAction("AddTeamMember", new { projectId });
+            }
             if (checkResponse.Data)
             {
                 TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("error", "Kullanıcı zaten takım arkadaşınız!");
