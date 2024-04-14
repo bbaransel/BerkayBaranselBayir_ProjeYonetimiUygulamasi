@@ -1,0 +1,57 @@
+﻿@model SubscriptionViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row">
+        <h3 class="mb-4">Ödeme Sayfası</h3>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@SubscriptionPlan.Basic.GetDisplayName() Plan</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
+                    <form asp-area="Customer" asp-controller="Subscription" asp-action="Subscribe" method="get">
+                        <input type="hidden" name="subscriptionPlan" value="@SubscriptionPlan.Basic" />
+                        <input type="hidden" name="price" value="5" />
+                        <button href="#" class="btn btn-primary">Ödeme Sayfasına Git</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@SubscriptionPlan.Standard.GetDisplayName() Plan</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
+                    <form asp-area="Customer" asp-controller="Subscription" asp-action="Subscribe" method="get">
+                        <input type="hidden" name="subscriptionPlan" value="@SubscriptionPlan.Standard" />
+                        <input type="hidden" name="price" value="10" />
+                        <button href="#" class="btn btn-primary">Ödeme Sayfasına Git</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@SubscriptionPlan.Premium.GetDisplayName() Plan</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
+                    <form asp-area="Customer" asp-controller="Subscription" asp-action="Subscribe" method="get">
+                        <input type="hidden" name="subscriptionPlan" value="@SubscriptionPlan.Premium" />
+                        <input type="hidden" name="price" value="15" />
+                        <button href="#" class="btn btn-primary">Ödeme Sayfasına Git</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @if (Model != null)
+        {
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Mevcut Planınız: @Model.SubscriptionPlan.GetDisplayName() Plan</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacus libero, tristique vel ornare vel.</p>
+                        <a href="#" class="btn btn-danger">İptal Et</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

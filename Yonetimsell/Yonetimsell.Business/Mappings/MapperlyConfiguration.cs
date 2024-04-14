@@ -13,6 +13,7 @@ using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.MessageViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
+using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
 namespace Yonetimsell.Business.Mappings

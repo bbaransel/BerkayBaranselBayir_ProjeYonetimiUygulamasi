@@ -2,8 +2,8 @@
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
-using Yonetimsell.Shared.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Models
 {

@@ -18,6 +18,5 @@ namespace Yonetimsell.Entity.Concrete
         public Status Status { get; set; }
         public List<PTask> PTasks { get; set; }
         public List<TeamMember> TeamMembers { get; set; }
-        public List<Subscription> Subscriptions { get; set; }
     }
 }

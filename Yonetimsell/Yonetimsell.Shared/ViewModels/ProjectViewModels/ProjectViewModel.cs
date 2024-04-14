@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
+using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
 namespace Yonetimsell.Shared.ViewModels.ProjectViewModels

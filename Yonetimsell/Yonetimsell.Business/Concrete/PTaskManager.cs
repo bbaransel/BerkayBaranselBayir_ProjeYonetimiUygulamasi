@@ -29,7 +29,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> ChangePTaskPriorityAsync(int pTaskId, Priority priority)
         {
             var pTask = await _repository.GetAsync(x => x.Id == pTaskId);
-            if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı");
+            if (pTask == null)
+            {
+                return Response<NoContent>.Fail("İlgili task bulunamadı");
+            }
             await _repository.ChangeTaskPriorityAsync(pTask, priority);
             return Response<NoContent>.Success();
         }
@@ -37,7 +40,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> ChangePTaskStatusAsync(int pTaskId, Status status)
         {
             var pTask = await _repository.GetAsync(x => x.Id == pTaskId);
-            if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı");
+            if (pTask == null)
+            {
+                return Response<NoContent>.Fail("İlgili task bulunamadı");
+            }
             await _repository.ChangeTaskStatusAsync(pTask, status);
             return Response<NoContent>.Success();
         }
@@ -46,7 +52,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var pTask = _mapperly.AddPTaskViewModelToPTask(addPTaskViewModel);
             var createdPTask = await _repository.CreateAsync(pTask);
-            if (createdPTask == null) Response<AddPTaskViewModel>.Fail("Task oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
+            if (createdPTask == null)
+            {
+                return Response<PTaskViewModel>.Fail("Task oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
+            }
             var result = _mapperly.PTaskToPTaskViewModel(createdPTask);
             return Response<PTaskViewModel>.Success(result);
         }
@@ -72,7 +81,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<PTaskViewModel>>> GetAllAsync()
         {
             var pTasks = await _repository.GetAllAsync();
-            if (pTasks == null) Response<NoContent>.Fail("Hiç task bulunamadı");
+            if (pTasks == null)
+            {
+                return Response<List<PTaskViewModel>>.Fail("Hiç task bulunamadı");
+            }
             var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
             return Response<List<PTaskViewModel>>.Success(result);
         }
@@ -87,7 +99,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var pTask = await _repository.GetAsync(x=>x.Id == pTaskId,
                 q=>q.Include(x=>x.User));
-            if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı.");
+            if (pTask == null)
+            {
+                return Response<PTaskViewModel>.Fail("İlgili task bulunamadı.");
+            }
             var result = new PTaskViewModel
             {
                 Id = pTask.Id,
@@ -126,7 +141,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var allPTasks = await _repository.GetCountAsync(x=>x.ProjectId == projectId);
             var completedPTasks = await _repository.GetCountAsync(x => x.ProjectId == projectId && x.Status == Status.Done);
-            if (allPTasks == 0) return 0;
+            if (allPTasks == 0)
+            {
+                return 0;
+            }
             double progressPercentage = ((double)completedPTasks / allPTasks) * 100;
             int result = (int)Math.Ceiling(progressPercentage);
             return result;
@@ -135,7 +153,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<PTaskViewModel>>> GetTasksByPriorityAsync(string userId, Priority priority)
         {
             var pTasks = await _repository.GetTasksByPriorityAsync(userId, priority);
-            if (pTasks == null) Response<NoContent>.Fail($"{priority} öncelikte task bulunamadı");
+            if (pTasks == null)
+            {
+                return Response<List<PTaskViewModel>>.Fail($"{priority} öncelikte task bulunamadı");
+            }
             var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
             return Response<List<PTaskViewModel>>.Success(result);
         }
@@ -143,7 +164,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<PTaskViewModel>>> GetTasksByProjectIdAsync(int projectId)
         {
             var pTasks = await _repository.GetTasksByProjectIdAsync(projectId);
-            if (pTasks == null) Response<NoContent>.Fail("İlgili projeye ait task bulunamadı");
+            if (pTasks == null)
+            {
+                return Response<List<PTaskViewModel>>.Fail("İlgili projeye ait task bulunamadı");
+            }
             var result = pTasks.Select(x => new PTaskViewModel
             {
                 Description = x.Description,
@@ -163,7 +187,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<PTaskViewModel>>> GetTasksByStatusAsync(string userId, Status status)
         {
             var pTasks = await _repository.GetTasksByStatusAsync(userId, status);
-            if (pTasks == null) Response<NoContent>.Fail($"{status} durumunda task bulunamadı");
+            if (pTasks == null)
+            {
+                return Response<List<PTaskViewModel>>.Fail($"{status} durumunda task bulunamadı");
+            }
             var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
             return Response<List<PTaskViewModel>>.Success(result);
         }
@@ -171,7 +198,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<PTaskViewModel>>> GetTasksByUserIdAsync(string userId)
         {
             var pTasks = await _repository.GetTasksByUserIdAsync(userId);
-            if (pTasks == null) Response<NoContent>.Fail("İlgili kullanıcıya ait task bulunamadı");
+            if (pTasks == null)
+            {
+                return Response<List<PTaskViewModel>>.Fail("İlgili kullanıcıya ait task bulunamadı");
+            }
             var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
             return Response<List<PTaskViewModel>>.Success(result);
         }
@@ -179,7 +209,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> HardDeleteAsync(int pTaskId)
         {
             var pTask = await _repository.GetAsync(x=>x.Id== pTaskId);
-            if (pTask == null) Response<NoContent>.Fail("İlgili task bulunamadı");
+            if (pTask == null)
+            {
+                return Response<NoContent>.Fail("İlgili task bulunamadı");
+            }
             await _repository.HardDeleteAsync(pTask);
             return Response<NoContent>.Success();
         }
@@ -187,7 +220,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<PTaskViewModel>> UpdateAsync(EditPTaskViewModel editPTaskViewModel)
         {
             var pTask = _mapperly.EditPTaskViewModelToPTask(editPTaskViewModel);
-            if (pTask == null) Response<ProjectViewModel>.Fail("İlgili task bulunamadı");
+            if (pTask == null)
+            {
+                return Response<PTaskViewModel>.Fail("İlgili task bulunamadı");
+            }
             pTask.ModifiedDate = DateTime.Now;
             await _repository.UpdateAsync(pTask);
             var result = _mapperly.PTaskToPTaskViewModel(pTask);

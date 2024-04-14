@@ -1,0 +1,95 @@
+﻿@model SubscribeViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <form asp-area="Customer" asp-controller="Subscription" asp-action="Subscribe" method="post" class="m-0 p-0">
+        <div class="row g-4 ">
+            <h3 class="mb-4">Ödeme Sayfası</h3>
+                <div class="col-sm-12 col-lg-8 bg-light">
+                    <div class="rounded p-4">
+                        <div asp-validation-summary="All"></div>
+                        <h6 class="mb-4">FATURA BİLGİLERİ</h6>
+                        <div class="row g-2">
+                            <input type="hidden" asp-for="UserId" />
+                            <div class="form-floating mb-3 col-sm-6">
+                                <input placeholder="Name" type="text" class="form-control" asp-for="FirstName">
+                                <label class="form-label" asp-for="FirstName"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6">
+                                <input  type="text" class="form-control" asp-for="LastName">
+                                <label  class="form-label" asp-for="LastName"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6">
+                                <input type="email" class="form-control" asp-for="Email">
+                                <label class="form-label" asp-for="Email"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6">
+                                <input type="tel" class="form-control" asp-for="PhoneNumber">
+                                <label class="form-label" asp-for="PhoneNumber"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6">
+                                <textarea class="form-control" asp-for="Adress"></textarea>
+                                <label asp-for="Adress"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6">
+                                <input  placeholder="Name" type="text" class="form-control" asp-for="City">
+                                <label class="form-label" asp-for="City"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="rounded p-4">
+                        <h6 class="mb-4">ÖDEME BİLGİLERİ</h6>
+                    <div class="row g-2">
+                        <input type="hidden" asp-for="UserId" />
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input placeholder="Name" type="text" class="form-control" asp-for="CardName">
+                            <label class="form-label" asp-for="CardName"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input type="text" class="form-control" asp-for="CardNumber">
+                            <label class="form-label" asp-for="CardNumber"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input type="number" class="form-control" asp-for="ExpirationMonth">
+                            <label class="form-label" asp-for="ExpirationMonth"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input type="number" class="form-control" asp-for="ExpirationYear">
+                            <label class="form-label" asp-for="ExpirationYear"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input type="number" class="form-control" asp-for="Cvc"/>
+                            <label asp-for="Cvc"></label>
+                        </div>
+                        <input type="hidden" asp-for="SubscriptionPlan" />
+                        <input type="hidden" asp-for="Price" />
+
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-4 bg-light">
+                    <div class="rounded p-4">
+                        <h6 class="mb-4 mt-3">ÖDEMEYİ TAMAMLA</h6>
+                        <div class="card">
+                            <div class="card-body">
+                            <h5 class="card-title">@($"Toplam Fiyat: {Model.Price:C0}")</h5>
+                            <p class="card-text"><strong>Seçilen plan:</strong> @Model.SubscriptionPlan.GetDisplayName() Plan</p>
+                            <p class="card-text"><strong>Abonelik süresi:</strong> 30 gün</p>
+                                <button type="submit" class="btn btn-primary">Ödemeyi tamamla</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </form>
+</div>
+@section Styles{
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            display: none;
+        }
+        textarea {
+            overflow:hidden;
+        }
+    </style>
+}

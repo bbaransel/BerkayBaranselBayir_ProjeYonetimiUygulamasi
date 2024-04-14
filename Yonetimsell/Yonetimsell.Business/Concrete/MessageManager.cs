@@ -67,11 +67,6 @@ namespace Yonetimsell.Business.Concrete
                 var infoText = isRead ? "Okunmuş" : "Okunmamış";
                 return Response<List<MessageViewModel>>.Fail($"{infoText} mesajınız bulunmamaktadır.");
             }
-            //foreach (var m in messageList)
-            //{
-            //    m.SenderUser = await _userManager.FindByIdAsync(m.SenderId);
-            //    m.ReceiverUser = await _userManager.FindByIdAsync(m.ReceiverId);
-            //}
             messageList = messageList.OrderByDescending(x => x.SendingDate).ToList();
             var messageViewModelList = messageList.Select(x => new MessageViewModel
             {
@@ -101,11 +96,6 @@ namespace Yonetimsell.Business.Concrete
             {
                 return Response<List<MessageViewModel>>.Fail($"Hiç mesajınız bulunmamaktadır.");
             }
-            //foreach(var m in messageList)
-            //{
-            //    m.SenderUser = await _userManager.FindByIdAsync(m.SenderId);
-            //    m.ReceiverUser = await _userManager.FindByIdAsync(m.ReceiverId);
-            //}
             messageList = messageList.OrderByDescending(x => x.SendingDate).ToList();
             var messageViewModelList = messageList.Select(x => new MessageViewModel
             {
@@ -135,11 +125,6 @@ namespace Yonetimsell.Business.Concrete
             {
                 return Response<List<MessageViewModel>>.Fail("Bu konuşmaya dair başka mesaj bulunamadı.");
             }
-            //foreach (var m in messageList)
-            //{
-            //    m.SenderUser = await _userManager.FindByIdAsync(m.SenderId);
-            //    m.ReceiverUser = await _userManager.FindByIdAsync(m.ReceiverId);
-            //}
             var messageViewModelList = messageList.Select(x => new MessageViewModel
             {
                 Id = x.Id,
@@ -159,8 +144,6 @@ namespace Yonetimsell.Business.Concrete
             var firstMessage = await _repository.GetAsync(x=>x.Id==relatedId,
                 query => query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
-            //firstMessage.SenderUser = await _userManager.FindByIdAsync(firstMessage.SenderId);
-            //firstMessage.ReceiverUser = await _userManager.FindByIdAsync(firstMessage.ReceiverId);
             var firstMessageViewModel = new MessageViewModel
             {
                 Id = firstMessage.Id,
@@ -191,11 +174,6 @@ namespace Yonetimsell.Business.Concrete
             {
                 return Response<List<MessageViewModel>>.Fail("Giden kutusu boş");
             }
-            //foreach (var m in messageList)
-            //{
-            //    m.SenderUser = await _userManager.FindByIdAsync(m.SenderId);
-            //    m.ReceiverUser = await _userManager.FindByIdAsync(m.ReceiverId);
-            //}
             var messageViewModelList = messageList.Select(x => new MessageViewModel
             {
                 Id = x.Id,
@@ -220,8 +198,6 @@ namespace Yonetimsell.Business.Concrete
             var message = await _repository.GetAsync(x => x.Id == id, query => 
                 query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
-            //message.SenderUser = await _userManager.FindByIdAsync(message.SenderId);
-            //message.ReceiverUser = await _userManager.FindByIdAsync(message.ReceiverId);
             if (message == null)
             {
                 return Response<MessageViewModel>.Fail("Mesaj açılamadı");
@@ -269,8 +245,6 @@ namespace Yonetimsell.Business.Concrete
             var message = await _repository.GetAsync(x => x.Id == id, query => 
                 query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
-            //message.ReceiverUser = await _userManager.FindByIdAsync(message.ReceiverId);
-            //message.SenderUser = await _userManager.FindByIdAsync(message.SenderId);
             message.IsRead = true;
             await _repository.UpdateAsync(message);
             return Response<NoContent>.Success();

@@ -27,7 +27,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var file = _mapperly.PTaskFileViewModelToPTaskFile(pTaskFileViewModel);
             var createdFile = await _repository.CreateAsync(file);
-            if (createdFile == null) Response<NoContent>.Fail("Dosya yüklenemedi");
+            if (createdFile == null)
+            {
+                return Response<PTaskFileViewModel>.Fail("Dosya yüklenemedi");
+            }
             var result = _mapperly.PTaskFileToPTaskFileViewModel(createdFile);
             return Response<PTaskFileViewModel>.Success(result);
         }
@@ -36,7 +39,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var files = await _repository.GetAllAsync(x=>x.PTaskId == pTaskId,
                 query=>query.Include(y=>y.PTask));
-            if (files == null) Response<NoContent>.Fail("İlgili göreve ait dosya bulunamadı");
+            if (files == null)
+            {
+                return Response<List<PTaskFileViewModel>>.Fail("İlgili göreve ait dosya bulunamadı");
+            }
             var result = _mapperly.ListPTaskFileToListPTaskFileViewModel(files);
             return Response<List<PTaskFileViewModel>>.Success(result);
         }
@@ -45,7 +51,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var file = await _repository.GetAsync(x=>x.Id == id,
                 query=>query.Include(y=>y.PTask));
-            if (file == null) Response<NoContent>.Fail("İlgili dosya bulunamadı");
+            if (file == null)
+            {
+                return Response<PTaskFileViewModel>.Fail("İlgili dosya bulunamadı");
+            }
             var result = _mapperly.PTaskFileToPTaskFileViewModel(file);
             return Response<PTaskFileViewModel>.Success(result);
         }

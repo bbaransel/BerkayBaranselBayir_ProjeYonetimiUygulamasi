@@ -29,7 +29,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> ChangeProjectPriorityAsync(int projectId, Priority priority)
         {
             var project = await _repository.GetAsync(x => x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<NoContent>.Fail("İlgili proje bulunamadı");
+            }
             await _repository.ChangeProjectPriorityAsync(project, priority);
             return Response<NoContent>.Success();
         }
@@ -37,7 +40,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> ChangeProjectStatusAsync(int projectId, Status status)
         {
             var project = await _repository.GetAsync(x => x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            if (project == null) 
+            {
+                return Response<NoContent>.Fail("İlgili proje bulunamadı");
+            }
             await _repository.ChangeProjectStatusAsync(project, status);
             return Response<NoContent>.Success();
         }
@@ -45,14 +51,20 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> ClearAllTasksAsync(int projectId)
         {
             var project = await _repository.GetAsync(x => x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("ilgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<NoContent>.Fail("ilgili proje bulunamadı");
+            }
             await _repository.ClearAllTasksFromProjectAsync(projectId);
             return Response<NoContent>.Success();
         }
         public async Task<Response<NoContent>> ClearAllTeamMembersAsync(int projectId)
         {
             var project = await _repository.GetAsync(x => x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("ilgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<NoContent>.Fail("ilgili proje bulunamadı");
+            }
             await _repository.ClearAllTeamMembersFromProjectAsync(projectId);
             return Response<NoContent>.Success();
         }
@@ -61,7 +73,10 @@ namespace Yonetimsell.Business.Concrete
         {
             var project = _mapperly.AddProjectViewModelToProject(addProjectViewModel);   
             var createdProject = await _repository.CreateAsync(project);
-            if (createdProject == null) Response<ProjectViewModel>.Fail("Proje oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
+            if (createdProject == null)
+            {
+                return Response<ProjectViewModel>.Fail("Proje oluşturulamadı! Sorunun devam etmesi durumunda Yönetici ile iletişime geçiniz.");
+            }
             var result = _mapperly.ProjectToProjectViewModel(createdProject);
             return Response<ProjectViewModel>.Success(result);
         }
@@ -69,7 +84,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<ProjectViewModel>>> GetAllAsync()
         {
             var projects = await _repository.GetAllAsync();
-            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı");
+            if (projects == null)
+            {
+                return Response<List<ProjectViewModel>>.Fail("Hiç proje bulunamadı");
+            }
             var result = _mapperly.ListProjectToListProjectViewModel(projects);
             return Response<List<ProjectViewModel>>.Success(result);
         }
@@ -77,7 +95,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<ProjectViewModel>> GetByIdAsync(int projectId)
         {
             var project = await _repository.GetAsync(p => p.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<ProjectViewModel>.Fail("İlgili proje bulunamadı");
+            }
             var projectViewModel = _mapperly.ProjectToProjectViewModel(project);
             return Response<ProjectViewModel>.Success(projectViewModel);
         }
@@ -85,7 +106,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<ProjectViewModel>>> GetDeletedProjectsByUserIdAsync(string userId)
         {
             var projects = await _repository.GetDeletedProjectsByUserIdAsync(userId);
-            if (projects == null) Response<NoContent>.Fail("Silinmiş proje bulunamadı");
+            if (projects == null)
+            {
+                return Response<List<ProjectViewModel>>.Fail("Silinmiş proje bulunamadı");
+            }
             var result = _mapperly.ListProjectToListProjectViewModel(projects);
             return Response<List<ProjectViewModel>>.Success(result);
         }
@@ -115,7 +139,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
             var projects = await _repository.GetProjectsByPriorityAsync(userId,priority);
-            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı");
+            if (projects == null)
+            {
+                return Response<List<ProjectViewModel>>.Fail("Hiç proje bulunamadı");
+            }
             var result = _mapperly.ListProjectToListProjectViewModel(projects);
             return Response<List<ProjectViewModel>>.Success(result);
         }
@@ -123,7 +150,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByStatusAsync(string userId, Status status)
         {
             var projects = await _repository.GetProjectsByStatusAsync(userId, status);
-            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı");
+            if (projects == null)
+            {
+                return Response<List<ProjectViewModel>>.Fail("Hiç proje bulunamadı");
+            }
             var result = _mapperly.ListProjectToListProjectViewModel(projects);
             return Response<List<ProjectViewModel>>.Success(result);
         }
@@ -131,7 +161,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByUserIdAsync(string userId)
         {
             var projects = await _repository.GetProjectsByUserIdAsync(userId);
-            if (projects == null) Response<NoContent>.Fail("Hiç proje bulunamadı.");
+            if (projects == null)
+            {
+                return Response<List<ProjectViewModel>>.Fail("Hiç proje bulunamadı.");
+            }
             var result = _mapperly.ListProjectToListProjectViewModel(projects);
             return Response<List<ProjectViewModel>>.Success(result);
         }
@@ -139,7 +172,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> HardDeleteAsync(int projectId)
         {
             var project = await _repository.GetAsync(x=>x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<NoContent>.Fail("İlgili proje bulunamadı");
+            }
             await _repository.HardDeleteAsync(project);
             return Response<NoContent>.Success();
         }
@@ -147,7 +183,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> SoftDeleteAsync(int projectId)
         {
             var project = await _repository.GetAsync(x=> x.Id == projectId);
-            if (project == null) Response<NoContent>.Fail("İlgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<NoContent>.Fail("İlgili proje bulunamadı");
+            }
             project.IsDeleted = !project.IsDeleted;
             project.ModifiedDate = DateTime.Now;
             await _repository.UpdateAsync(project);
@@ -157,7 +196,10 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<ProjectViewModel>> UpdateAsync(ProjectViewModel projectViewModel)
         {
             var project = _mapperly.ProjectViewModelToProject(projectViewModel);
-            if (project == null) Response<ProjectViewModel>.Fail("İlgili proje bulunamadı");
+            if (project == null)
+            {
+                return Response<ProjectViewModel>.Fail("İlgili proje bulunamadı");
+            }
             project.ModifiedDate = DateTime.Now;
             await _repository.UpdateAsync(project);
             var result = _mapperly.ProjectToProjectViewModel(project);

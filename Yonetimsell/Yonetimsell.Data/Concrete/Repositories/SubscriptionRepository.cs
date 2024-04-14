@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
+using Yonetimsell.Entity.Concrete.Identity;
+using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
 
 namespace Yonetimsell.Data.Concrete.Repositories
 {
@@ -20,10 +22,21 @@ namespace Yonetimsell.Data.Concrete.Repositories
             get { return _dbContext as YonetimsellDbContext; }
         }
 
-        public async Task<List<Subscription>> GetSubscriptionsByUserIdAsync(string userId)
+        public async Task<Subscription> CancelSubscriptionAsync(string userId)
         {
-            var subscriptions = await YonetimsellDbContext.Subscriptions.Where(x=> x.UserId == userId).ToListAsync();
-            return subscriptions;
+            var subscription = await YonetimsellDbContext.Subscriptions.Where(x=> x.UserId == userId).FirstOrDefaultAsync();
+            subscription.IsActive = false;
+            subscription.ExpiryDate = DateTime.Now;
+            YonetimsellDbContext.Subscriptions.Update(subscription);
+            return subscription;
+        }
+
+        public async Task<Subscription> GetActiveSubscriptionByUserIdAsync(string userId)
+        {
+            var subscription = await YonetimsellDbContext.Subscriptions.Where(x => x.UserId == userId && x.IsActive==true)
+                .OrderByDescending(x=>x.ExpiryDate)
+                .FirstOrDefaultAsync();
+            return subscription;
         }
     }
 }

@@ -59,3 +59,7 @@
 {
     @Html.Raw(TempData["EditTaskToast"])
 }
+@if (TempData["SubscriptionToast"] != null)
+{
+    @Html.Raw(TempData["SubscriptionToast"])
+}
