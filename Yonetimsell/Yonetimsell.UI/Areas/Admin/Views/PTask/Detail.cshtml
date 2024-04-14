@@ -1,0 +1,100 @@
+﻿@model EditPTaskViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <div class="row g-4">
+        <div class="col-sm-12 col-lg-8 bg-secondary">
+            <div class="rounded p-4">
+                <h6 class="mb-4">Görevi Düzenle</h6>
+                <form asp-area="Admin" asp-controller="PTask" asp-action="Edit" enctype="multipart/form-data" method="post" class="dropzone bg-secondary" id="myDropzone">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="ProjectId" />
+                    <input type="hidden" asp-for="UserName" />
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="Id" />
+                    <div class="dropzone-previews"></div>
+                    <div class="row g-2">
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input placeholder="Name" type="text" class="form-control" asp-for="Name">
+                            <label class="form-label" asp-for="Name"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" asp-for="DueDate">
+                            <label class="form-label" asp-for="DueDate"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-4">
+                            <input disabled placeholder="Name" type="text" class="form-control" asp-for="UserName">
+                            <label class="form-label" asp-for="UserName"></label>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-6">
+                            <textarea class="form-control" asp-for="Description" placeholder="Açıklama" style="height:140px"></textarea>
+                            <label asp-for="Description"></label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3 col-sm-12">
+                                <select class="form-select mb-4" asp-for="Status">
+                                    <option value="0">Devam Ediyor</option>
+                                    <option value="1">Tamamlandı</option>
+                                    <option value="2">Hatalı</option>
+                                    <option value="3">Beklemede</option>
+                                </select>
+                                <label asp-for="Status"></label>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-12">
+                                <select class="form-select" asp-for="Priority">
+                                    <option value="0">Düşük</option>
+                                    <option value="1">Orta</option>
+                                    <option value="2">Yüksek</option>
+                                    <option value="3">Kritik</option>
+                                </select>
+                                <label asp-for="Priority"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fallback">
+                        <input type="file" multiple name="files" />
+                    </div>
+                    <button class="btn btn-success w-100 mt-3" id="uploadbutton" type="submit">Görevi güncelle</button>
+                </form>
+            </div>
+        </div>
+        @if (Model.PTaskFiles != null && Model.PTaskFiles.Count > 0)
+        {
+            <div class="col-sm-12 col-lg-4 bg-secondary">
+                <div class="p-4 rounded">
+                    <h6 class="mb-4">Dosyalar</h6>
+                    <div class="list-group">
+                        @foreach (var f in Model.PTaskFiles)
+                        {
+                            <a href="@f.FileUrl" target="_blank" class="list-group-item list-group-item-action bg-secondary">@f.FileName</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        Dropzone.autoDiscover = false;
+        $(function () {
+            var dz = null;
+            $("#myDropzone").dropzone({
+                autoProcessQueue: false,
+                maxFileSize: 2, //MB
+                maxFiles: 5,
+                parallelUploads: 5,
+                paramName: "files", // Dosyanın parametre adı
+                acceptedFiles: ".jpeg,.jpg,.png,.pdf,.txt,.docx",
+                uploadMultiple: false,
+                addRemoveLinks: true,
+                init: function () {
+                    dz = this;
+                    $("#uploadbutton").click(function () {
+                        dz.processQueue();
+                    });
+                },
+                dictDefaultMessage: "Dosyalarınızı buraya sürükleyebilirsiniz.",
+                dictRemoveFile: "Dosyayı sil."
+            });
+        });
+    </script>
+}

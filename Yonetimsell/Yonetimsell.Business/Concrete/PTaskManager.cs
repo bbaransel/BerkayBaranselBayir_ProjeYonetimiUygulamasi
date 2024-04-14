@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -80,12 +81,25 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<List<PTaskViewModel>>> GetAllAsync()
         {
-            var pTasks = await _repository.GetAllAsync();
+            var pTasks = await _repository.GetAllAsync(
+                include: query => query.Include(x => x.User));
             if (pTasks == null)
             {
                 return Response<List<PTaskViewModel>>.Fail("Hiç task bulunamadı");
             }
-            var result = _mapperly.ListPTaskToListPTaskViewModel(pTasks);
+            var result = pTasks.Select(x=> new PTaskViewModel
+            {
+                Id = x.Id,
+                Status = x.Status,
+                CreatedDate = x.CreatedDate,
+                Description = x.Description,
+                UserName = x.User.UserName,
+                DueDate = x.DueDate,
+                Name = x.Name,
+                Priority = x.Priority,
+                ProjectId = x.ProjectId,
+                UserId = x.UserId,
+            }).ToList();
             return Response<List<PTaskViewModel>>.Success(result);
         }
 
