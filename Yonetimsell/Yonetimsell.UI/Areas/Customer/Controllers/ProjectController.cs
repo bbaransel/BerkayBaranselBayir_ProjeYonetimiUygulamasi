@@ -26,8 +26,9 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly IPTaskService _pTaskManager;
         private readonly MapperlyConfiguration _mapperly;
         private readonly ISweetAlertService _sweetAlert;
+        private readonly ISubscriptionService _subscriptionManager;
 
-        public ProjectController(UserManager<User> userManager, IProjectService projectManager, ITeamMemberService teamMemberManager, IPTaskService pTaskManager, MapperlyConfiguration mapperly, ISweetAlertService sweetAlert)
+        public ProjectController(UserManager<User> userManager, IProjectService projectManager, ITeamMemberService teamMemberManager, IPTaskService pTaskManager, MapperlyConfiguration mapperly, ISweetAlertService sweetAlert, ISubscriptionService subscriptionManager)
         {
             _userManager = userManager;
             _projectManager = projectManager;
@@ -35,6 +36,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             _pTaskManager = pTaskManager;
             _mapperly = mapperly;
             _sweetAlert = sweetAlert;
+            _subscriptionManager = subscriptionManager;
         }
 
         public async Task<IActionResult> Index()
@@ -91,10 +93,19 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AddProjectViewModel addProjectViewModel)
         {
-            addProjectViewModel.UserId = _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(User);
+            addProjectViewModel.UserId  = userId;
+            var subscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
+            var projectCountResponse = await _projectManager.GetActiveProjectCountByUserIdAsync(userId);
+            if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2) 
+            {
+                TempData["CreateProjectToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3'ten fazla proje oluşturamazsınız!");
+                return RedirectToAction("Index");
+            }
             var result = await _projectManager.CreateAsync(addProjectViewModel);
             if (result.IsSucceeded)
             {
+                TempData["CreateProjectToast"] = _sweetAlert.MiddleNotification("success", "Proje başarıyla oluşturuldu.");
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError("", "hata var");
@@ -123,6 +134,15 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         }
         public async Task<IActionResult> Remove(int projectId)
         {
+            var userId = _userManager.GetUserId(User);
+            var subscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
+            var projectCountResponse = await _projectManager.GetActiveProjectCountByUserIdAsync(userId);
+            var projectResponse = await _projectManager.GetByIdAsync(projectId);
+            if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2 && projectResponse.Data.IsDeleted)
+            {
+                TempData["CreateProjectToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3'ten fazla aktif projeniz olamaz!");
+                return RedirectToAction("Index");
+            }
             await _projectManager.SoftDeleteAsync(projectId);
             await _projectManager.ClearAllTasksAsync(projectId);
             await _projectManager.ClearAllTeamMembersAsync(projectId);
