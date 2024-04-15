@@ -8,7 +8,7 @@ namespace Yonetimsell.Shared.ViewModels.IdentityViewModels
     {
         public string Id { get; set; }
         [DisplayName("Ad")]
-        [Required(ErrorMessage ="{0} alanını boş bırakmayınız.")]
+        [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]
         public string FirstName { get; set; }
         [DisplayName("Soyad")]
         [Required(ErrorMessage = "{0} alanını boş bırakmayınız.")]

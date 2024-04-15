@@ -2,7 +2,7 @@
 
 namespace Yonetimsell.Shared.Helpers.Concrete
 {
-    public class SweetAlertManager: ISweetAlertService
+    public class SweetAlertManager : ISweetAlertService
     {
         public string TopEndNotification(string icon, string title)
         {

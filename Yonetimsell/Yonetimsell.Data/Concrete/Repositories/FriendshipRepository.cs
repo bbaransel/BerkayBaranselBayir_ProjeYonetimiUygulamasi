@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
-using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 
 namespace Yonetimsell.Data.Concrete.Repositories
@@ -45,9 +39,9 @@ namespace Yonetimsell.Data.Concrete.Repositories
             var friendList = await YonetimsellDbContext.Friendship
                 .Include(f => f.SenderUser)
                 .Include(f => f.ReceiverUser)
-                .Where(x => (x.SenderUserId == currentUserId || x.ReceiverUserId == currentUserId) && (x.Status == FriendshipStatus.Accepted||x.Status == FriendshipStatus.Pending))
+                .Where(x => (x.SenderUserId == currentUserId || x.ReceiverUserId == currentUserId) && (x.Status == FriendshipStatus.Accepted || x.Status == FriendshipStatus.Pending))
                 .ToListAsync();
-            var isExists = friendList.Any(x => 
+            var isExists = friendList.Any(x =>
                 (x.SenderUserId == currentUserId && x.ReceiverUserId == otherUserId) || (x.SenderUserId == otherUserId && x.ReceiverUserId == currentUserId));
             return isExists;
         }

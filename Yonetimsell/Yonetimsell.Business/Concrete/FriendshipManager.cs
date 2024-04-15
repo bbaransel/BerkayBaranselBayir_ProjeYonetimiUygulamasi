@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
-using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
@@ -23,7 +21,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<FriendshipViewModel>> GetByIdAsync(int id)
         {
-            var friendship = await _repository.GetAsync(x=> x.Id == id,
+            var friendship = await _repository.GetAsync(x => x.Id == id,
                 query => query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             if (friendship == null)
@@ -58,14 +56,14 @@ namespace Yonetimsell.Business.Concrete
             {
                 return Response<List<FriendshipViewModel>>.Fail("Arkadaş listenizde kullanıcı bulunamadı");
             }
-            var result = friendList.Select(x=> new FriendshipViewModel
+            var result = friendList.Select(x => new FriendshipViewModel
             {
                 Id = x.Id,
                 SenderUserId = x.SenderUserId,
                 SenderUserName = x.SenderUser.UserName,
                 SenderFullName = $"{x.SenderUser.FirstName} {x.SenderUser.LastName}",
                 SenderImageUrl = x.SenderUser.ImageUrl,
-                ReceiverUserId =x.ReceiverUserId,
+                ReceiverUserId = x.ReceiverUserId,
                 ReceiverUserName = x.ReceiverUser.UserName,
                 ReceiverFullName = $"{x.ReceiverUser.FirstName} {x.ReceiverUser.LastName}",
                 ReceiverImageUrl = x.ReceiverUser.ImageUrl,
@@ -96,12 +94,12 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> RemoveFriendAsync(string userId, string removedUserId)
         {
-            var friendship = await _repository.GetAsync(x=>x.SenderUserId == userId && x.ReceiverUserId == removedUserId,
+            var friendship = await _repository.GetAsync(x => x.SenderUserId == userId && x.ReceiverUserId == removedUserId,
                 query => query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             if (friendship == null)
             {
-                friendship = await _repository.GetAsync(x => x.SenderUserId == removedUserId && x.ReceiverUserId == userId, query => 
+                friendship = await _repository.GetAsync(x => x.SenderUserId == removedUserId && x.ReceiverUserId == userId, query =>
                     query.Include(y => y.SenderUser)
                     .Include(y => y.ReceiverUser));
                 if (friendship == null)
@@ -114,7 +112,7 @@ namespace Yonetimsell.Business.Concrete
         }
         public async Task<Response<NoContent>> DeleteFriendshipByIdAsync(int id)
         {
-            var friendship = await _repository.GetAsync(x=>x.Id== id,
+            var friendship = await _repository.GetAsync(x => x.Id == id,
                 query => query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             if (friendship == null)
@@ -141,9 +139,9 @@ namespace Yonetimsell.Business.Concrete
         }
         public async Task<Response<NoContent>> AcceptFriendRequestAsync(int id)
         {
-            var friendship = await _repository.GetAsync(x=> x.Id == id,
-                query => query.Include(y=>y.SenderUser)
-                .Include(y=>y.ReceiverUser));
+            var friendship = await _repository.GetAsync(x => x.Id == id,
+                query => query.Include(y => y.SenderUser)
+                .Include(y => y.ReceiverUser));
             if (friendship == null)
             {
                 return Response<NoContent>.Fail("İlgili arkadaşlık isteği bulunamadı");

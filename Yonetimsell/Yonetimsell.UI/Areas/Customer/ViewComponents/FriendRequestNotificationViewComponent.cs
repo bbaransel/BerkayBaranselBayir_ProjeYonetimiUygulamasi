@@ -20,7 +20,7 @@ namespace Yonetimsell.UI.Areas.Customer.ViewComponents
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var response = await _friendshipManager.GetPendingFriendListAsync(userId);
-            var result = response.Data.Where(x=>x.SenderUserId != userId).ToList();
+            var result = response.Data.Where(x => x.SenderUserId != userId).ToList();
             return View(result);
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Yonetimsell.Data.Abstract;
-using Yonetimsell.Shared.ResponseViewModels;
+﻿using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.MessageViewModels;
 
 namespace Yonetimsell.Business.Abstract

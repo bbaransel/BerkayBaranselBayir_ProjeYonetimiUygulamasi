@@ -5,7 +5,7 @@ using Yonetimsell.Business.Abstract;
 namespace Yonetimsell.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles ="SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class SubscriptionController : Controller
     {
         private readonly ISubscriptionService _subscriptionManager;

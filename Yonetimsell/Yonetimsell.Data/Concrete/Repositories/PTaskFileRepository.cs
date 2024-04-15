@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Yonetimsell.Data.Abstract;
+﻿using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
 

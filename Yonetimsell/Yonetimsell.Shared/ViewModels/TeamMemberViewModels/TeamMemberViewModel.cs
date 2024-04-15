@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Yonetimsell.Shared.ComplexTypes;
-using Yonetimsell.Shared.ViewModels.IdentityViewModels;
-using Yonetimsell.Shared.ViewModels.ProjectViewModels;
+﻿using Yonetimsell.Shared.ComplexTypes;
 
 namespace Yonetimsell.Shared.ViewModels.TeamMemberViewModels
 {

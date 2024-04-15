@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Business.Abstract;
-using Yonetimsell.Business.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels.MessageViewModels;
 

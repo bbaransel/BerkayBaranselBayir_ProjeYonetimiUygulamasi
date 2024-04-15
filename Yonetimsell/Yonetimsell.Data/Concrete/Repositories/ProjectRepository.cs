@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Net.NetworkInformation;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
@@ -40,7 +39,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
         }
         public async Task ClearAllTeamMembersFromProjectAsync(int projectId)
         {
-            var deletedTeamMembers = await YonetimsellDbContext.TeamMembers.Where(x=>x.ProjectId == projectId).ToListAsync();
+            var deletedTeamMembers = await YonetimsellDbContext.TeamMembers.Where(x => x.ProjectId == projectId).ToListAsync();
             YonetimsellDbContext.TeamMembers.RemoveRange(deletedTeamMembers);
             await YonetimsellDbContext.SaveChangesAsync();
         }
@@ -55,7 +54,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<List<Project>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
-            var projects = await YonetimsellDbContext.Projects.Where(p=>p.UserId==userId && p.Priority== priority && p.IsDeleted == false)
+            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.Priority == priority && p.IsDeleted == false)
                 .ToListAsync();
             return projects;
         }
@@ -69,7 +68,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<List<Project>> GetProjectsByUserIdAsync(string userId)
         {
-            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.IsDeleted==false)
+            var projects = await YonetimsellDbContext.Projects.Where(p => p.UserId == userId && p.IsDeleted == false)
                 .Include(p => p.PTasks)
                 .ToListAsync();
             return projects;

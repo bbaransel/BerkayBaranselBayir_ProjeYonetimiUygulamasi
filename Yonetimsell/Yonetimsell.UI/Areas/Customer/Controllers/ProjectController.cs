@@ -2,15 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Drawing;
-using System.Net.NetworkInformation;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.Helpers.Abstract;
-using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
 
@@ -62,12 +59,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 User = x.User,
                 UserId = x.UserId,
             }).ToList();
-            foreach(var p in projectsResult)
+            foreach (var p in projectsResult)
             {
                 int percentage = await _pTaskManager.GetPTaskProgressPercentageByProjectIdAsync(p.Id);
                 p.ProgressPTaskPercentage = percentage;
                 var teamMembersResponse = await _teamMemberManager.GetTeamMembersByProjectIdAsync(p.Id);
-                var teamMembersSelectList = teamMembersResponse.Data.Select(x=> new SelectListItem
+                var teamMembersSelectList = teamMembersResponse.Data.Select(x => new SelectListItem
                 {
                     Text = $"{x.ProjectRole.GetDisplayName()}: {x.FullName}",
                     Value = x.UserId
@@ -94,10 +91,10 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> Create(AddProjectViewModel addProjectViewModel)
         {
             var userId = _userManager.GetUserId(User);
-            addProjectViewModel.UserId  = userId;
+            addProjectViewModel.UserId = userId;
             var subscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
             var projectCountResponse = await _projectManager.GetNonDeletedProjectCountByUserId(userId);
-            if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2) 
+            if (!subscriptionResponse.IsSucceeded && projectCountResponse.Data > 2)
             {
                 TempData["CreateProjectToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3'ten fazla proje oluşturamazsınız!");
                 return RedirectToAction("Index");

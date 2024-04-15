@@ -1,1 +1,0 @@
-FOV: 109 Distance: 280 Height: 100 Angle: -3.00 Stiffness: 0.70 Swivel Speed: 6.00 Transition Speed: 1.10

@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.UI.Areas.Admin.Models;
-using Yonetimsell.UI.Areas.Customer.Models;
 
 namespace Yonetimsell.UI.Areas.Admin.ViewComponents
 {
-    public class AdminSidebarUserInfoViewComponent:ViewComponent
+    public class AdminSidebarUserInfoViewComponent : ViewComponent
     {
         private readonly UserManager<User> _userManager;
 

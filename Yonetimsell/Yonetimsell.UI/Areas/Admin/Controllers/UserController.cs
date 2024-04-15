@@ -131,12 +131,12 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
                 user.DateOfBirth = userRolesViewModel.DateOfBirth;
                 user.PhoneNumber = userRolesViewModel.PhoneNumber;
                 var result = await _userManager.UpdateAsync(user);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _userManager.UpdateSecurityStampAsync(user);
                     return RedirectToAction("Index");
                 }
-                foreach(var err in result.Errors) ModelState.AddModelError("", err.Description);
+                foreach (var err in result.Errors) ModelState.AddModelError("", err.Description);
             }
             return View(userRolesViewModel);
         }

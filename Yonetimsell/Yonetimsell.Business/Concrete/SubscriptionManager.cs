@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
@@ -79,9 +74,9 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<SubscriptionViewModel>>> GetSubscriptionsByUserIdAsync(string userId)
         {
             var subscriptions = await _repository.GetAllAsync(x => x.UserId == userId);
-            if (subscriptions == null) 
-            { 
-                return Response<List<SubscriptionViewModel>>.Fail("Abonelik bilgisi bulunamadı"); 
+            if (subscriptions == null)
+            {
+                return Response<List<SubscriptionViewModel>>.Fail("Abonelik bilgisi bulunamadı");
             }
             var result = _mapperly.ListSubscriptionToListSubscriptionViewModel(subscriptions);
             return Response<List<SubscriptionViewModel>>.Success(result);
@@ -91,7 +86,7 @@ namespace Yonetimsell.Business.Concrete
         {
             var oldSubscription = await _repository.GetAsync(x => x.Id == subscriptionId,
                 query => query.Include(y => y.User));
-            if (oldSubscription == null) 
+            if (oldSubscription == null)
             {
                 return Response<SubscriptionViewModel>.Fail("Üyelik bulunamadı");
             }
@@ -110,7 +105,7 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<SubscriptionViewModel>> UpdateAsync(SubscriptionViewModel subscriptionViewModel)
         {
             var subscription = _mapperly.SubscriptionViewModelToSubscription(subscriptionViewModel);
-            if (subscription == null) 
+            if (subscription == null)
             {
                 return Response<SubscriptionViewModel>.Fail("Geçerli abonelik bulunamadı");
             }
@@ -143,20 +138,20 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<List<AdminSubscriptionViewModel>>> GetAllAsync()
         {
             var subscriptions = await _repository.GetAllAsync(
-                include: query=>query.Include(x=>x.User));
-            if(subscriptions == null)
+                include: query => query.Include(x => x.User));
+            if (subscriptions == null)
             {
                 return Response<List<AdminSubscriptionViewModel>>.Fail("Hiç üyelik bulunamdı");
             }
-            var result = subscriptions.Select(x=> new AdminSubscriptionViewModel 
-            { 
-                ExpiryDate=x.ExpiryDate,
-                SubscriptionDate=x.SubscriptionDate,
+            var result = subscriptions.Select(x => new AdminSubscriptionViewModel
+            {
+                ExpiryDate = x.ExpiryDate,
+                SubscriptionDate = x.SubscriptionDate,
                 SubscriptionPlan = x.SubscriptionPlan,
                 Id = x.Id,
                 UserFullName = $"{x.User.FirstName} {x.User.LastName}",
                 UserName = x.User.UserName,
-                UserId= x.UserId,
+                UserId = x.UserId,
             }).ToList();
             return Response<List<AdminSubscriptionViewModel>>.Success(result);
         }

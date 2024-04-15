@@ -1,14 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
-using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.MessageViewModels;
@@ -137,11 +131,11 @@ namespace Yonetimsell.Business.Concrete
                 SenderId = x.SenderId,
                 SenderFullName = $"{x.SenderUser.FirstName} {x.SenderUser.LastName}",
                 SenderUserName = x.SenderUser.UserName,
-                SenderImageUrl= x.SenderUser.ImageUrl,
+                SenderImageUrl = x.SenderUser.ImageUrl,
                 SendingDate = x.SendingDate,
                 Text = x.Text
             }).ToList();
-            var firstMessage = await _repository.GetAsync(x=>x.Id==relatedId,
+            var firstMessage = await _repository.GetAsync(x => x.Id == relatedId,
                 query => query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             var firstMessageViewModel = new MessageViewModel
@@ -181,7 +175,7 @@ namespace Yonetimsell.Business.Concrete
                 ReceiverId = x.ReceiverId,
                 ReceiverFullName = $"{x.ReceiverUser.FirstName} {x.ReceiverUser.LastName}",
                 ReceiverUserName = x.ReceiverUser.UserName,
-                ReceiverImageUrl= x.ReceiverUser.ImageUrl,
+                ReceiverImageUrl = x.ReceiverUser.ImageUrl,
                 RelatedId = x.RelatedId,
                 SenderId = x.SenderId,
                 SenderFullName = $"{x.SenderUser.FirstName} {x.SenderUser.LastName}",
@@ -195,7 +189,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<MessageViewModel>> GetByIdAsync(int id)
         {
-            var message = await _repository.GetAsync(x => x.Id == id, query => 
+            var message = await _repository.GetAsync(x => x.Id == id, query =>
                 query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             if (message == null)
@@ -229,7 +223,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> HardDeleteAsync(int id)
         {
-            var message = await _repository.GetAsync(x => x.Id == id, query => 
+            var message = await _repository.GetAsync(x => x.Id == id, query =>
                 query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             if (message == null)
@@ -242,7 +236,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> ChangeIsRead(int id)
         {
-            var message = await _repository.GetAsync(x => x.Id == id, query => 
+            var message = await _repository.GetAsync(x => x.Id == id, query =>
                 query.Include(y => y.SenderUser)
                 .Include(y => y.ReceiverUser));
             message.IsRead = true;

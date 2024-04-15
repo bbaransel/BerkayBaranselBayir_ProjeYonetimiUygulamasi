@@ -21,9 +21,9 @@ namespace Yonetimsell.UI.Areas.Customer.ViewComponents
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var response = await _messageManager.GetAllReceivedMessageAsync(userId, false);
-            List<MessageViewModel> messages; 
-            if(response.IsSucceeded) 
-            { 
+            List<MessageViewModel> messages;
+            if (response.IsSucceeded)
+            {
                 messages = response.Data.Take(3).ToList();
             }
             else

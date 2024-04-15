@@ -1,5 +1,5 @@
 # BerkayBaranselBayir_ProjeYonetimiUygulamasi YonetimSell
-Bu proje, kullanıcılara geliştirdikleri projelerde proje detaylarını saklama, görev takibi ve diğer kullanıcılarla iletişim konusunda yardım etmeyi amaçlamaktadır. Kar amacı gütmeden, eğitim ve kişisel gelişim amacıyla hazırlanmıştır. 
+Bu proje, kullanıcılara geliştirdikleri projelerde proje detaylarını saklama, görev takibi ve diğer kullanıcılarla iletişim konusunda yardım etmeyi amaçlamaktadır. ASP.NET Core MVC ile kar amacı gütmeden, eğitim ve kişisel gelişim amacıyla hazırlanmıştır. 
 
 ## Özellikler
 
@@ -51,6 +51,7 @@ Bu proje, kullanıcılara geliştirdikleri projelerde proje detaylarını saklam
 - Ne yazıkki kullanıcıların profil resimlerini güncellerken olumlu ya da olumsuz durumda bir yönlendirme yapılmıyor, sadece Dropzone'nun görsel bir geri bildirimi mevcut bu durumun düzeltilmesi
 - Aboneliğe göre yapılabilecek işlemlerin tekrar düzeniplenip daha geniş çaplı hale getirilmesi
 - Oluşturulan Projede Takım Arkadaşlarının rollerine göre yapabileceklerinin belirlenip eklenmesi
+- Saklanan dosyaların(png, jpeg, pdf...) wwwroot klasörü yerine farklı bir clouda taşınması(Microsoft Azure Blob Storage, Google Cloud Storage, Amazon S3 (Simple Storage Service) vb.)
 
 ## Katkılar
 * Geliştirdiğim uygulamayı denedikten sonra katkılarınızı bekliyorum! Pull Request gönderebilir veya bana aşağıdaki adreslerden ulaşabilirsiniz;

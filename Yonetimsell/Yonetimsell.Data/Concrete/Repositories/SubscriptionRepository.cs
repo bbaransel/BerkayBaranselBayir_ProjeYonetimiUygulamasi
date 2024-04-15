@@ -1,14 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
-using Yonetimsell.Entity.Concrete.Identity;
-using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
 
 namespace Yonetimsell.Data.Concrete.Repositories
 {
@@ -24,7 +17,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<Subscription> CancelSubscriptionAsync(string userId)
         {
-            var subscription = await YonetimsellDbContext.Subscriptions.Where(x=> x.UserId == userId).FirstOrDefaultAsync();
+            var subscription = await YonetimsellDbContext.Subscriptions.Where(x => x.UserId == userId).FirstOrDefaultAsync();
             subscription.IsActive = false;
             subscription.ExpiryDate = DateTime.Now;
             YonetimsellDbContext.Subscriptions.Update(subscription);
@@ -33,8 +26,8 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<Subscription> GetActiveSubscriptionByUserIdAsync(string userId)
         {
-            var subscription = await YonetimsellDbContext.Subscriptions.Where(x => x.UserId == userId && x.IsActive==true)
-                .OrderByDescending(x=>x.ExpiryDate)
+            var subscription = await YonetimsellDbContext.Subscriptions.Where(x => x.UserId == userId && x.IsActive == true)
+                .OrderByDescending(x => x.ExpiryDate)
                 .FirstOrDefaultAsync();
             return subscription;
         }

@@ -17,7 +17,7 @@ namespace Yonetimsell.UI.Areas.Customer.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var user  = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             var result = new SidebarUserInfoViewModel
             {
                 UserName = user.UserName,

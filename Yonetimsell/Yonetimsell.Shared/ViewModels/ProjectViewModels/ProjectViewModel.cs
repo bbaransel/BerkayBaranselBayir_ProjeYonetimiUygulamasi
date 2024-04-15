@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
@@ -18,7 +12,7 @@ namespace Yonetimsell.Shared.ViewModels.ProjectViewModels
     {
         public int Id { get; set; }
         [DisplayName("Proje Adı")]
-        [Required(ErrorMessage ="{0} alanı boş bırakılamaz.")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]
         public string Name { get; set; }
         public string UserId { get; set; }
         public UserViewModel User { get; set; }

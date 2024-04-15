@@ -1,17 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
-using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ResponseViewModels;
-using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 
 namespace Yonetimsell.Business.Concrete
@@ -63,19 +55,19 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<int>> GetActiveTaskCountAsync()
         {
-            var count = await _repository.GetCountAsync(x=>x.Status != Status.Done);
+            var count = await _repository.GetCountAsync(x => x.Status != Status.Done);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetActiveTaskCountByProjectIdAsync(int projectId)
         {
-            var count = await _repository.GetCountAsync(x =>x.ProjectId == projectId && x.Status != Status.Done);
+            var count = await _repository.GetCountAsync(x => x.ProjectId == projectId && x.Status != Status.Done);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<int>> GetActiveTaskCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x =>x.UserId == userId && x.Status != Status.Done);
+            var count = await _repository.GetCountAsync(x => x.UserId == userId && x.Status != Status.Done);
             return Response<int>.Success(count);
         }
 
@@ -87,7 +79,7 @@ namespace Yonetimsell.Business.Concrete
             {
                 return Response<List<PTaskViewModel>>.Fail("Hiç task bulunamadı");
             }
-            var result = pTasks.Select(x=> new PTaskViewModel
+            var result = pTasks.Select(x => new PTaskViewModel
             {
                 Id = x.Id,
                 Status = x.Status,
@@ -111,8 +103,8 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<PTaskViewModel>> GetByIdAsync(int pTaskId)
         {
-            var pTask = await _repository.GetAsync(x=>x.Id == pTaskId,
-                q=>q.Include(x=>x.User));
+            var pTask = await _repository.GetAsync(x => x.Id == pTaskId,
+                q => q.Include(x => x.User));
             if (pTask == null)
             {
                 return Response<PTaskViewModel>.Fail("İlgili task bulunamadı.");
@@ -153,7 +145,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<int> GetPTaskProgressPercentageByProjectIdAsync(int projectId)
         {
-            var allPTasks = await _repository.GetCountAsync(x=>x.ProjectId == projectId);
+            var allPTasks = await _repository.GetCountAsync(x => x.ProjectId == projectId);
             var completedPTasks = await _repository.GetCountAsync(x => x.ProjectId == projectId && x.Status == Status.Done);
             if (allPTasks == 0)
             {
@@ -222,7 +214,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> HardDeleteAsync(int pTaskId)
         {
-            var pTask = await _repository.GetAsync(x=>x.Id== pTaskId);
+            var pTask = await _repository.GetAsync(x => x.Id == pTaskId);
             if (pTask == null)
             {
                 return Response<NoContent>.Fail("İlgili task bulunamadı");

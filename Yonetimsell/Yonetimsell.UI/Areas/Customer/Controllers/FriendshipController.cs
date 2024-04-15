@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Cryptography.Xml;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Helpers.Abstract;
-using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
@@ -34,7 +30,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public IActionResult Index()
         {
             var currentUserId = _userManager.GetUserId(User);
-            var userList = _userManager.Users.Where(x=>x.Id!=currentUserId).ToList();
+            var userList = _userManager.Users.Where(x => x.Id != currentUserId).ToList();
             var addFriendUserViewModels = new List<AddFriendUserViewModel>();
             foreach (var user in userList)
             {
@@ -54,12 +50,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var ifFriendshipExists = await _friendshipManager.CheckIfFriendshipExistsAsync(userId, rUserId);
-            if(ifFriendshipExists.Data)
+            if (ifFriendshipExists.Data)
             {
                 TempData["FriendRequestToast"] = _sweetAlert.MiddleNotification("error", "Arkadaşlık isteği zaten gönderildi");
                 return RedirectToAction("Index");
             }
-            var friendship = new FriendshipViewModel { ReceiverUserId = rUserId, SenderUserId = userId, Status = FriendshipStatus.Pending};
+            var friendship = new FriendshipViewModel { ReceiverUserId = rUserId, SenderUserId = userId, Status = FriendshipStatus.Pending };
             var sentFriendship = await _friendshipManager.SendFriendRequestAsync(friendship);
             TempData["FriendRequestToast"] = _sweetAlert.MiddleNotification("success", "Arkadaşlık isteği gönderildi.");
             return RedirectToAction("Index");

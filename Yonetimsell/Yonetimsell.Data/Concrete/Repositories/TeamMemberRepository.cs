@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
@@ -22,14 +17,14 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task ClearTeamMembersTaksAsync(string userId, int projectId)
         {
-            var deletedTask = await YonetimsellDbContext.PTasks.Where(x=>x.ProjectId == projectId && x.UserId== userId).ToListAsync();
+            var deletedTask = await YonetimsellDbContext.PTasks.Where(x => x.ProjectId == projectId && x.UserId == userId).ToListAsync();
             YonetimsellDbContext.PTasks.RemoveRange(deletedTask);
             await YonetimsellDbContext.SaveChangesAsync();
         }
 
         public async Task<List<TeamMember>> GetMembersByProjectIdAsync(int projectId)
         {
-            var teamMembers = await YonetimsellDbContext.TeamMembers.Where(x=> x.ProjectId == projectId).ToListAsync();
+            var teamMembers = await YonetimsellDbContext.TeamMembers.Where(x => x.ProjectId == projectId).ToListAsync();
             return teamMembers;
         }
 
@@ -40,7 +35,7 @@ namespace Yonetimsell.Data.Concrete.Repositories
         }
         public async Task<bool> CheckIfExistsAsync(string userId, int projectId)
         {
-            var teamMember = await YonetimsellDbContext.TeamMembers.Where(x=>x.UserId == userId && x.ProjectId == projectId).FirstOrDefaultAsync();
+            var teamMember = await YonetimsellDbContext.TeamMembers.Where(x => x.UserId == userId && x.ProjectId == projectId).FirstOrDefaultAsync();
             if (teamMember != null)
             {
                 return true;

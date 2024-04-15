@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Yonetimsell.Business.Abstract;
-using Yonetimsell.Business.Concrete;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;

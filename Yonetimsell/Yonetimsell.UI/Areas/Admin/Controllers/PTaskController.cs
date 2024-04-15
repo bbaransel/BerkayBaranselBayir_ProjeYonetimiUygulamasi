@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Helpers.Abstract;
-using Yonetimsell.Shared.Helpers.Concrete;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 
 namespace Yonetimsell.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles ="SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class PTaskController : Controller
     {
         private readonly IPTaskService _pTaskManager;

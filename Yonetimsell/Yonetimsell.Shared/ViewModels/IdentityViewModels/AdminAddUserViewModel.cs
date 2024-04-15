@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 
 namespace Yonetimsell.Shared.ViewModels.IdentityViewModels
@@ -13,7 +8,7 @@ namespace Yonetimsell.Shared.ViewModels.IdentityViewModels
     {
         public string Id { get; set; }
         [DisplayName("Ad")]
-        [Required(ErrorMessage ="{0} alanı boş bırakılamaz.")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]
         public string FirstName { get; set; }
         [DisplayName("Soyad")]
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz.")]

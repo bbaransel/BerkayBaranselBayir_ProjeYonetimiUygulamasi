@@ -3,21 +3,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
-using Microsoft.VisualBasic;
-using System.Xml.Linq;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.Helpers.Abstract;
-using Yonetimsell.Shared.Helpers.Concrete;
 using Yonetimsell.Shared.ViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 using Yonetimsell.UI.Areas.Customer.Models;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
-    
+
     [Area("Customer")]
     [Authorize]
     public class PTaskController : Controller
@@ -48,7 +45,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var mediumTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.Medium);
             var highTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.High);
             var criticalTaskResponse = await _pTaskManager.GetTasksByPriorityAsync(userId, Priority.Critical);
-            var result = new CustomerPTaskListViewModel 
+            var result = new CustomerPTaskListViewModel
             {
                 Critical = criticalTaskResponse.Data,
                 High = highTaskResponse.Data,
@@ -61,19 +58,19 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var pTasksResponse = await _pTaskManager.GetTasksByStatusAsync(userId, Status.Done);
-            var result = pTasksResponse.Data.Select(x=> new CustomerCompletedPTaskViewModel
+            var result = pTasksResponse.Data.Select(x => new CustomerCompletedPTaskViewModel
             {
-                Id=x.Id,
-                Name=x.Name,
-                Description=x.Description,
-                UserId=x.UserId,
-                UserName=x.UserName,
-                ProjectId=x.ProjectId,
-                DueDate=x.DueDate,
-                Priority=x.Priority,
-                Status=x.Status,
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                UserId = x.UserId,
+                UserName = x.UserName,
+                ProjectId = x.ProjectId,
+                DueDate = x.DueDate,
+                Priority = x.Priority,
+                Status = x.Status,
             }).ToList();
-            foreach(var task in result)
+            foreach (var task in result)
             {
                 var projectResponse = await _projectManager.GetByIdAsync(task.ProjectId);
                 task.ProjectName = projectResponse.Data.Name;
@@ -82,12 +79,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         }
         public async Task<IActionResult> AddTask(int projectId)
         {
-            var addTaskViewModel = new AddPTaskViewModel { ProjectId = projectId,};
+            var addTaskViewModel = new AddPTaskViewModel { ProjectId = projectId, };
             var teamMembersResponse = await _teamMemberManager.GetTeamMembersByProjectIdAsync(projectId);
-            var teamMemberList = teamMembersResponse.Data.Select(x=>new SelectListItem
+            var teamMemberList = teamMembersResponse.Data.Select(x => new SelectListItem
             {
                 Text = x.UserName,
-                Value= x.UserId
+                Value = x.UserId
             }).ToList();
             var result = new AssignPTaskToTeamMemberViewModel
             {
@@ -167,9 +164,9 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                 TempData["EditTaskToast"] = _sweetAlert.MiddleNotification("warning", "Lütfen bilgileri kontrol ediniz!");
                 return View(editPTaskViewModel);
             }
-            if(files!=null && files.Count > 0)
+            if (files != null && files.Count > 0)
             {
-                foreach(var file in files)
+                foreach (var file in files)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file.FileName);
                     var fileUrl = await _uploadManager.UploadFile(file, FolderName.PTasks);
@@ -250,6 +247,18 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             string title = $"Öncelik \"{priority.GetDisplayName()}\" olarak güncellendi";
             return Json(new { success = true, icon, title });
         }
-        
+        public async Task<IActionResult> RemoveFile(int fileId)
+        {
+            var response = await _fileManager.GetByIdAsync(fileId);
+            int ptaskId = response.Data.PTaskId;
+            if (!response.IsSucceeded)
+            {
+                TempData["RemoveFileToast"] = _sweetAlert.MiddleNotification("error", "Silinecek Dosya Bulunamadı");
+                return RedirectToAction("Edit", new { ptaskId });
+            }
+            await _fileManager.HardDeleteAsync(fileId);
+            TempData["RemoveFileToast"] = _sweetAlert.MiddleNotification("success", "Dosya başarıyla kaldırıldı.");
+            return RedirectToAction("Edit", new { ptaskId });
+        }
     }
 }

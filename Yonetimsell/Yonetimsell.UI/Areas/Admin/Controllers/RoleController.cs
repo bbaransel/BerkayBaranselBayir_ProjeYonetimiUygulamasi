@@ -6,7 +6,7 @@ using Yonetimsell.Entity.Concrete.Identity;
 
 namespace Yonetimsell.UI.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     [Area("Admin")]
     public class RoleController : Controller
     {

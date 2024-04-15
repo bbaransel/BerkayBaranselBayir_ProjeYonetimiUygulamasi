@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Net.NetworkInformation;
 using Yonetimsell.Data.Abstract;
 using Yonetimsell.Data.Concrete.Contexts;
 using Yonetimsell.Entity.Concrete;
@@ -33,13 +32,13 @@ namespace Yonetimsell.Data.Concrete.Repositories
 
         public async Task<List<PTask>> GetTasksByPriorityAsync(string userId, Priority priority)
         {
-            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.UserId == userId && pt.Priority == priority && pt.Status!=Status.Done).ToListAsync();
+            var tasks = await YonetimsellDbContext.PTasks.Where(pt => pt.UserId == userId && pt.Priority == priority && pt.Status != Status.Done).ToListAsync();
             return tasks;
         }
 
         public async Task<List<PTask>> GetTasksByProjectIdAsync(int projectId)
         {
-            var tasks = await YonetimsellDbContext.PTasks.Where(pt=>pt.ProjectId == projectId).ToListAsync(); 
+            var tasks = await YonetimsellDbContext.PTasks.Where(pt => pt.ProjectId == projectId).ToListAsync();
             return tasks;
         }
 

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Business.Abstract;
-using Yonetimsell.Business.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.ViewModels.MessageViewModels;
 
 namespace Yonetimsell.UI.Areas.Admin.ViewComponents
 {
-    public class AdminHomePageMessageListViewComponent:ViewComponent
+    public class AdminHomePageMessageListViewComponent : ViewComponent
     {
         private readonly UserManager<User> _userManager;
         private readonly IMessageService _messageManager;

@@ -107,7 +107,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePicture(IFormFile image)
         {
-            if(image == null)
+            if (image == null)
             {
                 TempData["ChangePictureToast"] = _sweetAlert.MiddleNotification("error", "Resim yüklenirken bir hata oluştu");
                 return View();

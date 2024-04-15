@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yonetimsell.Shared.ComplexTypes;
 
 namespace Yonetimsell.Shared.ViewModels.IdentityViewModels

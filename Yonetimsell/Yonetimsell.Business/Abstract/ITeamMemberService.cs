@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Yonetimsell.Entity.Concrete;
-using Yonetimsell.Shared.ComplexTypes;
-using Yonetimsell.Shared.ResponseViewModels;
+﻿using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
 namespace Yonetimsell.Business.Abstract

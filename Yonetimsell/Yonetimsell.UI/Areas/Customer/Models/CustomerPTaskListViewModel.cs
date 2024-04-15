@@ -1,5 +1,4 @@
-﻿using Yonetimsell.Shared.ComplexTypes;
-using Yonetimsell.Shared.ViewModels.PTaskViewModels;
+﻿using Yonetimsell.Shared.ViewModels.PTaskViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Models
 {

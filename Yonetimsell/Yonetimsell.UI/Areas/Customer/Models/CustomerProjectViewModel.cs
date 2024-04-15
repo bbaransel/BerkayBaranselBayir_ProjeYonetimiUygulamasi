@@ -1,8 +1,7 @@
-﻿using Yonetimsell.Shared.ComplexTypes;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
 using Yonetimsell.Shared.ViewModels.PTaskViewModels;
-using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Models

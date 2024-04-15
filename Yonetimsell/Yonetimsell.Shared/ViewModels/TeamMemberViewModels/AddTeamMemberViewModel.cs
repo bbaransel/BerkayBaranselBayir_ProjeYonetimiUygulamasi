@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
+﻿using Yonetimsell.Shared.ViewModels.FriendshipViewModels;
 
 namespace Yonetimsell.Shared.ViewModels.TeamMemberViewModels
 {

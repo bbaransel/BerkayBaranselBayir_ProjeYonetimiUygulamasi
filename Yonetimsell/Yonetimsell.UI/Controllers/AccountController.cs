@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Yonetimsell.Business.Mappings;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.Helpers.Abstract;
 using Yonetimsell.Shared.ViewModels.IdentityViewModels;
@@ -242,7 +241,7 @@ namespace Yonetimsell.UI.Controllers
             }
             return View(resetPasswordViewModel);
         }
-       
+
 
     }
 }

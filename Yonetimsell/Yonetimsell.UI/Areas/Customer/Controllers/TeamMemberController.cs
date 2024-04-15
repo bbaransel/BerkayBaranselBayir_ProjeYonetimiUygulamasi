@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Business.Abstract;
-using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Entity.Concrete.Identity;
-using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
-using Yonetimsell.Shared.ViewModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Yonetimsell.Business.Mappings;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Yonetimsell.Shared.ComplexTypes;
-using Microsoft.CodeAnalysis;
 using Yonetimsell.Shared.Helpers.Abstract;
+using Yonetimsell.Shared.ViewModels.TeamMemberViewModels;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
@@ -56,7 +50,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var checkResponse = await _teamMemberManager.CheckIfExistsAsync(userId, projectId);
             var SubscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
             var teamMemberCount = await _teamMemberManager.TeamMemberCountAsync(projectId);
-            if(!SubscriptionResponse.IsSucceeded && teamMemberCount.Data == 3)
+            if (!SubscriptionResponse.IsSucceeded && teamMemberCount.Data == 3)
             {
                 TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3ten fazla takım arkadaşı ekleyemezsiniz!");
                 return RedirectToAction("AddTeamMember", new { projectId });
@@ -81,7 +75,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             else
             {
                 TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("error", "Kullanıcı takım arkadaşlarına eklenemedi!");
-                return RedirectToAction("AddTeamMember", new {  projectId });
+                return RedirectToAction("AddTeamMember", new { projectId });
             }
         }
         public async Task<IActionResult> RemoveTeamMember(int id)

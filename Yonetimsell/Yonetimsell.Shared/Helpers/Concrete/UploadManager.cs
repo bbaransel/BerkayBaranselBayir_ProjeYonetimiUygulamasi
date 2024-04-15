@@ -15,7 +15,7 @@ namespace Yonetimsell.Shared.Helpers.Concrete
         }
         public bool FileIsValid(string extension)
         {
-            string[] correctExtensions = { ".png", ".jpg", ".jpeg",".pdf",".txt",".docx" };
+            string[] correctExtensions = { ".png", ".jpg", ".jpeg", ".pdf", ".txt", ".docx" };
             if (correctExtensions.Contains(extension))
             {
                 return true;
@@ -48,6 +48,16 @@ namespace Yonetimsell.Shared.Helpers.Concrete
             }
             return result;
 
+        }
+        public void DeleteFile(string filePath)
+        {
+            // Wont work because permissions needed
+            var physicalFilePath = Path.Combine(_filesFolder, filePath.TrimStart('/'));
+
+            if (File.Exists(physicalFilePath))
+            {
+                File.Delete(physicalFilePath);
+            }
         }
     }
 }

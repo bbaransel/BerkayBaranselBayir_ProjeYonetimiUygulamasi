@@ -44,7 +44,7 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
                 ActivePTaskCount = activePTaskCount.Data,
                 CompletedPTaskCount = completedPTaskCount.Data,
                 TotalUserCount = userCount,
-                TotalSubscriptionCount= subscriptionCount.Data,
+                TotalSubscriptionCount = subscriptionCount.Data,
             };
             return View(result);
         }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Entity.Concrete.Identity;
 using Yonetimsell.Shared.Helpers.Abstract;
@@ -30,7 +29,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var messageListResponse =await _messageManager.GetAllReceivedMessageAsync(userId);
+            var messageListResponse = await _messageManager.GetAllReceivedMessageAsync(userId);
             var result = messageListResponse.Data;
             return View(result);
         }
@@ -95,7 +94,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         public async Task<IActionResult> SendMessage(SendMessageViewModel model)
         {
             var reciverUser = await _userManager.FindByIdAsync(model.MessageViewModel.ReceiverId);
-            if (reciverUser == null) 
+            if (reciverUser == null)
             {
                 TempData["MessageToast"] = _sweetAlert.MiddleNotification("error", "Lütfen kime gönderileceğini seçiniz.");
                 return RedirectToAction("SendMessage");

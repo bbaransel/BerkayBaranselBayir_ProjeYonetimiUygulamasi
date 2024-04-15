@@ -5,7 +5,7 @@ using Yonetimsell.UI.Areas.Customer.Models;
 
 namespace Yonetimsell.UI.Areas.Customer.ViewComponents
 {
-    public class CustomerSidebarUserInfoViewComponent: ViewComponent
+    public class CustomerSidebarUserInfoViewComponent : ViewComponent
     {
         private readonly UserManager<User> _userManager;
 

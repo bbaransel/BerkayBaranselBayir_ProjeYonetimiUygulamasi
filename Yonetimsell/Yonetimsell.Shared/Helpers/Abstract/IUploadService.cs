@@ -7,5 +7,6 @@ namespace Yonetimsell.Shared.Helpers.Abstract
     {
         bool FileIsValid(string extension);
         Task<string> UploadFile(IFormFile image, FolderName folderName);
+        void DeleteFile(string filePath);
     }
 }

@@ -1,16 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Mappings;
 using Yonetimsell.Data.Abstract;
-using Yonetimsell.Entity.Concrete;
 using Yonetimsell.Shared.ComplexTypes;
-using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.ResponseViewModels;
 using Yonetimsell.Shared.ViewModels.ProjectViewModels;
 
@@ -41,7 +33,7 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<NoContent>> ChangeProjectStatusAsync(int projectId, Status status)
         {
             var project = await _repository.GetAsync(x => x.Id == projectId);
-            if (project == null) 
+            if (project == null)
             {
                 return Response<NoContent>.Fail("İlgili proje bulunamadı");
             }
@@ -72,7 +64,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<ProjectViewModel>> CreateAsync(AddProjectViewModel addProjectViewModel)
         {
-            var project = _mapperly.AddProjectViewModelToProject(addProjectViewModel);   
+            var project = _mapperly.AddProjectViewModelToProject(addProjectViewModel);
             var createdProject = await _repository.CreateAsync(project);
             if (createdProject == null)
             {
@@ -96,9 +88,9 @@ namespace Yonetimsell.Business.Concrete
         public async Task<Response<ProjectViewModel>> GetByIdAsync(int projectId)
         {
             var project = await _repository.GetAsync(p => p.Id == projectId,
-                query=>query.Include(y=>y.User)
-                .Include(y=>y.PTasks)
-                .Include(y=>y.TeamMembers));
+                query => query.Include(y => y.User)
+                .Include(y => y.PTasks)
+                .Include(y => y.TeamMembers));
             if (project == null)
             {
                 return Response<ProjectViewModel>.Fail("İlgili proje bulunamadı");
@@ -125,7 +117,7 @@ namespace Yonetimsell.Business.Concrete
         }
         public async Task<Response<int>> GetActiveProjectCountAsync()
         {
-            var count = await _repository.GetCountAsync(x=>x.Status != Status.Done && x.IsDeleted==false);
+            var count = await _repository.GetCountAsync(x => x.Status != Status.Done && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
         public async Task<Response<int>> GetCompletedProjectCountAsync()
@@ -136,13 +128,13 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<int>> GetActiveProjectCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x=>x.UserId == userId && x.Status!=Status.Done && x.IsDeleted == false);
+            var count = await _repository.GetCountAsync(x => x.UserId == userId && x.Status != Status.Done && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
 
         public async Task<Response<List<ProjectViewModel>>> GetProjectsByPriorityAsync(string userId, Priority priority)
         {
-            var projects = await _repository.GetProjectsByPriorityAsync(userId,priority);
+            var projects = await _repository.GetProjectsByPriorityAsync(userId, priority);
             if (projects == null)
             {
                 return Response<List<ProjectViewModel>>.Fail("Hiç proje bulunamadı");
@@ -180,7 +172,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> HardDeleteAsync(int projectId)
         {
-            var project = await _repository.GetAsync(x=>x.Id == projectId);
+            var project = await _repository.GetAsync(x => x.Id == projectId);
             if (project == null)
             {
                 return Response<NoContent>.Fail("İlgili proje bulunamadı");
@@ -191,7 +183,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<NoContent>> SoftDeleteAsync(int projectId)
         {
-            var project = await _repository.GetAsync(x=> x.Id == projectId);
+            var project = await _repository.GetAsync(x => x.Id == projectId);
             if (project == null)
             {
                 return Response<NoContent>.Fail("İlgili proje bulunamadı");
@@ -217,7 +209,7 @@ namespace Yonetimsell.Business.Concrete
 
         public async Task<Response<int>> GetCompletedProjectCountByUserIdAsync(string userId)
         {
-            var count = await _repository.GetCountAsync(x=>x.UserId==userId && x.Status==Status.Done && x.IsDeleted==false);
+            var count = await _repository.GetCountAsync(x => x.UserId == userId && x.Status == Status.Done && x.IsDeleted == false);
             return Response<int>.Success(count);
         }
     }

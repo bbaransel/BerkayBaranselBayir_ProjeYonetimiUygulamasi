@@ -1,5 +1,4 @@
-﻿using Mapster;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Yonetimsell.Business.Abstract;
 using Yonetimsell.Business.Concrete;
@@ -83,7 +82,7 @@ namespace Yonetimsell.UI.Extensions
         public static IServiceCollection LoadMyOtherServices(this IServiceCollection services)
         {
             services.AddScoped<ISweetAlertService, SweetAlertManager>();
-            services.AddScoped<IUploadService, UploadManager>(); 
+            services.AddScoped<IUploadService, UploadManager>();
             services.AddScoped<IEmailSender, SmtpEmailSender>(options => new SmtpEmailSender(
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Host"],
             services.BuildServiceProvider().GetRequiredService<IConfiguration>().GetValue<int>("EmailSender:Port"),
@@ -91,7 +90,6 @@ namespace Yonetimsell.UI.Extensions
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:UserName"],
             services.BuildServiceProvider().GetRequiredService<IConfiguration>()["EmailSender:Password"]
             ));
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<MapperlyConfiguration>();
             return services;
         }
