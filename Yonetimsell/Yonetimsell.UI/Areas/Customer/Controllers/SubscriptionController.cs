@@ -10,6 +10,7 @@ using Yonetimsell.Shared.ComplexTypes;
 using Yonetimsell.Shared.Extensions;
 using Yonetimsell.Shared.Helpers.Abstract;
 using Yonetimsell.Shared.ViewModels.SubscriptionViewModels;
+using Yonetimsell.UI.EmailServices.Abstract;
 
 namespace Yonetimsell.UI.Areas.Customer.Controllers
 {
@@ -20,12 +21,14 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ISubscriptionService _subscriptionManager;
         private readonly ISweetAlertService _sweetAlert;
+        private readonly IEmailSender _emailSender;
 
-        public SubscriptionController(UserManager<User> userManager, ISubscriptionService subscriptionManager, ISweetAlertService sweetAlert)
+        public SubscriptionController(UserManager<User> userManager, ISubscriptionService subscriptionManager, ISweetAlertService sweetAlert, IEmailSender emailSender)
         {
             _userManager = userManager;
             _subscriptionManager = subscriptionManager;
             _sweetAlert = sweetAlert;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -157,6 +160,12 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
                     var createdSubscription = await _subscriptionManager.CreateAsync(subscriptionViewModel);
                     if (createdSubscription.IsSucceeded)
                     {
+                        var user = await _userManager.FindByIdAsync(userId);
+                        await _emailSender.SendEmailAsync(
+                           user.Email,
+                           "Yonetimsell Satın Alım",
+                           $"<p>Üyeliğiniz başarıyla oluşturuldu. Satın alımınız için teşekkürler. Sitemize dönmek için aşağıdaki linke tıklayınız.</p><a href='https://localhost:7051'>Yonetimsell</a>"
+                           );
                         TempData["SubscriptionToast"] = _sweetAlert.MiddleNotification("success", "Üyeliğiniz başarıyla oluşturuldu");
                         return Redirect("/Customer");
                     }

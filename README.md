@@ -8,6 +8,14 @@ Bu proje, kullanıcılara geliştirdikleri projelerde proje detaylarını saklam
 - Kullanıcılar, birbirlerine istek yollayarak arkadaş ekleyebilir ve bu sayede kendi aralarında mesajlaşabilir veya projelerinde takım arkadaşı olarak ekleyebilirler.
 - Kullanıcılar, projelere görevler atayabilir ve görev durumlarını güncelleyebilirler.
 - Proje sahipleri takım arkadaşlarının görev detaylarına dosya ekleyebilirler.
+- Aboneliği olmayan kullanıcılar üç adetten fazla proje oluşturamaz ve üç adetten fazla takım arkadaşı ekleyemezler.
+- Görevleri "beklemede" ve "hatalı" buttonlarına tıklayıp durumunu değiştirebilir veya aynı butona tekrar tıklayıp tekrar "devam ediyor" durumuna döndürebilirsiniz.
+- Tamamlanan görevlerin durumları sadece proje sahibi tarafından değiştirilebilir.
+- Bir proje silindiğindiğinde, tamamen kaldırılana kadar temel bilgileri saklanır fakat ilgili projeye ait görevler ve takım arkadaşı bilgileri saklanmaz.  
+- Tablolardaki verilerin detayına butonlardan ya da ilgili satıra çift tıklayarak ulaşabilirsiniz
+- Proje ve görevlerin, durum ve önceliklerini detayına girmeden tablo üzerinde güncelleyebilirsiniz.
+- Projelerin ilerlemesi toplam görev ve tamamlanan görev sayısına göre hesaplanıp tablodaki ilerleme kolonundaki barda görebilirsiniz.
+- Proje ve görevlerin kalan süreleri de hesaplanıp tablolarda bar üzerinde gösterilir
 
 ## Kullanım
 
@@ -16,7 +24,7 @@ Bu proje, kullanıcılara geliştirdikleri projelerde proje detaylarını saklam
 3. Yeni hesap oluşturun veya mevcut bir hesapla oturum açın.
 4. Projeler oluşturun, düzenleyin ve silin.
 5. Arkadaş ekleyip, takım arkadaşı olarak projenize dahil edin.
-5. Takım arkadaşlarınıza görev atayın.
+6. Takım arkadaşlarınıza görev atayın.
 
 ## Kullanılan Paketler
 
@@ -40,6 +48,19 @@ Bu proje, kullanıcılara geliştirdikleri projelerde proje detaylarını saklam
     * kullanıcı adı: admin | şifre: Qwe123.
 - Customer:
     * kullanıcı adı: customer | şifre: Qwe123.
+
+## Örnek Veriler
+
+- customer kullanıcısı:
+    * 4 adet arkadaşı mevcut
+    * 3 adet aktif projesi (Test Proje 1, Test Proje 2, Test Proje 4)
+    * 1 adet silinmiş projesi (Test Proje 3,)
+    * Test Proje 1'in içindeki Test Görev 1 isimli görevde 3 adet örnek dosya var (görevin atandığı kullanıcı: baransel)
+    * 5 adet deneme mesajı mevcut(mesajlaştığı kullanıcı: baransel)
+- baransel kullanıcısı:
+    * Aboneliği mevcut
+    * Atanmış 5 adet görevi mevcut, biri tamamlanmış
+    * 5 adet deneme mesajı mevcut(mesajlaştığı kullanıcı: customer)
 
 ## Eklenecek ve düzeltilecekler
 

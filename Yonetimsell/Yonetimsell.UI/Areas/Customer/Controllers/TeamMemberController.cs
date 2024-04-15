@@ -50,7 +50,7 @@ namespace Yonetimsell.UI.Areas.Customer.Controllers
             var checkResponse = await _teamMemberManager.CheckIfExistsAsync(userId, projectId);
             var SubscriptionResponse = await _subscriptionManager.GetActiveAsync(userId);
             var teamMemberCount = await _teamMemberManager.TeamMemberCountAsync(projectId);
-            if (!SubscriptionResponse.IsSucceeded && teamMemberCount.Data == 3)
+            if (!SubscriptionResponse.IsSucceeded && teamMemberCount.Data > 2)
             {
                 TempData["TeamMemberToast"] = _sweetAlert.MiddleNotification("warning", "Mevcut planınıza göre 3ten fazla takım arkadaşı ekleyemezsiniz!");
                 return RedirectToAction("AddTeamMember", new { projectId });
