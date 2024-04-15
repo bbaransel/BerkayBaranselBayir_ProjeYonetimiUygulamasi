@@ -160,5 +160,11 @@ namespace Yonetimsell.Business.Concrete
             }).ToList();
             return Response<List<AdminSubscriptionViewModel>>.Success(result);
         }
+
+        public async Task<Response<int>> GetSubscriptionCountAsync()
+        {
+            var count = await _repository.GetCountAsync();
+            return Response<int>.Success(count);
+        }
     }
 }

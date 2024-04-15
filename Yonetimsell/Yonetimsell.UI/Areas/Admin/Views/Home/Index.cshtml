@@ -1,9 +1,92 @@
-﻿<div class="container-fluid pt-4 px-4 h-100">
+﻿@model HomePageViewModel
+<div class="container-fluid pt-4 px-4 h-100">
+    <!-- Project and Task Count Start -->
     <div class="row g-4">
-        <div class="col-12">
-            <div class="bg-secondary rounded h-100 p-4">
-                <h1 class="mb-4 display-6">Admin Panel Ana Sayfası</h1>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-clipboard fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Toplam Proje</p>
+                    <h6 class="mb-0">@Model.TotalProjectCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-clipboard-list fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Aktif Proje</p>
+                    <h6 class="mb-0">@Model.ActiveProjectCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-clipboard-check fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Tamamlanan Proje</p>
+                    <h6 class="mb-0">@Model.CompletedProjectCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-users fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Toplam Üye</p>
+                    <h6 class="mb-0">@Model.TotalUserCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-list fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Toplam Görev</p>
+                    <h6 class="mb-0">@Model.TotalPTaskCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-list-ul fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Aktif Görev</p>
+                    <h6 class="mb-0">@Model.ActivePTaskCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-tasks fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Tamamlanan Görev</p>
+                    <h6 class="mb-0">@Model.CompletedPTaskCount</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-hand-holding-usd fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Toplam Abonelik</p>
+                    <h6 class="mb-0">@Model.TotalSubscriptionCount</h6>
+                </div>
             </div>
         </div>
     </div>
+    <!-- Project and Task Count End -->
+    <!-- Widgets Start -->
+    <div class="row g-4 mt-5">
+        @await Component.InvokeAsync("AdminHomePageMessageList")
+        <div class="col-sm-12 col-md-6 col-xl-6">
+            <div class="h-100 bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Takvim</h6>
+                </div>
+                <div id="calender"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Widgets End -->
 </div>

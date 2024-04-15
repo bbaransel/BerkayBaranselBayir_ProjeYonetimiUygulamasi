@@ -6,6 +6,7 @@
                 <h6 class="mb-4 display-6">Kullanıcıyı Düzenle</h6>
                 <form asp-area="Admin" asp-controller="User" asp-action="EditUser" method="post">
                     <div asp-validation-summary="All"></div>
+                    <input type="hidden" asp-for="Id" />
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-floating mb-4">

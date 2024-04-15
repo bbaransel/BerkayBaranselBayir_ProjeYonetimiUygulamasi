@@ -13,13 +13,11 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly SignInManager<User> _signInManager;
 
-        public UserController(UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
+        public UserController(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Index()
@@ -62,7 +60,6 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
                 var result = await _userManager.CreateAsync(user, adminAddUserViewModel.Password);
                 if (result.Succeeded)
                 {
-                    //MAİL ONAY EKLENECEK
                     foreach (var role in adminAddUserViewModel.Roles)
                     {
                         if (role.IsAssigned)
@@ -79,6 +76,7 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
             }
             return View(adminAddUserViewModel);
         }
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> EditUser(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -105,6 +103,7 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
             };
             return View(userRolesViewModel);
         }
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public async Task<IActionResult> EditUser(UserRolesViewModel userRolesViewModel)
         {
@@ -135,8 +134,6 @@ namespace Yonetimsell.UI.Areas.Admin.Controllers
                 if(result.Succeeded)
                 {
                     await _userManager.UpdateSecurityStampAsync(user);
-                    await _signInManager.SignOutAsync();
-                    await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index");
                 }
                 foreach(var err in result.Errors) ModelState.AddModelError("", err.Description);

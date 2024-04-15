@@ -8,7 +8,7 @@
                     <a asp-area="Admin" asp-controller="User" asp-action="AddUser" class="btn btn-outline-success">Yeni Kullanıcı <i class="fas fa-user-plus"></i></a>
                 </div>
                 <div class="table-responsive">
-                    <table id="myDataTable" class="table text-start">
+                    <table id="myDataTable" class="table text-start table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Adı Soyadı</th>
@@ -20,7 +20,7 @@
                         <tbody>
                             @foreach(var user in Model)
                             {
-                            <tr>
+                            <tr data-user-id="@user.Id">
                                 <td>@($"{user.FirstName} {user.LastName}")</td>
                                 <td>@user.UserName</td>
                                 <td>@user.Email</td>
@@ -43,4 +43,23 @@
 }
 @section Scripts {
     @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script>
+        document.querySelectorAll('#myDataTable tbody tr').forEach(function (row) {
+            // Satır içerisindeki select ve button elementlerini dışarıda tut
+            var interactiveElements = row.querySelectorAll('td:not(.exclude-from-click) select, td:not(.exclude-from-click) a');
+            interactiveElements.forEach(function (element) {
+                element.addEventListener('dblclick', function (event) {
+                    event.stopPropagation(); // Satırın tıklanma işlemini durdur
+                });
+            });
+            // Satıra çift tıklanınca proje detay sayfasına yönlendirme işlemi
+            row.addEventListener('dblclick', function (event) {
+                var userId = this.dataset.userId; // Satırın veri özniteliğinden proje ID'sini al
+                if (userId) {
+                    // Proje detay sayfasına yönlendirme işlemi
+                    window.location.href = '/Admin/User/EditUser?userId=' + userId;
+                }
+            });
+        });
+    </script>
 }

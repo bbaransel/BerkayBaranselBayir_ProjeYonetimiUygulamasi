@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Yonetimsell.Entity.Concrete.Identity;
+using Yonetimsell.UI.Areas.Admin.Models;
 using Yonetimsell.UI.Areas.Customer.Models;
 
-namespace Yonetimsell.UI.Areas.Customer.ViewComponents
+namespace Yonetimsell.UI.Areas.Admin.ViewComponents
 {
-    public class CustomerSidebarUserInfoViewComponent: ViewComponent
+    public class AdminNavbarUserInfoViewComponent:ViewComponent
     {
         private readonly UserManager<User> _userManager;
 
-        public CustomerSidebarUserInfoViewComponent(UserManager<User> userManager)
+        public AdminNavbarUserInfoViewComponent(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -18,10 +19,10 @@ namespace Yonetimsell.UI.Areas.Customer.ViewComponents
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var user = await _userManager.FindByIdAsync(userId);
-            var result = new SidebarUserInfoViewModel
+            var result = new AdminUserInfoViewModel
             {
-                FullName = $"{user.FirstName} {user.LastName}",
                 UserName = user.UserName,
+                FullName = $"{user.FirstName} {user.LastName}",
                 ImageUrl = user.ImageUrl,
             };
             return View(result);

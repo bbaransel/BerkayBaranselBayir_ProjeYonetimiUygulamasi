@@ -8,7 +8,7 @@
                     <a asp-area="Admin" asp-controller="Role" asp-action="AddRole" class="btn btn-outline-success">Yeni Rol Ekle <i class="fas fa-plus"></i></a>
                 </div>
                 <div class="table-responsive">
-                    <table id="myDataTable" class="table text-start">
+                    <table id="myDataTable" class="table text-start table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Id</th>
@@ -20,7 +20,7 @@
                         <tbody>
                             @foreach (var role in Model)
                             {
-                                <tr>
+                                <tr data-role-id="@role.Id">
                                     <td>@role.Id</td>
                                     <td>@role.Name</td>
                                     <td>@role.Description</td>
@@ -42,4 +42,23 @@
 }
 @section Scripts {
     @await Html.PartialAsync("_DataTablesScriptsPartial")
+    <script>
+        document.querySelectorAll('#myDataTable tbody tr').forEach(function (row) {
+            // Satır içerisindeki select ve button elementlerini dışarıda tut
+            var interactiveElements = row.querySelectorAll('td:not(.exclude-from-click) select, td:not(.exclude-from-click) a');
+            interactiveElements.forEach(function (element) {
+                element.addEventListener('dblclick', function (event) {
+                    event.stopPropagation(); // Satırın tıklanma işlemini durdur
+                });
+            });
+            // Satıra çift tıklanınca proje detay sayfasına yönlendirme işlemi
+            row.addEventListener('dblclick', function (event) {
+                var roleId = this.dataset.roleId; // Satırın veri özniteliğinden proje ID'sini al
+                if (roleId) {
+                    // Proje detay sayfasına yönlendirme işlemi
+                    window.location.href = '/Admin/Role/EditRole?roleId=' + roleId;
+                }
+            });
+        });
+    </script>
 }
