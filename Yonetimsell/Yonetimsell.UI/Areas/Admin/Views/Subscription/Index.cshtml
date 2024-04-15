@@ -1,0 +1,46 @@
+﻿@model List<AdminSubscriptionViewModel>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                @if (Model != null && Model.Count > 0)
+                {
+                    <h6 class="mb-4">Üyelikler</h6>
+                    <table id="myDataTable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Adı</th>
+                                <th scope="col">Kullanıcı adı</th>
+                                <th scope="col">Plan</th>
+                                <th scope="col">Satın Alım Tarihi</th>
+                                <th scope="col">Üyelik Bitiş Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var s in Model)
+                            {
+                            <tr>
+                                <td>@s.UserFullName</td>
+                                <td>@s.UserName</td>
+                                <td>@s.SubscriptionPlan.GetDisplayName()</td>
+                                <td>@s.SubscriptionDate</td>
+                                <td>@s.ExpiryDate</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <h6 class="mb-4">Hiç Üyelik Bulunamadı</h6>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles{
+    @await Html.PartialAsync("_DataTablesStylesPartial")
+}
+@section Scripts{
+    @await Html.PartialAsync("_DataTablesScriptsPartial")
+}

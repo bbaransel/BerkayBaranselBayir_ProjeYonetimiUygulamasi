@@ -139,5 +139,26 @@ namespace Yonetimsell.Business.Concrete
             var result = _mapperly.SubscriptionToSubscriptionViewModel(subscription);
             return Response<SubscriptionViewModel>.Success(result);
         }
+
+        public async Task<Response<List<AdminSubscriptionViewModel>>> GetAllAsync()
+        {
+            var subscriptions = await _repository.GetAllAsync(
+                include: query=>query.Include(x=>x.User));
+            if(subscriptions == null)
+            {
+                return Response<List<AdminSubscriptionViewModel>>.Fail("Hiç üyelik bulunamdı");
+            }
+            var result = subscriptions.Select(x=> new AdminSubscriptionViewModel 
+            { 
+                ExpiryDate=x.ExpiryDate,
+                SubscriptionDate=x.SubscriptionDate,
+                SubscriptionPlan = x.SubscriptionPlan,
+                Id = x.Id,
+                UserFullName = $"{x.User.FirstName} {x.User.LastName}",
+                UserName = x.User.UserName,
+                UserId= x.UserId,
+            }).ToList();
+            return Response<List<AdminSubscriptionViewModel>>.Success(result);
+        }
     }
 }

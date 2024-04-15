@@ -18,5 +18,6 @@ namespace Yonetimsell.Business.Abstract
         Task<Response<SubscriptionStatus>> CheckSubscriptionStatusAsync(int subscriptionId);
         Task<Response<SubscriptionViewModel>> RenewSubscriptionAsync(int subscriptionId);
         Task<Response<SubscriptionViewModel>> GetActiveAsync(string userId);
+        Task<Response<List<AdminSubscriptionViewModel>>> GetAllAsync();
     }
 }
