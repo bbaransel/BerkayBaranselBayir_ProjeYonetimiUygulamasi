@@ -1,0 +1,25 @@
+﻿@model List<FriendshipViewModel>
+<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-bell me-lg-2 @(Model!=null&&Model.Count>0 ? "text-primary":"")"></i>
+        <span class="d-none d-lg-inline-flex">Bildirimler</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+        @if (Model != null && Model.Count > 0)
+        {
+            @foreach (var n in Model)
+            {
+                <a asp-area="Customer" asp-controller="Friendship" asp-action="PendingList" class="dropdown-item">
+                    <h6 class="fw-normal mb-0">@n.SenderFullName sizi arkadaş ekledi </h6>
+                    <small>@($"@{n.SenderUserName}")</small>
+                </a>
+                <hr class="dropdown-divider">
+            }
+        }
+        else
+        {
+            <div class="p-3">Bekleyen bildiriminiz bulunmamaktadır.</div>
+        }
+        <a asp-area="Customer" asp-controller="Friendship" asp-action="PendingList" class="dropdown-item text-center text-white">Bütün bildirimleri gör</a>
+    </div>
+</div>
